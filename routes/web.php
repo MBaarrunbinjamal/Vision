@@ -33,3 +33,13 @@ Route::get('/service', function () {
     return view('clients.services');
 });
 // clients routes end
+
+//Admin Routes
+Route::get('/dashboard',function() {
+    return view('admin.dashboard');
+});
+
+Route::get('/page2',function(){
+return view('admin.page2');
+
+});
