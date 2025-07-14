@@ -59,6 +59,10 @@
 	          <li class="nav-item"><a href="/pricing" class="nav-link">Pricing</a></li>
 	          <li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
+             <form action="/logout" method="post">
+                  @csrf
+                  <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
 	        </ul>
 	      </div>
 	    </div>
