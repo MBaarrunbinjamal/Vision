@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Laravel\Fortify\Features;
 
 return [

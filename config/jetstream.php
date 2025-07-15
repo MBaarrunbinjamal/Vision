@@ -30,8 +30,8 @@ return [
     */
 
     'middleware' => ['web'],
+ 'auth_session' => AuthenticateSession::class,
 
-   'auth_session' => \App\Http\Middleware\JetstreamSessionOverride::class,
 
     /*
     |--------------------------------------------------------------------------

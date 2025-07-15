@@ -5,33 +5,25 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
-class Adminmiddleware
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next)
     {
         if (Auth::check()) {
-            $user = Auth::user();
-
-            // Special admin check
-            if (
-                $user->email === 'mm0489500@gmail.com' &&
-                Hash::check('Prospello@5407', $user->getAuthPassword()) // Use getAuthPassword() here
-            ) {
-                return $next($request); // Allow special admin
+            // ✅ Allow Admins
+            if (Auth::user()->Role === 'Admin') {
+                return $next($request);
             }
 
-            // Block all other users
-            abort(403, 'Unauthorized action.');
+            // ✅ Normal user trying to access admin route
+            return redirect('/'); // Send them to user homepage instead of 404
         }
 
-        // If not logged in, redirect to login page
+        // ❌ Not logged in
         return redirect('/login');
     }
 }

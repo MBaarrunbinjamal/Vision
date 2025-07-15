@@ -1,16 +1,19 @@
 <?php
 
 use App\Http\Middleware\Adminmiddleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 // user routes start
+Route::get('/', function () {
+    return view('clients.index');
+});
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-Route::get('/', function () {
-    return view('clients.index');
-});
+   
+
 Route::get('/about', function () {
     return view('clients.about');
 });
@@ -42,13 +45,16 @@ Route::get('/service', function () {
 
 
 });
-Route::middleware(['auth', Adminmiddleware::class])->group(function () {
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddleware::class])->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+        return view('admin.dashboard');                                
     });
 
     Route::get('/page2', function () {
         return view('admin.page2');
     });
 });
+Route::get('/404', function () {
+        return view('404');
+    });
 
