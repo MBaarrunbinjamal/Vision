@@ -1,39 +1,104 @@
 @extends('clients.navbar')
 @section('content')
-    <div class="hero-wrap" style="background-image: url('clients/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
+
+<style>
+/* is css se small screen agar responsive ho or phir bhi masla kray responsiveness main to is se theek hojata h  */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  background:  linear-gradient(135deg, #2d0050ff, #161616ff) !important;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+/* ended */
+
+	.lcbtn{
+		background: #3e0067ff !important;
+		color: #fff !important;
+		border-radius: 5px !important;
+		text-decoration: none !important;
+		
+	}
+
+	.lrbtn{
+		color: #fff !important;
+		border-radius: 5px !important;
+		text-decoration: none !important;
+		margin-top: -1px !important;
+		
+	}
+
+	.cdiv{
+		background: #2d2d2dff !important;
+		
+	}
+	.mdiv{
+		background: #2c0049ff !important;
+	}
+	.rdiv{
+		background: linear-gradient(135deg, #161616ff, #2d0050ff) !important;
+	}
+  
+.tsd{
+	  background: rgba(0, 0, 0, 0.5) !important;
+  
+}
+
+.ltx{
+	  color: rgba(138, 138, 138, 1)  !important;
+
+}
+.my{
+	  background: rgba(0, 0, 0, 1) !important;
+}
+.stx{
+	color: grey !important;
+}
+
+.lantex{
+	color: rgba(172, 172, 172, 1) !important;
+}
+</style>
+
+    <div class="hero-wrap" style="background-image: url('clients/images/Flux_Dev_Create_an_image_depicting_a_serene_and_professional_c_3.jpg');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text align-items-center">
           <div class="col-md-6 ftco-animate d-flex align-items-end">
           	<div class="text w-100">
-	            <h1 class="mb-4">Counseling For Your Better Life</h1>
-	            <p class="mb-4">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-	            <p><a href="#" class="btn btn-primary py-3 px-4">Contact us</a> <a href="#" class="btn btn-white py-3 px-4">Read more</a></p>
+	            <h1 class="mb-4 text-white">Counseling For Your Better Life</h1>
+	            <p class="mb-4 lantex">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+	            <p><a href="#" class=" lcbtn py-3 px-4">Contact us</a> <a href="#" class="btn btn-white lrbtn py-3 px-4">Read more</a></p>
             </div>
           </div>
           <a href="https://vimeo.com/45830194" class="img-video popup-vimeo d-flex align-items-center justify-content-center">
           	<span class="fa fa-play"></span>
-          </a>
+          </a> 
         </div>
       </div>
     </div>
 
-    <section class="ftco-intro">
-    	<div class="container">
-    		<div class="row no-gutters">
-    			<div class="col-md-4 d-flex">
-    				<div class="intro aside-stretch d-lg-flex w-100">
+    <section class="ftco-intro rdiv ">
+    	<div class="container rdiv ">
+    		<div class="row no-gutters mdiv">
+    			<div class="col-md-4 d-flex rdiv ">
+    				<div class="intro aside-stretch d-lg-flex w-100 cdiv">
     					<div class="icon">
     						<span class="flaticon-checklist"></span>
     					</div>
-    					<div class="text">
+    					<div class="text ">
     						<h2>100% Confidential</h2>
     						<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
     					</div>
     				</div>
     			</div>
     			<div class="col-md-4 d-flex">
-    				<div class="intro color-1 d-lg-flex w-100">
+    				<div class="intro color-1 d-lg-flex w-100 cdiv">
     					<div class="icon">
     						<span class="flaticon-employee"></span>
     					</div>
@@ -44,7 +109,7 @@
     				</div>
     			</div>
     			<div class="col-md-4 d-flex">
-    				<div class="intro color-2 d-lg-flex w-100">
+    				<div class="intro color-2 d-lg-flex w-100 cdiv">
     					<div class="icon">
     						<span class="flaticon-umbrella"></span>
     					</div>
@@ -58,12 +123,12 @@
     	</div>
     </section>
 
-		<section class="ftco-section">
+		<section class="ftco-section rdiv">
     	<div class="container">
     		<div class="row justify-content-center pb-5">
           <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading">Services</span>
-            <h2>How It Works</h2>
+          	<span class="subheading stx">Services</span>
+            <h2 class="text-white">How It Works</h2>
           </div>
         </div>
     		<div class="row">
@@ -107,98 +172,9 @@
     	</div>
     </section>
 
-    <section class="ftco-section ftco-no-pb ftco-no-pt">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6 img img-3 d-flex justify-content-center align-items-center" style="background-image: url(clients/images/about-1.jpg);">
-					</div>
-					<div class="col-md-6 wrap-about px-md-5 ftco-animate py-5 bg-light">
-	          <div class="heading-section">
-	          	<span class="subheading">Welcome to Counselor</span>
-	            <h2 class="mb-4">Best Counseling Funding Network Worldwide.</h2>
+    
 
-	            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-	            <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country.</p>
-
-	            <a href="https://vimeo.com/45830194" class="play-video popup-vimeo d-flex align-items-center mt-4">
-	            	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-play"></span></div>
-	            	<span class="watch">Watch Our Consultant Video</span>
-	            </a>
-	          </div>
-
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="ftco-section">
-			<div class="container">
-				<div class="row justify-content-center mb-5">
-          <div class="col-md-8 text-center heading-section ftco-animate">
-          	<span class="subheading">Our Services</span>
-            <h2 class="mb-3">We Can Help You With This Situation</h2>
-          </div>
-        </div>
-				<div class="row tabulation mt-4 ftco-animate">
-  				<div class="col-md-4">
-						<ul class="nav nav-pills nav-fill d-md-flex d-block flex-column">
-						  <li class="nav-item text-left">
-						    <a class="nav-link active py-4" data-toggle="tab" href="#services-1">Relation Problem</a>
-						  </li>
-						  <li class="nav-item text-left">
-						    <a class="nav-link py-4" data-toggle="tab" href="#services-2">Couples Counseling</a>
-						  </li>
-						  <li class="nav-item text-left">
-						    <a class="nav-link py-4" data-toggle="tab" href="#services-3">Depression Treatment</a>
-						  </li>
-						  <li class="nav-item text-left">
-						    <a class="nav-link py-4" data-toggle="tab" href="#services-4">Family Problem</a>
-						  </li>
-						  <li class="nav-item text-left">
-						    <a class="nav-link py-4" data-toggle="tab" href="#services-5">Personal Problem</a>
-						  </li>
-						  <li class="nav-item text-left">
-						    <a class="nav-link py-4" data-toggle="tab" href="#services-6">Business Problem</a>
-						  </li>
-						</ul>
-					</div>
-					<div class="col-md-8">
-						<div class="tab-content">
-						  <div class="tab-pane container p-0 active" id="services-1">
-						  	<div class="img" style="background-image: url(clients/images/services-1.jpg);"></div>
-						  	<h3><a href="#">Relation Problem</a></h3>
-						  	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-						  </div>
-						  <div class="tab-pane container p-0 fade" id="services-2">
-						  	<div class="img" style="background-image: url(clients/images/services-2.jpg);"></div>
-						  	<h3><a href="#">Couples Counseling</a></h3>
-						  	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-						  </div>
-						  <div class="tab-pane container p-0 fade" id="services-3">
-						  	<div class="img" style="background-image: url(clients/images/services-3.jpg);"></div>
-						  	<h3><a href="#">Depression Treatment</a></h3>
-						  	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-						  </div>
-						  <div class="tab-pane container p-0 fade" id="services-4">
-						  	<div class="img" style="background-image: url(clients/images/services-4.jpg);"></div>
-						  	<h3><a href="#">Family Problem</a></h3>
-						  	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-						  </div>
-						  <div class="tab-pane container p-0 fade" id="services-5">
-						  	<div class="img" style="background-image: url(clients/images/services-5.jpg);"></div>
-						  	<h3><a href="#">Personal Problem</a></h3>
-						  	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-						  </div>
-						  <div class="tab-pane container p-0 fade" id="services-6">
-						  	<div class="img" style="background-image: url(clients/images/services-6.jpg);"></div>
-						  	<h3><a href="#">Business Problem</a></h3>
-						  	<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
-						  </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		
 
   
     <section class="ftco-section testimony-section">
@@ -207,7 +183,7 @@
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-          	<span class="subheading">Testimonial</span>
+          	<span class="subheading stx">Testimonial</span>
             <h2 class="mb-3">Happy Clients</h2>
           </div>
         </div>
@@ -215,75 +191,75 @@
           <div class="col-md-12">
             <div class="carousel-testimony owl-carousel ftco-owl">
               <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
-                  <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                <div class="testimony-wrap py-4 " style="background:#2d2d2dff;">
+                	<div class="icon d-flex align-items-center justify-content-center tsd"><span class="fa fa-quote-left"></div>
+                  <div class="text" >
+                    <p class="mb-4 ltx">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     <div class="d-flex align-items-center">
                     	<div class="user-img" style="background-image: url(clients/images/person_1.jpg)"></div>
                     	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
+		                    <p class="name text-white">Roger Scott</p>
+		                    <span class="position ltx">Marketing Manager</span>
 		                  </div>
 	                  </div>
                   </div>
                 </div>
               </div>
               <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
+                <div class="testimony-wrap py-4 " style="background:#2d2d2dff;">
+                	<div class="icon d-flex align-items-center justify-content-center tsd"><span class="fa fa-quote-left"></div>
                   <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    <p class="mb-4 ltx">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     <div class="d-flex align-items-center">
                     	<div class="user-img" style="background-image: url(clients/images/person_2.jpg)"></div>
                     	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
+		                    <p class="name text-white">Roger Scott</p>
+		                    <span class="position ltx">Marketing Manager</span>
 		                  </div>
 	                  </div>
                   </div>
                 </div>
               </div>
               <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
+                <div class="testimony-wrap py-4 " style="background:#2d2d2dff;">
+                	<div class="icon d-flex align-items-center justify-content-center tsd"><span class="fa fa-quote-left"></div>
                   <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    <p class="mb-4 ltx">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     <div class="d-flex align-items-center">
                     	<div class="user-img" style="background-image: url(clients/images/person_3.jpg)"></div>
                     	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
+		                    <p class="name text-white">Roger Scott</p>
+		                    <span class="position ltx">Marketing Manager</span>
 		                  </div>
 	                  </div>
                   </div>
                 </div>
               </div>
               <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
+                <div class="testimony-wrap py-4" style="background:#2d2d2dff;">
+                	<div class="icon d-flex align-items-center justify-content-center tsd"><span class="fa fa-quote-left"></div>
                   <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    <p class="mb-4 ltx">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     <div class="d-flex align-items-center">
                     	<div class="user-img" style="background-image: url(clients/images/person_1.jpg)"></div>
                     	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
+		                    <p class="name text-white">Roger Scott</p>
+		                    <span class="position ltx">Marketing Manager</span>
 		                  </div>
 	                  </div>
                   </div>
                 </div>
               </div>
               <div class="item">
-                <div class="testimony-wrap py-4">
-                	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-quote-left"></div>
+                <div class="testimony-wrap py-4" style="background:#2d2d2dff;">
+                	<div class="icon d-flex align-items-center justify-content-center tsd"><span class="fa fa-quote-left"></div>
                   <div class="text">
-                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                    <p class="mb-4 ltx">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
                     <div class="d-flex align-items-center">
                     	<div class="user-img" style="background-image: url(clients/images/person_2.jpg)"></div>
                     	<div class="pl-3">
-		                    <p class="name">Roger Scott</p>
-		                    <span class="position">Marketing Manager</span>
+		                    <p class="name text-white">Roger Scott</p>
+		                    <span class="position ltx">Marketing Manager</span>
 		                  </div>
 	                  </div>
                   </div>
@@ -296,123 +272,19 @@
     </section>
 
 
-		<section class="ftco-section bg-light">
-    	<div class="container">
-    		<div class="row justify-content-center pb-5 mb-3">
-          <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading">Price &amp; Plans</span>
-            <h2>Affordable Packages</h2>
-          </div>
-        </div>
-    		<div class="row">
-    			<div class="col-md-4 ftco-animate d-flex">
-	          <div class="block-7 w-100">
-	            <div class="text-center">
-		            <span class="price"><sup>$</sup> <span class="number">49</span> <sub>/mo</sub></span>
-		            <span class="excerpt d-block">For Adults</span>
-		            <ul class="pricing-text mb-5">
-		              <li><span class="fa fa-check mr-2"></span>Individual Counseling</li>
-		              <li><span class="fa fa-check mr-2"></span>Couples Therapy</li>
-		              <li><span class="fa fa-check mr-2"></span>Family Therapy</li>
-		            </ul>
-
-		            <a href="#" class="btn btn-primary d-block px-2 py-3">Get Started</a>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col-md-4 ftco-animate d-flex">
-	          <div class="block-7 w-100">
-	            <div class="text-center">
-		            <span class="price"><sup>$</sup> <span class="number">79</span> <sub>/mo</sub></span>
-		            <span class="excerpt d-block">For Children</span>
-		            <ul class="pricing-text mb-5">
-		              <li><span class="fa fa-check mr-2"></span>Counseling for Children</li>
-		              <li><span class="fa fa-check mr-2"></span>Behavioral Management</li>
-		              <li><span class="fa fa-check mr-2"></span>Educational Counseling</li>
-		            </ul>
-
-		            <a href="#" class="btn btn-primary d-block px-2 py-3">Get Started</a>
-	            </div>
-	          </div>
-	        </div>
-	        <div class="col-md-4 ftco-animate d-flex">
-	          <div class="block-7 w-100">
-	            <div class="text-center">
-		            <span class="price"><sup>$</sup> <span class="number">109</span> <sub>/mo</sub></span>
-		            <span class="excerpt d-block">For Business</span>
-		            <ul class="pricing-text mb-5">
-		              <li><span class="fa fa-check mr-2"></span>Consultancy Services</li>
-		              <li><span class="fa fa-check mr-2"></span>Employee Counseling</li>
-		              <li><span class="fa fa-check mr-2"></span>Psychological Assessment</li>
-		            </ul>
-
-		            <a href="#" class="btn btn-primary d-block px-2 py-3">Get Started</a>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
-    	</div>
-    </section>
 		
+		<!-- clients image -->
 		<section class="ftco-appointment ftco-section img" style="background-image: url(clients/images/bg_2.jpg);">
-			<div class="overlay"></div>
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-md-6 half ftco-animate">
-    				<h2 class="mb-4">Send a Message &amp; Get in touch!</h2>
-    				<form action="#" class="appointment">
-    					<div class="row">
-								<div class="col-md-6">
-									<div class="form-group">
-			              <input type="text" class="form-control" placeholder="Your Name">
-			            </div>
-								</div>
-								<div class="col-md-6">
-									<div class="form-group">
-			              <input type="text" class="form-control" placeholder="Email">
-			            </div>
-								</div>
-								<div class="col-md-12">
-									<div class="form-group">
-			    					<div class="form-field">
-	          					<div class="select-wrap">
-	                      <div class="icon"><span class="fa fa-chevron-down"></span></div>
-	                      <select name="" id="" class="form-control">
-	                      	<option value="">Services</option>
-	                        <option value="">Relation Problem</option>
-	                        <option value="">Couple Counseling</option>
-	                        <option value="">Depression Treatment</option>
-	                        <option value="">Family Problem</option>
-	                        <option value="">Personal Problem</option>
-	                        <option value="">Business Problem</option>
-	                      </select>
-	                    </div>
-			              </div>
-			    				</div>
-								</div>
-								<div class="col-md-12">
-									<div class="form-group">
-			              <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
-			            </div>
-								</div>
-								<div class="col-md-12">
-									<div class="form-group">
-			              <input type="submit" value="Send message" class="btn btn-primary py-3 px-4">
-			            </div>
-								</div>
-    					</div>
-	          </form>
-    			</div>
-    		</div>
-    	</div>
+			<div class="overlay my"></div>
+    	
     </section>
 
     <section class="ftco-section">
       <div class="container">
         <div class="row justify-content-center mb-5">
           <div class="col-md-7 heading-section text-center ftco-animate">
-          	<span class="subheading">Blog</span>
-            <h2>Recent Blog</h2>
+          	<span class="subheading stx">Blog</span>
+            <h2 class="text-white">Recent Blog</h2>
           </div>
         </div>
         <div class="row d-flex">

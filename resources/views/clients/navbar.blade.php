@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Counselor - Free Bootstrap 4 Template by Colorlib</title>
+    <title>Propello</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+  
     <link rel="stylesheet" href="clients/css/animate.css">
     
     <link rel="stylesheet" href="clients/css/owl.carousel.min.css">
@@ -18,6 +18,55 @@
     <link rel="stylesheet" href="clients/css/flaticon.css">
     <link rel="stylesheet" href="clients/css/style.css">
   </head>
+<style>
+  .wrap{
+    background: #2d2d2dff;
+  }
+  .navbar{
+   background: linear-gradient(135deg, #2d0050ff, #161616ff) !important;
+  }
+  .mh{
+    color: #ffff !important;
+  }
+  .nav-link{
+    color: #ffff !important;
+  }
+  .nav-link:hover{
+    color: #9500f9ff !important;
+  }
+  .nb1{
+    color: #ffffffff !important;
+  }
+  .nb1:hover{
+    color: #ffffffff !important;
+  }
+  .nb{
+    color: #ffff !important;
+    border: 1px solid #6b00b2ff !important;
+    border-radius: 5px !important;
+    background: #6b00b2ff !important;
+     margin: 10px !important; 
+     }
+
+  .nb:hover{
+   background: #9500f9ff !important;
+   transition-duration: 0.50s !important;
+}
+
+.ftco-navbar-light.scrolled .nav-link:hover {
+  color: #9500f9ff !important; /* Use your desired purple */
+}
+
+.ibg:hover{
+  background: #4e0082ff !important;
+  transition-duration: 0.50s !important;
+}
+
+.nm{
+  color: #ffff !important;
+}
+</style>
+
   <body>
 
   	<div class="wrap">
@@ -32,10 +81,10 @@
 					<div class="col-md-6 d-flex justify-content-md-end">
 						<div class="social-media">
 			    		<p class="mb-0 d-flex">
-			    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
-			    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
-			    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
-			    			<a href="#" class="d-flex align-items-center justify-content-center"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+			    			<a href="#" class="d-flex align-items-center justify-content-center ibg"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+			    			<a href="#" class="d-flex align-items-center justify-content-center ibg"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
+			    			<a href="#" class="d-flex align-items-center justify-content-center ibg"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+			    			<a href="#" class="d-flex align-items-center justify-content-center ibg"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
 			    		</p>
 		        </div>
 					</div>
@@ -45,7 +94,7 @@
     
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand" href="/">Counselor</a>
+	      <a class="navbar-brand mh" href="/">Propello</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
@@ -54,19 +103,19 @@
 	        <ul class="navbar-nav ml-auto">
 	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 	          <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="/counselor" class="nav-link">Counselor</a></li>
-	          <li class="nav-item"><a href="/service" class="nav-link">Services</a></li>
-	          <li class="nav-item"><a href="/pricing" class="nav-link">Pricing</a></li>
+	          <li class="nav-item"><a href="/counselor" class="nav-link">Counselor AI</a></li>
+	          <!-- <li class="nav-item"><a href="/service" class="nav-link">Services</a></li> -->
+	          <!-- <li class="nav-item"><a href="/pricing" class="nav-link">Pricing</a></li> -->
 	          <li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
            @if(Auth::user())
           <form action="/logout" method="post">
                   @csrf
-                  <button type="submit" class="btn btn-danger">Logout</button>
+                  <button type="submit" class="btn btn-danger my-2">Logout</button>
                 </form>
                 @else
-                    <button class="btn btn-success"><a href="/login" class="nav-link">Sign in</a></button>
-                     <button class="btn btn-primary"><a href="/register" class="nav-link">Sign up</a></button>
+                    <button class="nb"><a href="/login" class="nav-link nb1">Sign in</a></button>
+                     <button class="nb"><a href="/register" class="nav-link nb1">Sign up</a></button>
                 @endif
 	        </ul>
 	      </div>
@@ -75,7 +124,7 @@
     <!-- END nav -->
 
     @yield('content')
-    
+      <!-- footer start -->
      <footer class="ftco-footer">
       <div class="container">
         <div class="row mb-5">
