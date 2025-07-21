@@ -3,6 +3,7 @@
 use App\Http\Middleware\Adminmiddleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactController;
 // user routes start
 Route::get('/', function () {
     return view('clients.index');
@@ -26,6 +27,7 @@ Route::get('/blog', function () {
 Route::get('/contact', function () {
     return view('clients.contact');
 });
+Route::post('/contact', [App\Http\Controllers\ConatctController::class, 'store'])->name('contact.store');
 Route::get('/counselor', function () {
     return view('clients.counselor');
 });

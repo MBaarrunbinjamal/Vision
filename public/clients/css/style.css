@@ -8482,14 +8482,15 @@ h1, h2, h3, h4, h5,
     .services-wrap:hover .text h2 {
       color: #fff; }
 
+
 .ftco-intro .intro {
   z-index: 0;
   position: relative; }
   @media (min-width: 768px) {
     .ftco-intro .intro {
       margin-top: -70px; } }
-  .ftco-intro .intro.aside-stretch {
-    background: #589167; }
+  /* .ftco-intro .intro.aside-stretch {
+   background: #2d2d2dff !important; } */
     .ftco-intro .intro.aside-stretch:after {
       position: absolute;
       top: 0;
@@ -8497,7 +8498,7 @@ h1, h2, h3, h4, h5,
       bottom: 0;
       content: '';
       width: 360%;
-      background:  #2c0049ff;
+      background:  transparent;
       z-index: 99; }
     @media (max-width: 991.98px) {
       .ftco-intro .intro.aside-stretch:after {

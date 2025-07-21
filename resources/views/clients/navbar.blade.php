@@ -17,6 +17,9 @@
     
     <link rel="stylesheet" href="clients/css/flaticon.css">
     <link rel="stylesheet" href="clients/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pacifico&display=swap" rel="stylesheet">
   </head>
 <style>
   .wrap{
@@ -27,6 +30,9 @@
   }
   .mh{
     color: #ffff !important;
+       font-family: "Montserrat", sans-serif;
+       font-size: 40px !important;
+        
   }
   .nav-link{
     color: #ffff !important;
@@ -94,7 +100,7 @@
     
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand mh" href="/">Propello</a>
+	      <a class="navbar-brand mh" href="/">propello</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>
@@ -220,6 +226,7 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="clients/js/google-map.js"></script>
   <script src="clients/js/main.js"></script>
-    
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @stack('scripts')
   </body>
 </html>

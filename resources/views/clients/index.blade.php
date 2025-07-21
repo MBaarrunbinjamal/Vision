@@ -38,7 +38,10 @@ html, body {
 		
 	}
 	.mdiv{
-		background: #2c0049ff !important;
+		 background: transparent !important;
+		
+		 
+
 	}
 	.rdiv{
 		background: linear-gradient(135deg, #161616ff, #2d0050ff) !important;
@@ -63,6 +66,14 @@ html, body {
 .lantex{
 	color: rgba(172, 172, 172, 1) !important;
 }
+.ftco-intro,
+.ftco-intro .container {
+    background: transparent !important;
+}
+.leftbox {
+  background: linear-gradient(135deg, #161616ff, #290147ff) !important;
+}
+
 </style>
 
     <div class="hero-wrap" style="background-image: url('clients/images/Flux_Dev_Create_an_image_depicting_a_serene_and_professional_c_3.jpg');" data-stellar-background-ratio="0.5">
@@ -83,10 +94,10 @@ html, body {
       </div>
     </div>
 
-    <section class="ftco-intro rdiv ">
-    	<div class="container rdiv ">
+    <section class="ftco-intro leftbox ">
+    	<div class="container  ">
     		<div class="row no-gutters mdiv">
-    			<div class="col-md-4 d-flex rdiv ">
+    			<div class="col-md-4 d-flex   ">
     				<div class="intro aside-stretch d-lg-flex w-100 cdiv">
     					<div class="icon">
     						<span class="flaticon-checklist"></span>
