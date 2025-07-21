@@ -23,8 +23,9 @@
 }
 
 
+
     </style>
-    <section class="hero-wrap hero-wrap-2" style="background-image: url('clients/images/Flux_Dev_Create_an_image_depicting_a_serene_and_professional_c_2.jpg');" data-stellar-background-ratio="0.5">
+    <section class="hero-wrap hero-wrap-2 bgimgb" style="background-image: url('clients/images/Flux_Dev_Create_an_image_depicting_a_serene_and_professional_c_2.jpg');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container ">
         <div class="row no-gutters slider-text align-items-end justify-content-center ">
@@ -214,4 +215,4 @@
       </div>
     </section>	
 
-   
+    @endsection

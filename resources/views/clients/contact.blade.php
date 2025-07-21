@@ -1,6 +1,11 @@
 @extends('clients.navbar')
 @section('content')
     <style>
+
+        body{
+			background: linear-gradient(135deg, #2d0050ff, #161616ff) !important;
+		}
+
 		.isec{
 			background: linear-gradient(135deg, #2d0050ff, #161616ff) !important;
 		}
