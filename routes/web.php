@@ -49,12 +49,13 @@ Route::get('/service', function () {
 });
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddleware::class])->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');                                
+        return view('admin.admindashboard');                                
     });
 
-    Route::get('/page2', function () {
-        return view('admin.page2');
+    Route::get('/addblogs', function () {
+        return view('admin.addblogs');
     });
+   
 });
 Route::get('/404', function () {
         return view('404');

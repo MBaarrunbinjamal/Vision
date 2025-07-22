@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lawyer Requests - Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 56px;
+    }
+
+    .table thead {
+      color: #00d1ff;
+    }
+
+    .card-header {
+      background-color: #2a2a2a;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #1c1c1c;
+      color: #aaa;
+      border-top: 1px solid #333;
+      margin-top: 30px;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Admin Panel</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item"><a class="nav-link" href="/dashmin"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/lawyerrequest"><i class="bi bi-person-badge"></i> Lawyers Requests</a></li>
+        <li class="nav-item"><a class="nav-link" href="/approvedlawyers"><i class="bi bi-person-check"></i> Approved Lawyers</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-people"></i> Clients</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-folder"></i> Cases</a></li>
+        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-calendar-event"></i> Appointments</a></li>
+      </ul>
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="btn btn-danger btn-sm">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<main class="container-fluid p-4">
+  <h2 class="mb-4">Lawyer Requests</h2>
+
+  <!-- Alerts -->
+  @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <strong>Success!</strong> Lawyer has been accepted.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+
+  @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      <strong>Error!</strong> Lawyer has been rejected.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  @endif
+
+  <!-- Table -->
+  <div class="table-responsive">
+    <table class="table table-dark table-striped table-bordered align-middle text-center">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>CNIC</th>
+          <th>Document</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Category</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach($law as $lawyers)
+        <tr>
+          <td>{{ $lawyers->name }}</td>
+          <td><a href="/lawyers/certificates/{{ $lawyers->lawyer_cnic }}" target="_blank">View CNIC</a></td>
+          <td><a href="/lawyers/certificates/{{ $lawyers->lawyer_certficate }}" target="_blank">View Document</a></td>
+          <td>{{ $lawyers->lawyer_phone }}</td>
+          <td>{{ $lawyers->lawyer_request }}</td>
+          <td>{{ $lawyers->lawyer_category }}</td>
+          <td>
+            <div class="d-flex justify-content-center">
+              <form action="/acceptlawyer/{{ $lawyers->id }}" method="POST" class="me-2">
+                @csrf
+                <button class="btn btn-success btn-sm">Accept</button>
+              </form>
+              <form action="/rejectlawyer/{{ $lawyers->id }}" method="POST">
+                @csrf
+                <button class="btn btn-danger btn-sm">Reject</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        @endforeach
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-5">
+    &copy; 2025 <strong>Legal Connect</strong>. All rights reserved.
+  </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
