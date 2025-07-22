@@ -165,8 +165,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'F:\\Propello\\Vision\\storage\\framework/cache/data',
-        'lock_path' => 'F:\\Propello\\Vision\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -339,7 +339,7 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'F:\\Propello\\Vision\\storage\\app/private',
+        'root' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/private',
         'serve' => true,
         'throw' => false,
         'report' => false,
@@ -347,7 +347,7 @@
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'F:\\Propello\\Vision\\storage\\app/public',
+        'root' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -369,7 +369,7 @@
     ),
     'links' => 
     array (
-      'F:\\Propello\\Vision\\public\\storage' => 'F:\\Propello\\Vision\\storage\\app/public',
+      'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\public\\storage' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/public',
     ),
   ),
   'fortify-options' => 
@@ -496,14 +496,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'F:\\Propello\\Vision\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'F:\\Propello\\Vision\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -568,7 +568,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'F:\\Propello\\Vision\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -646,7 +646,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'F:\\Propello\\Vision\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -765,7 +765,7 @@
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'F:\\Propello\\Vision\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -892,14 +892,14 @@
   array (
     'paths' => 
     array (
-      0 => 'F:\\Propello\\Vision\\resources\\views',
+      0 => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views',
     ),
-    'compiled' => 'F:\\Propello\\Vision\\storage\\framework\\views',
+    'compiled' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework\\views',
   ),
   'livewire' => 
   array (
     'class_namespace' => 'App\\Livewire',
-    'view_path' => 'F:\\Propello\\Vision\\resources\\views/livewire',
+    'view_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views/livewire',
     'layout' => 'components.layouts.app',
     'lazy_placeholder' => NULL,
     'temporary_file_upload' => 

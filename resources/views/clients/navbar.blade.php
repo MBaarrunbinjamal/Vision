@@ -31,7 +31,7 @@
   .mh{
     color: #ffff !important;
        font-family: "Montserrat", sans-serif;
-       font-size: 40px !important;
+       font-size: 30px !important;
         
   }
   .nav-link{
