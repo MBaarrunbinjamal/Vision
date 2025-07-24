@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Http\Controllers\AiController;
+
 use Illuminate\Http\Request;
 use App\Models\chat;
 class AiController extends Controller
@@ -11,7 +11,7 @@ class AiController extends Controller
 {
     $req->validate([
         'question' => 'required|string|max:255',      // 255 character max for the question
-        'explaination' => 'required|string'           // no limit for explanation
+        'explaination' => 'required|string|max:10000'           // no limit for explanation
     ]);
 
     $chat = new Chat();
@@ -25,9 +25,6 @@ class AiController extends Controller
 public function returns(){
     $rec=chat::get();
     return response()->json([$rec]);
-
-
-
 }
 
 }

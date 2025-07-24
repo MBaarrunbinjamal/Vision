@@ -66,22 +66,12 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddle
     Route::get('/addblogs', function () {
         return view('admin.addblogs');
     });
-
+Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
     });
 Route::get('/404', function () {
         return view('404');
     });
 
 
-    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddleware::class])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.admindashboard');                                
-    });
-
-    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
-    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
-
-    Route::get('/addblogs', function () {
-        return view('admin.addblogs');
-    });
-});
+  

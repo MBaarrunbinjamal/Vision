@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -8,4 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::get('/returnresponse', [AiController::class, 'returns']);
+Route::get('/returnresponse', [AiController::class,('returns')]);
