@@ -1,59 +1,70 @@
 @extends('admin.headerfooter')
 @section('content')
  <style>
-    body {
-      background-color: #121212;
-      color: #e0e0e0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding-top: 56px;
-    }
+body {
+  /* background: linear-gradient(90deg, #000000, #1a0023, #2c003e);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  color: #fff;     Optional: ensures text stays readable */
+}
 
-    .card {
-      background-color: #1e1e1e;
-      border: none;
-      color: #fff;
-      box-shadow: 0 0 10px rgba(0, 209, 255, 0.2);
-    }
+body {
+  background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e);
+  background-size: 400% 400%;
+  animation: gradientFlow 20s ease infinite;
+  color: #fff;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
 
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 20px rgba(0, 209, 255, 0.4);
-    }
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 0%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
 
-    .card-title {
-      font-weight: bold;
-    }
 
-    .table-striped > tbody > tr:nth-of-type(odd) {
-      background-color: #1b1b1b;
-    }
 
-    .card-header {
-      background-color: #2a2a2a;
-      border-bottom: 1px solid #444;
-    }
 
-    footer {
-      text-align: center;
-      padding: 15px;
-      background-color: #1c1c1c;
-      color: #aaa;
-      border-top: 1px solid #333;
-      margin-top: 30px;
-      font-size: 0.9rem;
-    }
-
-    h2, h5 ,h1{
-      color: #00d1ff;
-    }
-    h1{
-      font-size: 50px;
-    }
   </style>
-<!-- Main Content -->
-<main class="container-fluid p-4">
- <center> <h1 class="mb-4">Welcome {{ auth()->user()->name }}</h1></center>
+  <body>
+    
+    <!-- Main Content -->
+<main>
+<h1 class="text-white text-center mt-2">Welcome {{ auth()->user()->name }}</h1>
 
-
+</main>
+   
+   
 @endsection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

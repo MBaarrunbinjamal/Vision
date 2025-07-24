@@ -1,9 +1,118 @@
 <?php return array (
-  2 => 'broadcasting',
-  4 => 'concurrency',
-  5 => 'cors',
-  8 => 'hashing',
-  14 => 'view',
+  'broadcasting' => 
+  array (
+    'default' => 'log',
+    'connections' => 
+    array (
+      'reverb' => 
+      array (
+        'driver' => 'reverb',
+        'key' => NULL,
+        'secret' => NULL,
+        'app_id' => NULL,
+        'options' => 
+        array (
+          'host' => NULL,
+          'port' => 443,
+          'scheme' => 'https',
+          'useTLS' => true,
+        ),
+        'client_options' => 
+        array (
+        ),
+      ),
+      'pusher' => 
+      array (
+        'driver' => 'pusher',
+        'key' => NULL,
+        'secret' => NULL,
+        'app_id' => NULL,
+        'options' => 
+        array (
+          'cluster' => NULL,
+          'host' => 'api-mt1.pusher.com',
+          'port' => 443,
+          'scheme' => 'https',
+          'encrypted' => true,
+          'useTLS' => true,
+        ),
+        'client_options' => 
+        array (
+        ),
+      ),
+      'ably' => 
+      array (
+        'driver' => 'ably',
+        'key' => NULL,
+      ),
+      'log' => 
+      array (
+        'driver' => 'log',
+      ),
+      'null' => 
+      array (
+        'driver' => 'null',
+      ),
+    ),
+  ),
+  'concurrency' => 
+  array (
+    'default' => 'process',
+  ),
+  'cors' => 
+  array (
+    'paths' => 
+    array (
+      0 => 'api/*',
+      1 => 'sanctum/csrf-cookie',
+    ),
+    'allowed_methods' => 
+    array (
+      0 => '*',
+    ),
+    'allowed_origins' => 
+    array (
+      0 => '*',
+    ),
+    'allowed_origins_patterns' => 
+    array (
+    ),
+    'allowed_headers' => 
+    array (
+      0 => '*',
+    ),
+    'exposed_headers' => 
+    array (
+    ),
+    'max_age' => 0,
+    'supports_credentials' => false,
+  ),
+  'hashing' => 
+  array (
+    'driver' => 'bcrypt',
+    'bcrypt' => 
+    array (
+      'rounds' => '12',
+      'verify' => true,
+      'limit' => NULL,
+    ),
+    'argon' => 
+    array (
+      'memory' => 65536,
+      'threads' => 1,
+      'time' => 4,
+      'verify' => true,
+    ),
+    'rehash_on_login' => true,
+  ),
+  'view' => 
+  array (
+    'paths' => 
+    array (
+      0 => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views',
+    ),
+    'compiled' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework\\views',
+  ),
   'app' => 
   array (
     'name' => 'Laravel',
@@ -165,8 +274,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'F:\\Propello\\Vision\\storage\\framework/cache/data',
-        'lock_path' => 'F:\\Propello\\Vision\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -339,7 +448,7 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'F:\\Propello\\Vision\\storage\\app/private',
+        'root' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/private',
         'serve' => true,
         'throw' => false,
         'report' => false,
@@ -347,7 +456,7 @@
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'F:\\Propello\\Vision\\storage\\app/public',
+        'root' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -369,7 +478,7 @@
     ),
     'links' => 
     array (
-      'F:\\Propello\\Vision\\public\\storage' => 'F:\\Propello\\Vision\\storage\\app/public',
+      'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\public\\storage' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/public',
     ),
   ),
   'fortify-options' => 
@@ -496,14 +605,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'F:\\Propello\\Vision\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'F:\\Propello\\Vision\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -568,7 +677,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'F:\\Propello\\Vision\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -646,7 +755,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'F:\\Propello\\Vision\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -765,7 +874,7 @@
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'F:\\Propello\\Vision\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -782,124 +891,10 @@
     'same_site' => 'lax',
     'partitioned' => false,
   ),
-  'broadcasting' => 
-  array (
-    'default' => 'log',
-    'connections' => 
-    array (
-      'reverb' => 
-      array (
-        'driver' => 'reverb',
-        'key' => NULL,
-        'secret' => NULL,
-        'app_id' => NULL,
-        'options' => 
-        array (
-          'host' => NULL,
-          'port' => 443,
-          'scheme' => 'https',
-          'useTLS' => true,
-        ),
-        'client_options' => 
-        array (
-        ),
-      ),
-      'pusher' => 
-      array (
-        'driver' => 'pusher',
-        'key' => NULL,
-        'secret' => NULL,
-        'app_id' => NULL,
-        'options' => 
-        array (
-          'cluster' => NULL,
-          'host' => 'api-mt1.pusher.com',
-          'port' => 443,
-          'scheme' => 'https',
-          'encrypted' => true,
-          'useTLS' => true,
-        ),
-        'client_options' => 
-        array (
-        ),
-      ),
-      'ably' => 
-      array (
-        'driver' => 'ably',
-        'key' => NULL,
-      ),
-      'log' => 
-      array (
-        'driver' => 'log',
-      ),
-      'null' => 
-      array (
-        'driver' => 'null',
-      ),
-    ),
-  ),
-  'concurrency' => 
-  array (
-    'default' => 'process',
-  ),
-  'cors' => 
-  array (
-    'paths' => 
-    array (
-      0 => 'api/*',
-      1 => 'sanctum/csrf-cookie',
-    ),
-    'allowed_methods' => 
-    array (
-      0 => '*',
-    ),
-    'allowed_origins' => 
-    array (
-      0 => '*',
-    ),
-    'allowed_origins_patterns' => 
-    array (
-    ),
-    'allowed_headers' => 
-    array (
-      0 => '*',
-    ),
-    'exposed_headers' => 
-    array (
-    ),
-    'max_age' => 0,
-    'supports_credentials' => false,
-  ),
-  'hashing' => 
-  array (
-    'driver' => 'bcrypt',
-    'bcrypt' => 
-    array (
-      'rounds' => '12',
-      'verify' => true,
-      'limit' => NULL,
-    ),
-    'argon' => 
-    array (
-      'memory' => 65536,
-      'threads' => 1,
-      'time' => 4,
-      'verify' => true,
-    ),
-    'rehash_on_login' => true,
-  ),
-  'view' => 
-  array (
-    'paths' => 
-    array (
-      0 => 'F:\\Propello\\Vision\\resources\\views',
-    ),
-    'compiled' => 'F:\\Propello\\Vision\\storage\\framework\\views',
-  ),
   'livewire' => 
   array (
     'class_namespace' => 'App\\Livewire',
-    'view_path' => 'F:\\Propello\\Vision\\resources\\views/livewire',
+    'view_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views/livewire',
     'layout' => 'components.layouts.app',
     'lazy_placeholder' => NULL,
     'temporary_file_upload' => 
