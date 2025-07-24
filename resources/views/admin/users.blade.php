@@ -3,32 +3,32 @@
 
 <style>
     body {
-  background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e);
-  background-size: 400% 400%;
-  animation: gradientFlow 20s ease infinite;
-  color: #fff;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
+        background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e);
+        background-size: 400% 400%;
+        animation: gradientFlow 20s ease infinite;
+        color: #fff;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
 
-@keyframes gradientFlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  25% {
-    background-position: 50% 100%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  75% {
-    background-position: 50% 0%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+    @keyframes gradientFlow {
+        0% {
+            background-position: 0% 50%;
+        }
+        25% {
+            background-position: 50% 100%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        75% {
+            background-position: 50% 0%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
 </style>
 
 <div class="container mt-5">
@@ -39,7 +39,13 @@
     @endif
 
     @if($users->count())
-        <!-- Responsive Table Wrapper -->
+        <!-- Export Buttons -->
+        <div class="d-flex justify-content-end mb-3 gap-2">
+            <a href="{{ route('admin.users.export.excel') }}" class="btn btn-success btn-sm">Download Excel</a>
+            <a href="{{ route('admin.users.export.pdf') }}" class="btn btn-danger btn-sm">Download PDF</a>
+        </div>
+
+        <!-- Responsive Table -->
         <div class="table-responsive">
             <table class="table table-bordered table-striped align-middle text-center">
                 <thead class="table-dark">

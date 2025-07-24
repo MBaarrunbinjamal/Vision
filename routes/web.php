@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AiController;
+
 // user routes start
 Route::get('/', function () {
     return view('clients.index');
@@ -73,5 +74,6 @@ Route::get('/404', function () {
         return view('404');
     });
 
-
+Route::get('/users/export/excel', [AdminUserController::class, 'exportExcel'])->name('admin.users.export.excel');
+Route::get('/users/export/pdf', [AdminUserController::class, 'exportPdf'])->name('admin.users.export.pdf');
   

@@ -109,9 +109,9 @@
   array (
     'paths' => 
     array (
-      0 => 'D:\\Baarrun\\Vission\\CareerCounselling\\resources\\views',
+      0 => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views',
     ),
-    'compiled' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\framework\\views',
+    'compiled' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework\\views',
   ),
   'app' => 
   array (
@@ -274,8 +274,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\framework/cache/data',
-        'lock_path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -440,6 +440,128 @@
       ),
     ),
   ),
+  'excel' => 
+  array (
+    'exports' => 
+    array (
+      'chunk_size' => 1000,
+      'pre_calculate_formulas' => false,
+      'strict_null_comparison' => false,
+      'csv' => 
+      array (
+        'delimiter' => ',',
+        'enclosure' => '"',
+        'line_ending' => '
+',
+        'use_bom' => false,
+        'include_separator_line' => false,
+        'excel_compatibility' => false,
+        'output_encoding' => '',
+        'test_auto_detect' => true,
+      ),
+      'properties' => 
+      array (
+        'creator' => '',
+        'lastModifiedBy' => '',
+        'title' => '',
+        'description' => '',
+        'subject' => '',
+        'keywords' => '',
+        'category' => '',
+        'manager' => '',
+        'company' => '',
+      ),
+    ),
+    'imports' => 
+    array (
+      'read_only' => true,
+      'ignore_empty' => false,
+      'heading_row' => 
+      array (
+        'formatter' => 'slug',
+      ),
+      'csv' => 
+      array (
+        'delimiter' => NULL,
+        'enclosure' => '"',
+        'escape_character' => '\\',
+        'contiguous' => false,
+        'input_encoding' => 'guess',
+      ),
+      'properties' => 
+      array (
+        'creator' => '',
+        'lastModifiedBy' => '',
+        'title' => '',
+        'description' => '',
+        'subject' => '',
+        'keywords' => '',
+        'category' => '',
+        'manager' => '',
+        'company' => '',
+      ),
+      'cells' => 
+      array (
+        'middleware' => 
+        array (
+        ),
+      ),
+    ),
+    'extension_detector' => 
+    array (
+      'xlsx' => 'Xlsx',
+      'xlsm' => 'Xlsx',
+      'xltx' => 'Xlsx',
+      'xltm' => 'Xlsx',
+      'xls' => 'Xls',
+      'xlt' => 'Xls',
+      'ods' => 'Ods',
+      'ots' => 'Ods',
+      'slk' => 'Slk',
+      'xml' => 'Xml',
+      'gnumeric' => 'Gnumeric',
+      'htm' => 'Html',
+      'html' => 'Html',
+      'csv' => 'Csv',
+      'tsv' => 'Csv',
+      'pdf' => 'Dompdf',
+    ),
+    'value_binder' => 
+    array (
+      'default' => 'Maatwebsite\\Excel\\DefaultValueBinder',
+    ),
+    'cache' => 
+    array (
+      'driver' => 'memory',
+      'batch' => 
+      array (
+        'memory_limit' => 60000,
+      ),
+      'illuminate' => 
+      array (
+        'store' => NULL,
+      ),
+      'default_ttl' => 10800,
+    ),
+    'transactions' => 
+    array (
+      'handler' => 'db',
+      'db' => 
+      array (
+        'connection' => NULL,
+      ),
+    ),
+    'temporary_files' => 
+    array (
+      'local_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/laravel-excel',
+      'local_permissions' => 
+      array (
+      ),
+      'remote_disk' => NULL,
+      'remote_prefix' => NULL,
+      'force_resync_remote' => NULL,
+    ),
+  ),
   'filesystems' => 
   array (
     'default' => 'local',
@@ -448,7 +570,7 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\app/private',
+        'root' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/private',
         'serve' => true,
         'throw' => false,
         'report' => false,
@@ -456,7 +578,7 @@
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\app/public',
+        'root' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -478,7 +600,7 @@
     ),
     'links' => 
     array (
-      'D:\\Baarrun\\Vission\\CareerCounselling\\public\\storage' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\app/public',
+      'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\public\\storage' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/public',
     ),
   ),
   'fortify-options' => 
@@ -605,14 +727,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -677,7 +799,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -755,7 +877,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'D:\\Baarrun\\Vission\\CareerCounselling\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -874,7 +996,7 @@
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -891,10 +1013,65 @@
     'same_site' => 'lax',
     'partitioned' => false,
   ),
+  'dompdf' => 
+  array (
+    'show_warnings' => false,
+    'public_path' => NULL,
+    'convert_entities' => true,
+    'options' => 
+    array (
+      'font_dir' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\fonts',
+      'font_cache' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\fonts',
+      'temp_dir' => 'C:\\Users\\PMLS\\AppData\\Local\\Temp',
+      'chroot' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision',
+      'allowed_protocols' => 
+      array (
+        'data://' => 
+        array (
+          'rules' => 
+          array (
+          ),
+        ),
+        'file://' => 
+        array (
+          'rules' => 
+          array (
+          ),
+        ),
+        'http://' => 
+        array (
+          'rules' => 
+          array (
+          ),
+        ),
+        'https://' => 
+        array (
+          'rules' => 
+          array (
+          ),
+        ),
+      ),
+      'artifactPathValidation' => NULL,
+      'log_output_file' => NULL,
+      'enable_font_subsetting' => false,
+      'pdf_backend' => 'CPDF',
+      'default_media_type' => 'screen',
+      'default_paper_size' => 'a4',
+      'default_paper_orientation' => 'portrait',
+      'default_font' => 'serif',
+      'dpi' => 96,
+      'enable_php' => false,
+      'enable_javascript' => true,
+      'enable_remote' => false,
+      'allowed_remote_hosts' => NULL,
+      'font_height_ratio' => 1.1,
+      'enable_html5_parser' => true,
+    ),
+  ),
   'livewire' => 
   array (
     'class_namespace' => 'App\\Livewire',
-    'view_path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\resources\\views/livewire',
+    'view_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views/livewire',
     'layout' => 'components.layouts.app',
     'lazy_placeholder' => NULL,
     'temporary_file_upload' => 
