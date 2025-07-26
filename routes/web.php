@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AiController;
+use App\Http\Controllers\BlogController;
+
 // user routes start
 Route::get('/', function () {
     return view('clients.index');
@@ -44,10 +46,9 @@ Route::get('/pricing', function () {
 Route::get('/service', function () {
     return view('clients.services');
 });
-// clients routes end
-
-
+Route::get('/blog',[BlogController::class,('getblogs')]);
 });
+// clients routes end
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddleware::class])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.admindashboard');                                
@@ -66,8 +67,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddle
     Route::get('/addblogs', function () {
         return view('admin.addblogs');
     });
+      Route::get('/question', function () {
+        return view('admin.question');
+    });
 Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
-    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+Route::post('/addblog',[BlogController::class,('addblog')]);   
+Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+Route::get('/question', [AiController::class, 'bringapi']);
+Route::delete('/delete-question/{id}', [AiController::class, 'deleteQuestion']);
     });
 Route::get('/404', function () {
         return view('404');

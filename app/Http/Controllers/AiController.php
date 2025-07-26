@@ -24,7 +24,25 @@ class AiController extends Controller
 
 public function returns(){
     $rec=chat::get();
+ 
     return response()->json([$rec]);
+
+}
+public function bringapi(){
+    $rec=chat::get();
+    return view('admin.question',compact('rec'));
+}
+public function deleteQuestion($id)
+{
+    $chat = chat::find($id);
+
+    if (!$chat) {
+        return response()->json(['success' => false, 'message' => 'Record not found.']);
+    }
+
+    $chat->delete();
+
+    return response()->json(['success' => true, 'message' => 'Question deleted successfully.']);
 }
 
 }
