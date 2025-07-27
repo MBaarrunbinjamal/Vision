@@ -74,6 +74,20 @@ html, body {
   background: linear-gradient(135deg, #161616ff, #290147ff) !important;
 }
 
+.day{
+	  color: #000 !important;
+}
+.yr{
+	  color: #5f5f5fff !important;
+}
+
+.rbh{
+	  color: #fff !important;
+}
+
+.rbh:hover{
+     	  color: #646464ff !important;
+}
 </style>
 
     <div class="hero-wrap" style="background-image: url('clients/images/Flux_Dev_Create_an_image_depicting_a_serene_and_professional_c_3.jpg');" data-stellar-background-ratio="0.5">
@@ -311,7 +325,7 @@ html, body {
                 		<span class="yr">2020</span>
                 	</div>
                 </div>
-                <h3 class="heading mb-3"><a href="#">Social Media Risks To Mental Health</a></h3>
+                <h3 class="heading mb-3"><a href="#" class="rbh">Social Media Risks To Mental Health</a></h3>
                 <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
               </div>
             </div>
@@ -328,7 +342,7 @@ html, body {
                 		<span class="yr">2020</span>
                 	</div>
                 </div>
-                <h3 class="heading mb-3"><a href="#">Social Media Risks To Mental Health</a></h3>
+                <h3 class="heading mb-3"><a href="#" class="rbh">Social Media Risks To Mental Health</a></h3>
                 <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
               </div>
             </div>
@@ -345,7 +359,7 @@ html, body {
                 		<span class="yr">2020</span>
                 	</div>
                 </div>
-                <h3 class="heading mb-3"><a href="#">Social Media Risks To Mental Health</a mb-3></h3>
+                <h3 class="heading mb-3"><a href="#" class="rbh">Social Media Risks To Mental Health</a mb-3></h3>
 								<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>              
 							</div>
             </div>

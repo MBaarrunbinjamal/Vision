@@ -41,161 +41,28 @@
 		<section class="ftco-section ">
       <div class="container ">
         <div class="row d-flex ">
-          <div class="col-md-4 d-flex ftco-animate ">
-          	<div class="blog-entry justify-content-end ">
-              <div class="text text-center ">
-              	<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_1.jpg');">
-	              </a>
-	              <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-                	<div>
-                		<span class="day text-dark">18</span>
-                		<span class="mos">April</span>
-                		<span class="yr text-dark">2020</span>
-                	</div>
+        @foreach ($rec as $r)
+    <div class="col-md-4 d-flex ftco-animate">
+        <div class="blog-entry justify-content-end">
+            <div class="text text-center">
+                <a href="/blog-single" class="block-20 img" style="background-image: url('{{ asset('uploads/' . $r->image) }}');">
+                </a>
+                <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
+                    <div>
+                        <span class="day text-dark">{{ $r->created_at->format('d') }}</span>
+                        <span class="mos">{{ $r->created_at->format('F') }}</span>
+                        <span class="yr text-dark">{{ $r->created_at->format('Y') }}</span>
+                    </div>
                 </div>
-                <h3 class="heading mb-3"><a href="#" class="text-white">Social Media Risks To Mental Health</a></h3>
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-              </div>
+                <h3 class="heading mb-3">
+                    <a href="#" class="text-white">{{ $r->heading }}</a>
+                </h3>
             </div>
-          </div>
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <div class="text text-center">
-              	<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_2.jpg');">
-	              </a>
-	              <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-                	<div>
-                		<span class="day text-dark">18</span>
-                		<span class="mos">April</span>
-                		<span class="yr text-dark">2020</span>
-                	</div>
-                </div>
-                <h3 class="heading mb-3"><a href="#" class="text-white">Social Media Risks To Mental Health</a></h3>
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <div class="text text-center">
-              	<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_3.jpg');">
-	              </a>
-	              <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-                	<div>
-                		<span class="day text-dark">18</span>
-                		<span class="mos">April</span>
-                		<span class="yr text-dark">2020</span>
-                	</div>
-                </div>
-                <h3 class="heading mb-3"><a href="#" class="text-white">Social Media Risks To Mental Health</a mb-3></h3>
-								<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>              
-							</div>
-            </div>
-          </div>
+        </div>
+    </div>
+@endforeach
 
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <div class="text text-center">
-              	<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_4.jpg');">
-	              </a>
-	              <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-                	<div>
-                		<span class="day text-dark">18</span>
-                		<span class="mos">April</span>
-                		<span class="yr text-dark">2020</span>
-                	</div>
-                </div>
-                <h3 class="heading mb-3"><a href="#" class="text-white">Social Media Risks To Mental Health</a></h3>
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <div class="text text-center">
-              	<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_5.jpg');">
-	              </a>
-	              <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-                	<div>
-                		<span class="day text-dark">18</span>
-                		<span class="mos">April</span>
-                		<span class="yr text-dark">2020</span>
-                	</div>
-                </div>
-                <h3 class="heading mb-3"><a href="#" class="text-white">Social Media Risks To Mental Health</a></h3>
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <div class="text text-center">
-              	<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_6.jpg');">
-	              </a>
-	              <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-                	<div>
-                		<span class="day text-dark">18</span>
-                		<span class="mos">April</span>
-                		<span class="yr text-dark">2020</span>
-                	</div>
-                </div>
-                <h3 class="heading mb-3"><a href="#"class="text-white">Social Media Risks To Mental Health</a mb-3></h3>
-								<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>              
-							</div>
-            </div>
-          </div>
-
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <div class="text text-center">
-              	<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_7.jpg');">
-	              </a>
-	              <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-                	<div>
-                		<span class="day text-dark">18</span>
-                		<span class="mos">April</span>
-                		<span class="yr text-dark">2020</span>
-                	</div>
-                </div>
-                <h3 class="heading mb-3"><a href="#"class="text-white">Social Media Risks To Mental Health</a></h3>
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <div class="text text-center">
-              	<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_8.jpg');">
-	              </a>
-	              <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-                	<div>
-                		<span class="day text-dark">18</span>
-                		<span class="mos">April</span>
-                		<span class="yr text-dark">2020</span>
-                	</div>
-                </div>
-                <h3 class="heading mb-3"><a href="#"class="text-white">Social Media Risks To Mental Health</a></h3>
-                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 d-flex ftco-animate">
-          	<div class="blog-entry justify-content-end">
-              <div class="text text-center">
-              	<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_9.jpg');">
-	              </a>
-	              <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-                	<div >
-                		<span class="day text-dark">18</span>
-                		<span class="mos">April</span>
-                		<span class="yr text-dark">2020</span>
-                	</div>
-                </div>
-                <h3 class="heading mb-3"><a href="#"class="text-white">Social Media Risks To Mental Health</a mb-3></h3>
-								<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>              
-							</div>
-            </div>
-          </div>
+         
         </div>
         <div class="row mt-5">
           <div class="col text-center">

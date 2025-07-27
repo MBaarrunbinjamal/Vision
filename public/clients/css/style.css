@@ -9446,8 +9446,11 @@ textarea.form-control {
     letter-spacing: 2px; }
   .blog-entry:hover .meta {
     background: #310051ff; }
-    .blog-entry:hover .meta .day {
-      color: #fff; }
+    .blog-entry:hover .meta .day{
+      color: #fff !important; }
+   
+      .blog-entry:hover .meta .mos {
+      color: #fff !important; }
 
 .block-23 ul {
   padding: 0; }
@@ -9617,14 +9620,15 @@ textarea.form-control {
   margin-bottom: 7px;
   margin-right: 4px;
   border-radius: 4px;
-  color: #000000;
+  color: #fff;
   border: 1px solid #ccc;
   font-size: 11px; }
   .tagcloud a:hover {
     border: 1px solid #000; }
 
 .comment-form-wrap {
-  clear: both; }
+  clear: both;
+}
   .comment-form-wrap .form-control {
     border: transparent;
     background: white !important;

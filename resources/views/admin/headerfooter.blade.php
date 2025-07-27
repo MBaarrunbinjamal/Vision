@@ -17,6 +17,7 @@
     .navbar {
       background: linear-gradient(90deg, #000000f0, #2c003e);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      z-index: ;
     }
     .navbar-brand, .nav-link, .dropdown-toggle, .btn-logout {
       color: #fff !important;
@@ -82,6 +83,7 @@
         <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
         <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
         <li class="nav-item"><a class="nav-link" href="/form">Ai Train</a></li>
+         <li class="nav-item"><a class="nav-link" href="/question">Ai Questions</a></li>
         <li class="nav-item"><a class="nav-link" href="/addblogs">Added Blogs</a></li>
         <li class="nav-item d-lg-none mt-2">
           <form method="POST" action="{{ route('logout') }}">
