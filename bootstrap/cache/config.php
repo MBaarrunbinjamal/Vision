@@ -109,9 +109,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views',
+      0 => 'D:\\Baarrun\\Vission\\CareerCounselling\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework\\views',
+    'compiled' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\framework\\views',
   ),
   'app' => 
   array (
@@ -274,8 +274,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/data',
+        'path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\framework/cache/data',
+        'lock_path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -553,7 +553,7 @@
     ),
     'temporary_files' => 
     array (
-      'local_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/cache/laravel-excel',
+      'local_path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\framework/cache/laravel-excel',
       'local_permissions' => 
       array (
       ),
@@ -570,7 +570,7 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/private',
+        'root' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\app/private',
         'serve' => true,
         'throw' => false,
         'report' => false,
@@ -578,7 +578,7 @@
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/public',
+        'root' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -600,7 +600,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\public\\storage' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\app/public',
+      'D:\\Baarrun\\Vission\\CareerCounselling\\public\\storage' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\app/public',
     ),
   ),
   'fortify-options' => 
@@ -727,14 +727,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
+        'path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
+        'path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -799,7 +799,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\logs/laravel.log',
+        'path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -877,7 +877,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views/vendor/mail',
+        0 => 'D:\\Baarrun\\Vission\\CareerCounselling\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -996,7 +996,7 @@
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\framework/sessions',
+    'files' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -1020,10 +1020,10 @@
     'convert_entities' => true,
     'options' => 
     array (
-      'font_dir' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\fonts',
-      'font_cache' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\storage\\fonts',
-      'temp_dir' => 'C:\\Users\\PMLS\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision',
+      'font_dir' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\fonts',
+      'font_cache' => 'D:\\Baarrun\\Vission\\CareerCounselling\\storage\\fonts',
+      'temp_dir' => 'C:\\Users\\jamal\\AppData\\Local\\Temp',
+      'chroot' => 'D:\\Baarrun\\Vission\\CareerCounselling',
       'allowed_protocols' => 
       array (
         'data://' => 
@@ -1071,7 +1071,7 @@
   'livewire' => 
   array (
     'class_namespace' => 'App\\Livewire',
-    'view_path' => 'C:\\Users\\PMLS\\OneDrive\\Desktop\\Vision\\Vision\\resources\\views/livewire',
+    'view_path' => 'D:\\Baarrun\\Vission\\CareerCounselling\\resources\\views/livewire',
     'layout' => 'components.layouts.app',
     'lazy_placeholder' => NULL,
     'temporary_file_upload' => 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\blog;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -24,4 +25,11 @@ $table->save();
         $rec=blog::get();
         return view('clients.blog',compact('rec'));
     }
+  public function fullblog($bid)
+{
+    $rec = Blog::findOrFail($bid);
+    $comments = Comment::with('user')->where('blog_id', $bid)->latest()->get();
+
+    return view('clients.blog-single', compact('rec', 'comments'));
+}
 }

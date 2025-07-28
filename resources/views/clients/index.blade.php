@@ -71,7 +71,7 @@ html, body {
     background: transparent !important;
 }
 .leftbox {
-  background: linear-gradient(135deg, #161616ff, #290147ff) !important;
+  background: linear-gradient(135deg,#161616ff, rgba(34, 1, 59, 0.986)) !important;
 }
 
 .day{

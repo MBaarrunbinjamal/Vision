@@ -45,7 +45,10 @@
     <div class="col-md-4 d-flex ftco-animate">
         <div class="blog-entry justify-content-end">
             <div class="text text-center">
-                <a href="/blog-single" class="block-20 img" style="background-image: url('{{ asset('uploads/' . $r->image) }}');">
+                <a href="#" class="block-20 img post-link" data-id="{{$r->id}}" style="background-image: url('{{ asset('uploads/' . $r->image) }}');"></a>
+<form id="postForm" method="POST" style="display: none;">
+    @csrf
+</form>
                 </a>
                 <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
                     <div>
@@ -81,5 +84,14 @@
         </div>
       </div>
     </section>	
-
+<script>
+    document.querySelectorAll('.post-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const form = document.getElementById('postForm');
+            form.action = '/abc/' + this.getAttribute('data-id');
+            form.submit();
+        });
+    });
+</script>
     @endsection

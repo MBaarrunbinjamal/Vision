@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AiController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\commentcontroller;
 
 // user routes start
 Route::get('/', function () {
@@ -47,6 +48,13 @@ Route::get('/service', function () {
     return view('clients.services');
 });
 Route::get('/blog',[BlogController::class,('getblogs')]);
+Route::post('/abc/{id}',[BlogController::class,('fullblog')]);
+
+
+
+
+Route::post('/submit-comment', [CommentController::class, 'store'])->middleware('auth')->name('comment.store');
+
 });
 // clients routes end
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddleware::class])->group(function () {
@@ -75,11 +83,13 @@ Route::post('/addblog',[BlogController::class,('addblog')]);
 Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
 Route::get('/question', [AiController::class, 'bringapi']);
 Route::delete('/delete-question/{id}', [AiController::class, 'deleteQuestion']);
+Route::get('/users/export/excel', [AdminUserController::class, 'exportExcel'])->name('admin.users.export.excel');
+Route::get('/users/export/pdf', [AdminUserController::class, 'exportPdf'])->name('admin.users.export.pdf');
+
     });
 Route::get('/404', function () {
         return view('404');
     });
 
-Route::get('/users/export/excel', [AdminUserController::class, 'exportExcel'])->name('admin.users.export.excel');
-Route::get('/users/export/pdf', [AdminUserController::class, 'exportPdf'])->name('admin.users.export.pdf');
+
   
