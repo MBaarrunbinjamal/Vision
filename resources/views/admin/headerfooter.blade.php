@@ -85,6 +85,8 @@
         <li class="nav-item"><a class="nav-link" href="/form">Ai Train</a></li>
          <li class="nav-item"><a class="nav-link" href="/question">Ai Questions</a></li>
         <li class="nav-item"><a class="nav-link" href="/addblogs">Added Blogs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">Head To Website</a></li>
+        <li class="nav-item"><a class="nav-link" href="/reviews">Reviews</a></li>
         <li class="nav-item d-lg-none mt-2">
           <form method="POST" action="{{ route('logout') }}">
         @csrf

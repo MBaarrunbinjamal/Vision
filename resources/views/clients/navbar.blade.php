@@ -65,9 +65,46 @@
       .nm{
         color: #ffff !important;
       }
+      .reviews{
+               height:50px;
+               width:auto;
+               background-color: #360d83ff;
+               color:white;
+              z-index: 1000;
+               position:fixed;
+               bottom:20px;
+               right:20px
+          }
+          .reviews a{
+               color:white;
+               text-decoration: none;
+               font-size: 20px;
+               padding: 10px 20px;
+               position:relative;
+               top:10px
+          }
     </style>
   </head>
   <body>
+    @if(Auth::user())
+       <div class="reviews">
+      <a href="#" id="addReviewBtn">Add Reviews</a>
+  </div>
+  <div id="reviewForm" style="display:none; position:fixed; bottom:80px; right:20px; background:#2d2d2d; color:#fff; padding:20px; border-radius:12px; z-index:1001;">
+      <form method="POST" action="/reviews" enctype="multipart/form-data">
+          @csrf
+          <input type="text" name="name" placeholder="Your Name" class="form-control mb-2">
+          <input type="text" name="email" placeholder="Your Email" class="form-control mb-2">
+          <textarea name="review" placeholder="Your Review" class="form-control mb-2"></textarea>
+          
+          <!-- Add image upload input -->
+          
+
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="button" id="closeReviewForm" class="btn btn-secondary">Cancel</button>
+      </form>
+  </div>
+      @endif
 
     <div class="wrap">
       <div class="container">
@@ -214,6 +251,15 @@
     <script src="{{ asset('clients/js/google-map.js') }}"></script>
     <script src="{{ asset('clients/js/main.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+document.getElementById('addReviewBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('reviewForm').style.display = 'block';
+});
+document.getElementById('closeReviewForm').addEventListener('click', function() {
+    document.getElementById('reviewForm').style.display = 'none';
+});
+</script>
 
     @stack('scripts')
   </body>

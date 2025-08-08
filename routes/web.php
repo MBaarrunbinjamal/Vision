@@ -7,11 +7,13 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AiController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\commentcontroller;
+use App\Http\Controllers\ReviewsController;
 
 // user routes start
-Route::get('/', function () {
-    return view('clients.index');
-});
+// Route::get('/', function () {
+//     return view('clients.index');
+// });
+Route::get('/', [ReviewsController::class, 'showReviews']);
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -22,6 +24,9 @@ Route::middleware([
 Route::get('/about', function () {
     return view('clients.about');
 });
+Route::post('/reviews', [ReviewsController::class, 'store'])->name('reviews.store');
+Route::get('/reviews', [ReviewsController::class, 'showReviews'])->name('reviews.showReviews');
+
 Route::get('/blog-single', function () {
     return view('clients.blog-single');
 });
@@ -49,7 +54,9 @@ Route::get('/service', function () {
 });
 Route::get('/blog',[BlogController::class,('getblogs')]);
 Route::post('/abc/{id}',[BlogController::class,('fullblog')]);
-
+Route::get('/reviews', function () {
+    return view('clients.Reviews');
+});
 
 
 
@@ -70,6 +77,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddle
         return view('admin.form');
     });
 
+
    Route::post('/ask-ai', [AiController::class,'store']);
 
     Route::get('/addblogs', function () {
@@ -78,6 +86,11 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddle
       Route::get('/question', function () {
         return view('admin.question');
     });
+    Route::get('/reviews', [AdminUserController::class, 'showReviews'])->name('admin.reviews');
+    Route::post('/reviews/{id}/status/{status}', [AdminUserController::class, 'updateReviewStatus'])
+         ->name('admin.reviews.status');
+         Route::delete('/reviews/{id}/delete', [AdminUserController::class, 'deleteReview'])->name('admin.reviews.delete');
+
 Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
 Route::post('/addblog',[BlogController::class,('addblog')]);   
 Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
