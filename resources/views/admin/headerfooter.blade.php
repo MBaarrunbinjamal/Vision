@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard</title>
+  <title>Propello Admin Dashboard</title>
+  <link rel="icon" type="image/png" href="{{ asset('clients/images/ChatGPT Image Aug 16, 2025, 02_24_34 PM.png') }}">
 
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -73,7 +74,8 @@
 
 <nav class="navbar navbar-expand-lg">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="/dashboard">PropelloAdmin</a>
+    <a class="navbar-brand fw-bold" href="/dashboard"><img src="{{ asset('Admin/img/ChatGPT Image Aug 16, 2025, 03_01_01 PM.png') }}" alt="Propello Logo" style="height:40px; width:auto;">
+  </a>
     <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -83,9 +85,9 @@
         <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
         <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
         <li class="nav-item"><a class="nav-link" href="/form">Ai Train</a></li>
-         <li class="nav-item"><a class="nav-link" href="/question">Ai Questions</a></li>
-        <li class="nav-item"><a class="nav-link" href="/addblogs">Added Blogs</a></li>
-        <li class="nav-item"><a class="nav-link" href="/">Head To Website</a></li>
+        <li class="nav-item"><a class="nav-link" href="/question">Ai Questions</a></li>
+        <li class="nav-item"><a class="nav-link" href="/addblogs">Add Blogs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">Back To Website</a></li>
         <li class="nav-item"><a class="nav-link" href="/reviews">Reviews</a></li>
         <li class="nav-item d-lg-none mt-2">
           <form method="POST" action="{{ route('logout') }}">

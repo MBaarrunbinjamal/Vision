@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <title>Propello</title>
+    <link rel="icon" type="image/png" href="{{ asset('clients/images/ChatGPT Image Aug 16, 2025, 02_24_34 PM.png') }}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
@@ -229,9 +230,32 @@ html, body {
 .nm{
   color: #ffff !important;
 }
+
+.lgobtn{
+  background: #440071ff !important;
+  color: #ffff !important;
+  border: none !important;
+  height: 40px !important;
+  width: 80px !important;
+  border-radius: 5px !important;
+  font-weight: 500 !important;
+}
 /* nav css end */
 
-
+.btn {
+    background: #4B0082; /* dark purple */
+    color: #fff;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+}
+.btn:hover {
+    background: #5a00a8;
+    color: #fff;
+}
 
   </style>
    
@@ -262,7 +286,9 @@ html, body {
     
 	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 	    <div class="container">
-	      <a class="navbar-brand mh" href="/">propello</a>
+	      <a class="navbar-brand mh" href="/">
+    <img src="{{ asset('clients/images/ChatGPT Image Aug 9, 2025, 05_03_47 PM.png') }}" alt="Propello Logo" style="height:40px; width:auto;">
+</a>
 	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 	        <span class="oi oi-menu"></span> Menu
 	      </button>

@@ -22,15 +22,39 @@ public function store(Request $req)
         'blog_id' => $req->blog_id,
     ]);
 
-    // Load user relationship
+    // Load user relation
     $comment->load('user');
 
     return response()->json([
-        'success' => 'Thank you for your comment!',
-        'username' => $comment->user->name,
-        'message' => $comment->message,
+        'success'   => 'Thank you for your comment!',
+        'comment'   => [
+            'id'        => $comment->id,
+            'username'  => $comment->user->name,
+            'message'   => $comment->message,
+            'created_at'=> $comment->created_at->format('F d, Y \a\t h:i A'),
+        ]
     ]);
 }
+
+public function destroy($id)
+{
+    $comment = Comment::findOrFail($id);
+
+    // only allow the owner to delete
+    if ($comment->user_id !== Auth::id()) {
+        return response()->json([
+            'error' => 'Unauthorized action.'
+        ], 403);
+    }
+
+    $comment->delete();
+
+    return response()->json([
+        'success' => 'Comment deleted!',
+        'id' => $id
+    ]);
+}
+
 
 
 }

@@ -33,7 +33,8 @@
 		border-radius: 5px !important;
 		text-decoration: none !important;
 		margin-top: -1px !important;
-
+        display: inline-block !important;   /* Add this line */
+        width: auto !important;
 	}
 
 	.cdiv {
@@ -175,7 +176,7 @@
 							<span class="flaticon-calendar"></span>
 						</div>
 					</div>
-					<h2>Make Schedule</h2>
+					<h2 class="text-white" >Make Schedule</h2>
 					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
 				</div>
 			</div>
@@ -187,7 +188,7 @@
 							<span class="flaticon-qa"></span>
 						</div>
 					</div>
-					<h2>Start Discussion</h2>
+					<h2 class="text-white" >Start Discussion</h2>
 					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
 				</div>
 			</div>
@@ -199,7 +200,7 @@
 							<span class="flaticon-checklist"></span>
 						</div>
 					</div>
-					<h2>Enjoy Plan</h2>
+					<h2 class="text-white" >Enjoy Plan</h2>
 					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
 				</div>
 			</div>
