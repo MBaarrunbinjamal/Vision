@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\chat;
+use Illuminate\Support\Facades\Http;
+
 class AiController extends Controller
 {
     //
@@ -44,7 +46,9 @@ public function deleteQuestion($id)
 
     return response()->json(['success' => true, 'message' => 'Question deleted successfully.']);
 }
-
-}
-
+public function getData()
+{
+    $rec = chat::all();
+    return view('clients.counselor', compact('rec')); 
+}}
 

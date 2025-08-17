@@ -333,39 +333,7 @@ html, body {
     </div>
   </div>
 
-  <script>
-    function sendMessage() {
-      const input = document.getElementById('userInput');
-      const message = input.value.trim();
-      if (!message) return;
-
-      const chatMessages = document.getElementById('chatMessages');
-
-      // Create user message
-      const userMsg = document.createElement('div');
-      userMsg.className = 'chat-message user';
-      userMsg.textContent = message;
-      chatMessages.appendChild(userMsg);
-
-      // Simulate AI response
-      setTimeout(() => {
-        const aiMsg = document.createElement('div');
-        aiMsg.className = 'chat-message ai';
-        aiMsg.textContent = "Thanks for sharing! Let's discuss your options. 📚";
-        chatMessages.appendChild(aiMsg);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-      }, 600);
-
-      input.value = "";
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    document.getElementById("userInput").addEventListener("keydown", function(e) {
-      if (e.key === "Enter") {
-        sendMessage();
-      }
-    });
-  </script>
+  
 
 
 <!-- loader -->
@@ -386,6 +354,52 @@ html, body {
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="clients/js/google-map.js"></script>
   <script src="clients/js/main.js"></script>
+  <script>
+  function sendMessage() {
+    var userMessage = $('#userInput').val().trim();
+
+    if (!userMessage) return; // ignore empty input
+
+    // Show user message in chat
+    $('#chatMessages').append('<div class="chat-message user">' + userMessage + '</div>');
+    $('#userInput').val(""); // clear input
+
+    $.ajax({
+        url: "/api/returnresponse",
+        method: "GET",
+        dataType: "json",
+        success: function(response) {
+            let chats = response[0]; // because you returned [$rec] in controller
+            let found = false;
+
+            chats.forEach(chat => {
+                if (userMessage.toLowerCase().includes(chat.question.toLowerCase())) {
+                    $('#chatMessages').append(
+                        '<div class="chat-message ai">' + chat.explaination + '</div>'
+                    );
+                    found = true;
+                }
+            });
+
+            if (!found) {
+                $('#chatMessages').append(
+                    '<div class="chat-message ai">Sorry, I don\'t have information of this kind.</div>'
+                );
+            }
+
+            // Auto scroll to bottom
+            $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
+        },
+        error: function() {
+            $('#chatMessages').append(
+                '<div class="chat-message ai">⚠️ Error fetching information.</div>'
+            );
+        }
+    });
+}
+
+
+  </script>
 </body>
 </html>
 

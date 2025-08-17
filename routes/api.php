@@ -10,3 +10,4 @@ Route::get('/user', function (Request $request) {
 
 
 Route::get('/returnresponse', [AiController::class,('returns')]);
+Route::get('/get-data', [AiController::class, 'getData']);
