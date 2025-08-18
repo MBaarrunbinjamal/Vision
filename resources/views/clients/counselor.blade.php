@@ -355,48 +355,120 @@ html, body {
   <script src="clients/js/google-map.js"></script>
   <script src="clients/js/main.js"></script>
   <script>
-  function sendMessage() {
+function sendMessage() {
     var userMessage = $('#userInput').val().trim();
+    if (!userMessage) return;
 
-    if (!userMessage) return; // ignore empty input
-
-    // Show user message in chat
+    // Show user message
     $('#chatMessages').append('<div class="chat-message user">' + userMessage + '</div>');
-    $('#userInput').val(""); // clear input
+    $('#userInput').val(""); 
 
     $.ajax({
         url: "/api/returnresponse",
         method: "GET",
         dataType: "json",
         success: function(response) {
-            let chats = response[0]; // because you returned [$rec] in controller
-            let found = false;
+            let chats = response[0];
+            let bestMatch = null;
+            let highestScore = 0;
 
+            // Find best matching question
             chats.forEach(chat => {
-                if (userMessage.toLowerCase().includes(chat.question.toLowerCase())) {
-                    $('#chatMessages').append(
-                        '<div class="chat-message ai">' + chat.explaination + '</div>'
-                    );
-                    found = true;
+                let score = similarity(userMessage.toLowerCase(), chat.question.toLowerCase());
+                if (score > highestScore) {
+                    highestScore = score;
+                    bestMatch = chat;
                 }
             });
 
-            if (!found) {
-                $('#chatMessages').append(
-                    '<div class="chat-message ai">Sorry, I don\'t have information of this kind.</div>'
-                );
+            if (bestMatch && highestScore > 0.4) { 
+                // Detect user input language first
+                detectLanguage(userMessage, function(lang) {
+                    if (lang === "en") {
+                        // If English → reply in English
+                        $('#chatMessages').append('<div class="chat-message ai">' + bestMatch.explaination + '</div>');
+                    } else {
+                        // Otherwise → translate answer to Urdu
+                        translateToUrdu(bestMatch.explaination, function(translated) {
+                            $('#chatMessages').append('<div class="chat-message ai">' + translated + '</div>');
+                        });
+                    }
+                });
+            } else {
+                $('#chatMessages').append('<div class="chat-message ai">معاف کریں، میرے پاس اس قسم کی معلومات موجود نہیں ہیں۔</div>');
             }
 
-            // Auto scroll to bottom
+            // Auto scroll
             $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
         },
         error: function() {
-            $('#chatMessages').append(
-                '<div class="chat-message ai">⚠️ Error fetching information.</div>'
-            );
+            $('#chatMessages').append('<div class="chat-message ai">⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔</div>');
         }
     });
 }
+
+// Similarity check
+function similarity(s1, s2) {
+    let longer = s1.length > s2.length ? s1 : s2;
+    let shorter = s1.length > s2.length ? s2 : s1;
+    let longerLength = longer.length;
+    if (longerLength === 0) return 1.0;
+    return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+}
+
+function editDistance(s1, s2) {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+
+    let costs = [];
+    for (let i = 0; i <= s1.length; i++) {
+        let lastValue = i;
+        for (let j = 0; j <= s2.length; j++) {
+            if (i === 0) costs[j] = j;
+            else {
+                if (j > 0) {
+                    let newValue = costs[j - 1];
+                    if (s1[i - 1] !== s2[j - 1])
+                        newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                    costs[j - 1] = lastValue;
+                    lastValue = newValue;
+                }
+            }
+        }
+        if (i > 0) costs[s2.length] = lastValue;
+    }
+    return costs[s2.length];
+}
+
+// Detect input language
+function detectLanguage(text, callback) {
+    $.get("https://translate.googleapis.com/translate_a/single", {
+        client: "gtx",
+        sl: "auto",
+        tl: "en", // just detect
+        dt: "t",
+        q: text
+    }, function(data) {
+        // Extract detected source language
+        let detectedLang = data[2];
+        callback(detectedLang);
+    });
+}
+
+// Translate answer to Urdu
+function translateToUrdu(text, callback) {
+    $.get("https://translate.googleapis.com/translate_a/single", {
+        client: "gtx",
+        sl: "auto",
+        tl: "ur",
+        dt: "t",
+        q: text
+    }, function(data) {
+        callback(data[0][0][0]);
+    });
+}
+
+
 
 
   </script>
