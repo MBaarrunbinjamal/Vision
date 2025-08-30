@@ -8,6 +8,9 @@ use App\Http\Controllers\AiController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReviewsController;
+use App\Http\Controllers\CVController;
+use App\Models\CVs;
+use Barryvdh\DomPDF\PDF;
 
 // user routes start
 Route::get('/', [ReviewsController::class, 'showReviews']);
@@ -107,6 +110,24 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddle
     Route::post('/reviews/{id}/status/{status}', [AdminUserController::class, 'updateReviewStatus'])
          ->name('admin.reviews.status');
     Route::delete('/reviews/{id}/delete', [AdminUserController::class, 'deleteReview'])->name('admin.reviews.delete');
+
+    Route::get('/cv', [CVController::class, 'index'])->name('cv.form');
+Route::post('/store', [CVController::class, 'store'])->name('cv.store');
+Route::get('/preview/{id}', [CVController::class, 'preview'])->name('cv.preview');
+Route::get('/cv/template/{name}', function ($name) {
+    abort_unless(view()->exists("cv.templates.$name"), 404);
+    return view("cv.templates.$name"); // no $cv passed
+
+});
+
+
+Route::get('/cv/{id}', [CVController::class, 'show'])->name('cv.show');
+Route::get('/cv/{id}/download', [CVController::class, 'downloadPdf'])->name('cv.download');
+// Route::get('/users/export/PDF', [AdminUserController::class, 'cvPDF'])->name('admin.users.cvPDF');
+
+// Route::get('/cv/{id}', [CvController::class, 'show'])->name('cv.show');
+// Route::get('/cv/{cv}/download', [CvController::class, 'downloadPdf'])->name('cv.download');
+//      Route::post('/cv/download-temp', [CVController::class, 'downloadTempPdf'])->name('cv.download.temp');
 
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
     Route::post('/addblog',[BlogController::class,('addblog')]);   
