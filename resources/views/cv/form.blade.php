@@ -101,28 +101,7 @@
             </form>
         </div>
      
-        <!-- Live Preview -->
-        <!-- <div class="col-md-6">
-           <center> <h3>Live CV Preview</h3></center>
-            <div id="cvPreview" class="p-3 border rounded bg-white">
-                <h2 id="preview_full_name">Your Name</h2>
-                <p id="preview_email">Your Email</p>
-                <p id="preview_phone">Your Phone</p>
-
-                <h4>Summary</h4>
-                <p id="preview_summary">Your summary will appear here</p>
-
-                <h4>Education</h4>
-                <p id="preview_education">Your education will appear here</p>
-
-                <h4>Experience</h4>
-                <p id="preview_experience">Your experience will appear here</p>
-
-                <h4>Skills</h4>
-                <p id="preview_skills">Your skills will appear here</p>
-            </div>
-           
-        </div> -->
+    
         
                 
     </div>
@@ -131,85 +110,8 @@
 
 
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
 
-    // Full Name
-    document.getElementById("full_name").addEventListener("input", function() {
-        document.getElementById("preview_full_name").textContent = this.value || "Your Name";
-    });
 
-    // Email
-    document.getElementById("email").addEventListener("input", function() {
-        document.getElementById("preview_email").textContent = this.value || "Your Email";
-    });
-
-    // Phone
-    document.getElementById("phone").addEventListener("input", function() {
-        document.getElementById("preview_phone").textContent = this.value || "Your Phone";
-    });
-
-    // Summary
-    document.getElementById("summary").addEventListener("input", function() {
-        document.getElementById("preview_summary").textContent = this.value || "Your Summary";
-    });
-
-    // Education
-    document.getElementById("education").addEventListener("input", function() {
-        document.getElementById("preview_education").textContent = this.value || "Your Education";
-    });
-
-    // Experience
-    document.getElementById("experience").addEventListener("input", function() {
-        document.getElementById("preview_experience").textContent = this.value || "Your Experience";
-    });
-
-    // Skills
-    document.getElementById("skills").addEventListener("input", function() {
-        document.getElementById("preview_skills").textContent = this.value || "Your Skills";
-    });
-
-   
-   
-});
-</script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const ids = ["full_name", "email", "phone", "summary", "education", "experience", "skills"];
-
-    // Fill template with form values
-    function populate() {
-        ids.forEach(f => {
-            const input = document.getElementById(f);
-            const target = document.querySelector(`#cv-preview [data-field="${f}"]`);
-            if (input && target) {
-                target.textContent = input.value || target.dataset.default || "";
-            }
-        });
-    }
-
-    // Update on typing
-    ids.forEach(f => {
-        ["input", "change", "blur"].forEach(evt => {
-            const el = document.getElementById(f);
-            if (el) el.addEventListener(evt, populate);
-        });
-    });
-
-    // Change template
-    document.getElementById("template").addEventListener("change", function () {
-        fetch(`/cv/template/${this.value}`)
-            .then(res => res.text())
-            .then(html => {
-                document.getElementById("cv-preview").innerHTML = html;
-                populate(); // apply current values into new template
-            });
-    });
-
-    populate(); // Initial fill
-});
-</script>
 
 
 </body>

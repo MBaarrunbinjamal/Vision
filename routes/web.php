@@ -116,18 +116,13 @@ Route::post('/store', [CVController::class, 'store'])->name('cv.store');
 Route::get('/preview/{id}', [CVController::class, 'preview'])->name('cv.preview');
 Route::get('/cv/template/{name}', function ($name) {
     abort_unless(view()->exists("cv.templates.$name"), 404);
-    return view("cv.templates.$name"); // no $cv passed
-
+    return view("cv.templates.$name"); 
 });
 
 
 Route::get('/cv/{id}', [CVController::class, 'show'])->name('cv.show');
 Route::get('/cv/{id}/download', [CVController::class, 'downloadPdf'])->name('cv.download');
-// Route::get('/users/export/PDF', [AdminUserController::class, 'cvPDF'])->name('admin.users.cvPDF');
 
-// Route::get('/cv/{id}', [CvController::class, 'show'])->name('cv.show');
-// Route::get('/cv/{cv}/download', [CvController::class, 'downloadPdf'])->name('cv.download');
-//      Route::post('/cv/download-temp', [CVController::class, 'downloadTempPdf'])->name('cv.download.temp');
 
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
     Route::post('/addblog',[BlogController::class,('addblog')]);   

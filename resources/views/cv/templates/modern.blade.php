@@ -5,21 +5,7 @@
   <title>Modern CV</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    /* body {
-      background: linear-gradient(120deg, #6a11cb, #2575fc);
-      color: white;
-    }
 
-    .cv-card {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 20px;
-      border-radius: 15px;
-    }
-
-    h1,
-    h3 {
-      color: #ffd900ff;
-    } */
       .cv-card {
     max-width: 800px;
     margin: 40px auto;

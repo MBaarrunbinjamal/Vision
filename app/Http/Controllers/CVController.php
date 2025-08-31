@@ -29,7 +29,7 @@ class CVController extends Controller
         // Retrieve and show the CV preview
         $cv = CVs::findOrFail($id);
         $template = $cv->template;
-        return view("cv.templates.$template", compact('cv')); // here $cv is real
+        return view("cv.templates.$template", compact('cv')); 
     }
     public function show($id)
     {
@@ -44,7 +44,7 @@ class CVController extends Controller
     // Get template from DB
     $template = $cv->template ?? 'default';
 
-    // Check if view exists, otherwise fallback
+    // Check if the template view exists, else fallback to default
     if (!view()->exists("cv.templates.$template")) {
         $template = 'default';
     }
@@ -52,46 +52,5 @@ class CVController extends Controller
     $pdf = PDF::loadView("cv.templates.$template", compact('cv'));
     return $pdf->download($cv->full_name . '-cv.pdf');
 }
-//       public function exportPdf($id)
-//    {
-//        $cv = CVs::findOrFail($id);
-//        $template = $cv->template;
 
-//        $pdf = PDF::loadView("cv.templates.$template", compact('cv'));
-//        return $pdf->download('cv.pdf');
-//    }
-
-    // public function downloadPdf($id)
-    // {
-    //     $cv = CVs::findOrFail($id);
-    //     $template = $cv->template;
-
-    //     $pdf = PDF::loadView("cv.templates.$template", compact('cv'));
-    //     return $pdf->download('cv.pdf');
-    // }
-
-//     public function downloadTempPdf(Request $request)
-// {
-//     // Collect form data
-//     $data = $request->all();
-
-//     // Select template (fallback to default)
-//     $template = $data['template'] ?? 'default';
-
-//     // Convert array to object so Blade works like $cv->full_name
-//     $cv = (object) $data;
-
-//     // Load template view
-//     $pdf = PDF::loadView("cv.templates.$template", compact('cv'));
-
-//     return $pdf->download('cv.pdf');
-// }
-// public function downloadPdf($id)
-// {
-//     $cv = CVs::findOrFail($id);
-//     $template = $cv->template;
-
-//     $pdf = PDF::loadView("cv.templates.$template", compact('cv'));
-//     return $pdf->download('cv.pdf');
-// }
 }
