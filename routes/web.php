@@ -111,14 +111,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddle
          ->name('admin.reviews.status');
     Route::delete('/reviews/{id}/delete', [AdminUserController::class, 'deleteReview'])->name('admin.reviews.delete');
 
-    Route::get('/cv', [CVController::class, 'index'])->name('cv.form');
+   
+});
+ Route::get('/cv', [CVController::class, 'index'])->name('cv.form');
 Route::post('/store', [CVController::class, 'store'])->name('cv.store');
 Route::get('/preview/{id}', [CVController::class, 'preview'])->name('cv.preview');
 Route::get('/cv/template/{name}', function ($name) {
     abort_unless(view()->exists("cv.templates.$name"), 404);
     return view("cv.templates.$name"); 
-});
-
 
 Route::get('/cv/{id}', [CVController::class, 'show'])->name('cv.show');
 Route::get('/cv/{id}/download', [CVController::class, 'downloadPdf'])->name('cv.download');
