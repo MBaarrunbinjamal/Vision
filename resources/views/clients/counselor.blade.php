@@ -257,9 +257,108 @@ html, body {
     color: #fff;
 }
 
+
+/* Sidebar styles */
+.sidebar {
+  position: fixed;
+  top: 0px; /* height of your navbar */
+  left: -250px; /* hidden by default */
+  width: 250px;
+  height: calc(100% - 0px); /* take rest of page below navbar */
+  background: #00000055;
+  color: #eee;
+  overflow-y: auto;
+  transition: left 0.3s ease;
+  padding: 1rem;
+  z-index: 900; /* just under navbar */
+  border-right: 1px solid #ae00ffff;
+  backdrop-filter: blur(5px);
+  border-radius: 0 10px 10px 0;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.sidebar-header button {
+  background: #4b007a;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.sidebar-header button:hover {
+  background: #6a00a8ff;
+}
+
+.chat-history {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chat-history div {
+  background: #2b2b2b;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chat-history div:hover {
+  background: #3d3d3d;
+}
+
+/* Toggle button */
+.sidebar-toggle {
+  position: fixed;
+  top: 70px; /* just below navbar */
+  left: 15px;
+  background: #2d0050ff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  z-index: 950;
+  font-size: 20px;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-toggle.open {
+  transform: rotate(90deg);
+}
   </style>
    
 <body>
+
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <button id="newChatBtn">+ New Chat</button>
+  </div>
+  <div class="chat-history" id="chatHistory"></div>
+</div>
+
+<!-- Sidebar toggle button -->
+<button id="toggleSidebar" class="sidebar-toggle">☰</button>
+
+
 <!-- nav start -->
  <div class="wrap">
 			<div class="container">
@@ -298,7 +397,8 @@ html, body {
 	          <li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 	          <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
 	          <li class="nav-item"><a href="/counselor" class="nav-link">Counselor AI</a></li>
-	          <!-- <li class="nav-item"><a href="/service" class="nav-link">Services</a></li> -->
+            <li class="nav-item"><a href="/glorii" class="nav-link">Career Sphere</a></li>
+	          <li class="nav-item"><a href="/cv" class="nav-link">Create CV</a></li>
 	          <!-- <li class="nav-item"><a href="/pricing" class="nav-link">Pricing</a></li> -->
 	          <li class="nav-item"><a href="/blog" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="/contact" class="nav-link">Contact</a></li>
@@ -334,6 +434,8 @@ html, body {
   </div>
 
   
+
+
 
 
 <!-- loader -->
@@ -470,6 +572,93 @@ function translateToUrdu(text, callback) {
 
 
 
+
+
+
+let currentChat = [];
+let chats = JSON.parse(localStorage.getItem("chats") || "[]");
+
+const sidebar = document.getElementById("sidebar");
+const toggleBtn = document.getElementById("toggleSidebar");
+const chatHistoryEl = document.getElementById("chatHistory");
+const newChatBtn = document.getElementById("newChatBtn");
+const chatMessages = document.getElementById("chatMessages");
+
+// Toggle sidebar
+toggleBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("open");
+  toggleBtn.classList.toggle("open");
+});
+
+// Render chat history
+function renderChatHistory() {
+  chatHistoryEl.innerHTML = "";
+  chats.forEach((chat, index) => {
+    const div = document.createElement("div");
+    div.textContent = chat.title || "Untitled Chat " + (index + 1);
+    div.addEventListener("click", () => loadChat(index));
+    chatHistoryEl.appendChild(div);
+  });
+}
+renderChatHistory();
+
+// Start new chat
+newChatBtn.addEventListener("click", () => {
+  if (currentChat.length > 0) {
+    chats.push({ title: currentChat[0]?.text?.slice(0, 20) || "New Chat", messages: currentChat });
+    localStorage.setItem("chats", JSON.stringify(chats));
+    renderChatHistory();
+  }
+  currentChat = [];
+  chatMessages.innerHTML = `<div class="chat-message ai">👋 New chat started!</div>`;
+});
+
+// Load old chat
+function loadChat(index) {
+  const chat = chats[index];
+  if (!chat) return;
+  currentChat = chat.messages;
+  chatMessages.innerHTML = "";
+  currentChat.forEach(msg => {
+    const div = document.createElement("div");
+    div.classList.add("chat-message", msg.sender);
+    div.textContent = msg.text;
+    chatMessages.appendChild(div);
+  });
+  sidebar.classList.remove("open");
+  toggleBtn.classList.remove("open");
+}
+
+// Modify your sendMessage() to store messages
+function sendMessage() {
+  var userMessage = $('#userInput').val().trim();
+  if (!userMessage) return;
+
+  // Add to current chat
+  currentChat.push({ sender: "user", text: userMessage });
+
+  $('#chatMessages').append('<div class="chat-message user">' + userMessage + '</div>');
+  $('#userInput').val("");
+
+  // Dummy AI reply for demo
+  setTimeout(() => {
+    const reply = "This is a sample AI reply.";
+    currentChat.push({ sender: "ai", text: reply });
+    $('#chatMessages').append('<div class="chat-message ai">' + reply + '</div>');
+    $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
+  }, 500);
+}
+
+
+// Close sidebar when clicking outside
+document.addEventListener("click", (e) => {
+  if (sidebar.classList.contains("open") && 
+      !sidebar.contains(e.target) && 
+      !toggleBtn.contains(e.target)) {
+    sidebar.classList.remove("open");
+    toggleBtn.classList.remove("open");
+  }
+});
 
   </script>
 </body>

@@ -1,7 +1,7 @@
 <?php
+
 use App\Http\Controllers\AdminUserController;
 use App\Http\Middleware\Adminmiddleware;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AiController;
@@ -9,10 +9,9 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\CVController;
-use App\Models\CVs;
-use Barryvdh\DomPDF\PDF;
+use App\Http\Controllers\Admin\UserStatsController;
 
-// user routes start
+// User routes start
 Route::get('/', [ReviewsController::class, 'showReviews']);
 
 Route::middleware([
@@ -20,7 +19,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-   
+
     Route::get('/about', function () {
         return view('clients.about');
     });
@@ -40,7 +39,7 @@ Route::middleware([
         return view('clients.contact');
     });
 
-    Route::post('/contact', [App\Http\Controllers\ConatctController::class, 'store'])->name('contact.store');
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
     Route::get('/counselor', function () {
         return view('clients.counselor');
@@ -62,11 +61,11 @@ Route::middleware([
         return view('clients.services');
     });
 
-    Route::get('/blog',[BlogController::class,('getblogs')]);
-    Route::post('/abc/{id}',[BlogController::class,('fullblog')]);
+    Route::get('/blog', [BlogController::class, 'getblogs']);
+    Route::post('/abc/{id}', [BlogController::class, 'fullblog']);
 
     Route::get('/reviews', function () {
-        return view('clients.Reviews');
+        return view('clients.reviews');
     });
 
     // Comments
@@ -74,29 +73,23 @@ Route::middleware([
         ->middleware('auth')
         ->name('comment.store');
 
-    // 🔽 Added delete comment route
     Route::delete('/delete-comment/{id}', [CommentController::class, 'destroy'])
         ->middleware('auth')
         ->name('comment.destroy');
 });
-// clients routes end
-
+// User routes end
 
 // Admin routes
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddleware::class])->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.admindashboard');                                
-    });
-
-    Route::get('/users', function () {
-        return view('admin.users');
+        return view('admin.admindashboard');
     });
 
     Route::get('/form', function () {
         return view('admin.form');
     });
 
-    Route::post('/ask-ai', [AiController::class,'store']);
+    Route::post('/ask-ai', [AiController::class, 'store']);
 
     Route::get('/addblogs', function () {
         return view('admin.addblogs');
@@ -106,33 +99,43 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddle
         return view('admin.question');
     });
 
+    // Users
+    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
+    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+    Route::get('/users/export/excel', [AdminUserController::class, 'exportExcel'])->name('admin.users.export.excel');
+    Route::get('/users/export/pdf', [AdminUserController::class, 'exportPdf'])->name('admin.users.export.pdf');
+
+    // Reviews
     Route::get('/reviews', [AdminUserController::class, 'showReviews'])->name('admin.reviews');
-    Route::post('/reviews/{id}/status/{status}', [AdminUserController::class, 'updateReviewStatus'])
-         ->name('admin.reviews.status');
+    Route::post('/reviews/{id}/status/{status}', [AdminUserController::class, 'updateReviewStatus'])->name('admin.reviews.status');
     Route::delete('/reviews/{id}/delete', [AdminUserController::class, 'deleteReview'])->name('admin.reviews.delete');
 
-   
+    // AI Questions
+    Route::get('/question', [AiController::class, 'bringapi']);
+    Route::delete('/delete-question/{id}', [AiController::class, 'deleteQuestion']);
+
+    // Blogs
+    Route::post('/addblog', [BlogController::class, 'addblog']);
 });
- Route::get('/cv', [CVController::class, 'index'])->name('cv.form');
+
+// CV routes
+Route::get('/cv', [CVController::class, 'index'])->name('cv.form');
 Route::post('/store', [CVController::class, 'store'])->name('cv.store');
 Route::get('/preview/{id}', [CVController::class, 'preview'])->name('cv.preview');
 Route::get('/cv/template/{name}', function ($name) {
     abort_unless(view()->exists("cv.templates.$name"), 404);
-    return view("cv.templates.$name"); 
-
+    return view("cv.templates.$name");
+});
 Route::get('/cv/{id}', [CVController::class, 'show'])->name('cv.show');
 Route::get('/cv/{id}/download', [CVController::class, 'downloadPdf'])->name('cv.download');
-
-
-    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
-    Route::post('/addblog',[BlogController::class,('addblog')]);   
-    Route::delete('/users/{id}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
-    Route::get('/question', [AiController::class, 'bringapi']);
-    Route::delete('/delete-question/{id}', [AiController::class, 'deleteQuestion']);
-    Route::get('/users/export/excel', [AdminUserController::class, 'exportExcel'])->name('admin.users.export.excel');
-    Route::get('/users/export/pdf', [AdminUserController::class, 'exportPdf'])->name('admin.users.export.pdf');
-});
 
 Route::get('/404', function () {
     return view('404');
 });
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/user-stats', [UserStatsController::class, 'index'])->name('admin.user-stats');
+});
+
+Route::view('/glorii', 'clients.Glorii');

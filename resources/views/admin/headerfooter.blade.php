@@ -14,11 +14,14 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
+       /* padding-top: 70px;
+       padding-bottom: 60px; */
     }
     .navbar {
-      background: linear-gradient(90deg, #000000f0, #2c003e);
+      background: linear-gradient(90deg, #000000ff, #2c003e);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      z-index: ;
+     
+      
     }
     .navbar-brand, .nav-link, .dropdown-toggle, .btn-logout {
       color: #fff !important;
@@ -40,9 +43,10 @@
         transform: translateX(-50%);
       }
     }
-    .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-  }
+   .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
 
 
   /* underline hover navlinks */
@@ -70,9 +74,10 @@
 
   </style>
 </head>
-<body>
+<body class="pt-5 pb-5">
 
-<nav class="navbar navbar-expand-lg">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="/dashboard"><img src="{{ asset('Admin/img/ChatGPT Image Aug 16, 2025, 03_01_01 PM.png') }}" alt="Propello Logo" style="height:40px; width:auto;">
   </a>

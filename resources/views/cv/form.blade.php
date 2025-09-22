@@ -1,81 +1,53 @@
+@extends('clients.navbar')
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Create CV</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container{
-            margin-top: 80px;
-            gap: 20px;
+@section('content')
+<div class="container mt-5">
+    <center><h2 class="text-white">Create Your CV</h2></center>
 
-        }
-        .preview-card {
-            border: 2px solid #0d6efd;
-            border-radius: 10px;
-            padding: 20px;
-            background: #f9f9f9;
-        }
-        .section-title {
-            font-weight: bold;
-            color: #0d6efd;
-        }
-    </style>
-</head>
-
- <center>  <h2>Create Your CV</h2></center>
-
-
-<div class="container">
-     
-    <div class="row">
- 
+    <div class="row mt-4 cvform justify-content-center">
         <!-- CV Form -->
-        <div class="col-md-6">
-   
-
-           
+        <div class="col-lg-8 col-md-10 col-sm-12">
             <form method="POST" action="{{ route('cv.store') }}" id="cvForm">
                 @csrf
 
                 <div class="mb-3">
-                    <label>Full Name</label>
+                    <label class="form-label text-white">Full Name</label>
                     <input type="text" name="full_name" id="full_name" class="form-control">
                 </div>
 
                 <div class="mb-3">
-                    <label>Email</label>
+                    <label class="form-label text-white">Email</label>
                     <input type="email" name="email" id="email" class="form-control">
                 </div>
 
                 <div class="mb-3">
-                    <label>Phone</label>
+                    <label class="form-label text-white">Phone</label>
                     <input type="text" name="phone" id="phone" class="form-control">
                 </div>
 
                 <div class="mb-3">
-                    <label>Summary</label>
+                    <label class="form-label text-white">Summary</label>
                     <textarea name="summary" id="summary" class="form-control"></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label>Education</label>
+                    <label class="form-label text-white">Education</label>
                     <textarea name="education" id="education" class="form-control"></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label>Experience</label>
+                    <label class="form-label text-white">Experience</label>
                     <textarea name="experience" id="experience" class="form-control"></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label>Skills</label>
+                    <label class="form-label text-white">Skills</label>
                     <textarea name="skills" id="skills" class="form-control"></textarea>
                 </div>
 
                 <div class="mb-3">
-                    <label>Choose Template</label>
-                    <select name="template" id="template" class="form-select">
+                    <label class="form-label text-white">Choose Template</label>
+                    <select name="template" id="template" class="form-select sel">
                         <option value="classic">Classic</option>
                         <option value="modern">Modern</option>
                         <option value="creative">Creative</option>
@@ -95,24 +67,51 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Save CV</button>
-              
-
+                <div class="text-center">
+                    <button type="submit" class="btn">Save CV</button>
+                </div>
             </form>
         </div>
-     
-    
-        
-                
     </div>
 </div>
 
+<br>
+<br>
 
+<style>
+body {
+    background: linear-gradient(135deg, #161616ff, #2d0050ff) !important;
+    min-height: 100vh;
+}
 
+.cvform {
+    background: rgba(0, 0, 0, 0.5) !important;
+    padding: 30px;
+    border: 2px solid #230047ff;
+    border-radius: 10px;
+    margin: 0 auto;
+    width: 100%;
+}
 
+.sel{
+   
+    border-radius: 5px !important;   
+}
 
+.preview-card {
+    border: 2px solid #0d6efd;
+    border-radius: 10px;
+    padding: 20px;
+    background: #f9f9f9;
+}
 
+.section-title {
+    font-weight: bold;
+    color: #0d6efd;
+}
 
-
-</body>
-</html>
+.text-white {
+    color: white !important;
+}
+</style>
+@endsection
