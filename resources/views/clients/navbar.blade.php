@@ -372,6 +372,7 @@ document.addEventListener('click', function(event) {
               <button class="nb"><a href="/login" class="nav-link nb1">Sign in</a></button>
               <button class="nb"><a href="/register" class="nav-link nb1">Sign up</a></button>
             @endif
+            
           </ul>
         </div>
       </div>
@@ -480,7 +481,12 @@ document.getElementById('closeReviewForm').addEventListener('click', function() 
     document.getElementById('reviewForm').style.display = 'none';
 });
 </script>
-
+<script>
+	const myModal = new bootstrap.Modal(
+		document.getElementById("modalId"),
+		options,
+	);
+</script>
     @stack('scripts')
   </body>
 </html>
