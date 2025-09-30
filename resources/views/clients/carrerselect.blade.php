@@ -1,71 +1,251 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>Career Suggestion</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+@extends('clients.navbar')
+@section('content')
     <style>
-        html, body { overflow: hidden; }
-        .ai-form-wrapper {
-            height: 100vh;
-            background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e);
-            background-size: 400% 400%;
-            animation: gradientFlow 20s ease infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', sans-serif;
-            padding: 20px;
-        }
-        @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            25% { background-position: 50% 100%; }
-            50% { background-position: 100% 50%; }
-            75% { background-position: 50% 0%; }
-            100% { background-position: 0% 50%; }
-        }
-        .centerdiv {
-            width: 800px;
-            min-height: 500px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid #4B0082;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            padding: 30px;
-            color: white;
-        }
-        label { font-weight: 500; margin-bottom: 5px; }
-        #result {
-            margin-top: 20px;
-            font-size: 1.2em;
-            padding: 15px;
-            border-radius: 10px;
-            background: rgba(0,0,0,0.4);
-            display: none;
-        }
-        .abc{
-            background-color: #4B0082;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 15px;
-            display: none
-        }
-        .abc:hover{
-            background-color: #6A5ACD;
-        }
-    </style>
-</head>
-<body>
+    html, body { 
+        height: 100%;
+        margin: 0;
+        overflow-x: hidden; /* allow vertical scroll but no horizontal scroll */
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e);
+        background-size: 400% 400%;
+        animation: gradientFlow 20s ease infinite;
+    }
+
+    @keyframes gradientFlow {
+        0% { background-position: 0% 50%; }
+        25% { background-position: 50% 100%; }
+        50% { background-position: 100% 50%; }
+        75% { background-position: 50% 0%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Container for whole page */
+    .ai-form-wrapper {
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    /* Material section */
+    .material {
+        background: rgba(255, 255, 255, 0.08);
+        border: 2px solid #4B0082;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        padding: 25px;
+        margin-bottom: 40px;
+        color: white;
+        overflow-y: auto;
+    }
+
+    .material h2 {
+        color: #fff;
+        font-weight: bold;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #4B0082;
+        padding-bottom: 5px;
+        text-align: left; /* keep headings aligned left */
+    }
+
+    .material video, 
+    .material img {
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #4B0082;
+    }
+
+    .material a {
+        color: #FFD700;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .material a:hover {
+        color: #FF69B4;
+        text-decoration: underline;
+    }
+
+    /* Career form */
+    .centerdiv {
+        width: 800px;
+        min-height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 2px solid #4B0082;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        padding: 30px;
+        color: white;
+        margin: 40px auto; /* center horizontally but not vertically */
+        display: none;
+    }
+.abc{
+    display: none;
+}
+
+    /* Buttons */
+    .abc, .but {
+        background-color: #4B0082;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 1em;
+        margin-top: 15px;
+    }
+    .abc:hover, .but:hover {
+        background-color: #6A5ACD;
+    }
+
+    .hide {
+        text-align: center;
+        margin-top: 100px;
+        color: white;
+    }
+    /* Grid for videos, photos, pdfs */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #4B0082;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease-in-out;
+}
+.card:hover {
+    transform: translateY(-5px);
+    border-color: #6A5ACD;
+}
+
+/* Table for links */
+.link-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255,255,255,0.05);
+    color: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+.link-table th, .link-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #4B0082;
+    text-align: left;
+}
+.link-table th {
+    background: rgba(75, 0, 130, 0.8);
+    font-weight: bold;
+}
+.link-table tr:hover {
+    background: rgba(255,255,255,0.08);
+}
+.link-table a {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+}
+.link-table a:hover {
+    color: #FF69B4;
+}
+#result {
+    display: none;
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #4B0082;
+    border-radius: 10px;
+}
+
+</style>
+
+
 <div class="ai-form-wrapper">
+     @if(Auth::user()->careeer)
+     {{-- Videos --}}
+    <div class="material">
+        <h2><b>Videos</b></h2>
+        <div class="grid">
+            @foreach($rec as $r)
+                @if($r->category === 'video')
+                    <div class="card">
+                        <video width="100%" height="200" controls>
+                            <source src="{{ asset('uploads/' . $r->file) }}" type="video/mp4">
+                        </video>
+                        <h4>{{ $r->title }}</h4>
+                        <p>{{ $r->description }}</p>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    </div>
+
+    {{-- Photos --}}
+    <div class="material">
+        <h2><b>Photos</b></h2>
+        <div class="grid">
+            @foreach($rec as $r)
+                @if($r->category === 'image')
+                    <div class="card">
+                        <img src="{{ asset('uploads/' . $r->file) }}" width="100%" height="200" />
+                        <h4>{{ $r->title }}</h4>
+                        <p>{{ $r->description }}</p>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    </div>
+
+    {{-- PDFs --}}
+    <div class="material">
+        <h2><b>PDFs</b></h2>
+        <div class="grid">
+            @foreach($rec as $r)
+                @if($r->category == 'pdf')
+                    <div class="card">
+                        <a href="{{ asset('uploads/' . $r->file) }}" target="_blank">📄 {{ $r->title }}</a>
+                        <p>{{ $r->description }}</p>
+                    </div>
+                @endif
+            @endforeach
+        </div>
+    </div>
+
+    {{-- Links --}}
+    <div class="material">
+        <h2><b>Links</b></h2>
+        <table class="link-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($rec as $r)
+                    @if($r->category == 'link')
+                        <tr>
+                            <td>{{ $r->title }}</td>
+                            <td>{{ $r->description }}</td>
+                            <td><a href="{{ $r->link }}" >🔗 Visit</a></td>
+                        </tr>
+                    @endif
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+      @else
+    <div class="hide">
+        <h2 class="op">Please chose a career to get study material</h2>
+        <button class="but" onclick="showform()"><b>click to chose career</b></button>
+    </div>
     <div class="centerdiv">
         <h3 class="text-center mb-4">Career Suggestion Form</h3>
 
@@ -144,9 +324,10 @@
                 </select>
             </div>
             <button id="saveCareer" class="btn btn-success mt-3">Save Career</button>
-            <a href="/"><button class="abc"><b>Next</b></button></a>
+           <form > <a><button class="abc" onclick="hide()" type="submit"><b>Next</b></button></a></form>
         </div>
     </div>
+  @endif
 </div>
 
 <!-- jQuery -->
@@ -257,9 +438,16 @@ $(document).ready(function(){
     });
 
 });
-</script>
+function hide(){
+    $(".centerdiv").css("display","none");
+    $(".abc").css("display","none");
+    $(".material").css("display","block");
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+}
+function showform(){
+    $(".centerdiv").css("display","block");
+    $(".hide").css("display","none");
+
+}
+</script>
+@endsection

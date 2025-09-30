@@ -34,9 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/blog', function () {
         return view('clients.blog');
     });
-     Route::get('/cselect', function () {
-        return view('clients.carrerselect');
-    });
+ Route::get('/cselect', [CareerController::class, 'getStudyMaterialsByCareer']);
     
 Route::post('/save-career', [CareerController::class, 'store']);
  Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
@@ -89,6 +87,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddle
     Route::get('/dashboard', function () {
         return view('admin.admindashboard');
     });
+     Route::get('/ustudy', function () {
+        return view('admin.uploadstudymaterials');
+    });
+    Route::post('/uploadstudymaterial', [CareerController::class, 'uploadstudymaterial']);
 
     Route::get('/form', function () {
         return view('admin.form');

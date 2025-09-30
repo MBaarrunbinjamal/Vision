@@ -94,6 +94,7 @@
         <li class="nav-item"><a class="nav-link" href="/addblogs">Add Blogs</a></li>
         <li class="nav-item"><a class="nav-link" href="/">Back To Website</a></li>
         <li class="nav-item"><a class="nav-link" href="/reviews">Reviews</a></li>
+        <li class="nav-item"><a class="nav-link" href="/ustudy">Upload books</a></li>
         <li class="nav-item d-lg-none mt-2">
           <form method="POST" action="{{ route('logout') }}">
         @csrf

@@ -109,7 +109,7 @@
 				<div class="text w-100">
 					<h1 class="mb-4 text-white">Counseling For Your Better Life</h1>
 					<p class="mb-4 lantex">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-					<p><a href="#" class=" lcbtn py-3 px-4">Contact us</a> <a href="#" class="btn btn-white lrbtn py-3 px-4">Read more</a></p>
+					<p><a href="#" class=" lcbtn py-3 px-4">Contact us</a> <a href="/cselect" class="btn btn-white lrbtn py-3 px-4"><i class="fa fa-book" aria-hidden="true"></i><b style="margin-left: 5px">Study material</b></a></p>
 				</div>
 			</div>
 			<a href="https://vimeo.com/45830194" class="img-video popup-vimeo d-flex align-items-center justify-content-center">
