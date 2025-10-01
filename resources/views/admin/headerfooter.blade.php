@@ -73,12 +73,12 @@
     }
 
     @media (min-width: 992px) {
-      .center-links {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-      }
+    .navbar-nav.mx-auto {
+      display: flex; /* ensure horizontal flex on large screens */
+      gap: 1.2rem;   /* space between links */
+      align-items: center;
     }
+  }
 
     .navbar-toggler-icon {
       background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
@@ -86,26 +86,31 @@
 
     /* underline hover navlinks */
     .nav-link {
-      position: relative;
-      display: inline-block;
-      padding-bottom: 4px;
-      transition: color 0.3s ease;
+       position: relative;
+    padding: 0.45rem 0.2rem;
+    transition: color 0.2s ease;
     }
 
     .nav-link::after {
       content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      height: 2px;
-      background-color: #ffffff; 
-      transition: width 0.3s ease;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #fff;
+    transition: width 0.25s ease;
     }
 
     .nav-link:hover::after {
       width: 100%;
     }
+
+ /* make mobile menu links centered when collapsed */
+  .navbar-collapse .navbar-nav .nav-item { text-align: center; }
+
+  /* keep the logout vertically centered with the navbar */
+  .btn-logout-form { display: flex; align-items: center; gap: .25rem; }
 
     body {
       padding-top: 70px;   /* avoid navbar overlap */
@@ -123,46 +128,56 @@
   <canvas id="bg"></canvas>
   <div class="overlay"></div>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-    <div class="container-fluid">
-      <a class="navbar-brand fw-bold" href="/dashboard">
-        <img src="{{ asset('Admin/img/ChatGPT Image Aug 16, 2025, 03_01_01 PM.png') }}" alt="Propello Logo" style="height:40px; width:auto;">
-      </a>
-      <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+  <!-- Navbar (replace your existing <nav> block) -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="/dashboard">
+      <img src="{{ asset('Admin/img/ChatGPT Image Aug 16, 2025, 03_01_01 PM.png') }}"
+           alt="Propello Logo" style="height:40px; width:auto;">
+    </a>
 
-      <div class="collapse navbar-collapse justify-content-center center-links" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
-          <li class="nav-item"><a class="nav-link" href="/form">Ai Train</a></li>
-          <li class="nav-item"><a class="nav-link" href="/question">Ai Questions</a></li>
-          <li class="nav-item"><a class="nav-link" href="/addblogs">Add Blogs</a></li>
-          <li class="nav-item"><a class="nav-link" href="/">Back To Website</a></li>
-          <li class="nav-item"><a class="nav-link" href="/reviews">Reviews</a></li>
-          <li class="nav-item d-lg-none mt-2">
-            <form method="POST" action="{{ route('logout') }}">
-              @csrf
-              <button type="submit" class="btn btn-danger btn-sm">
-                <i class="bi bi-box-arrow-right"></i> Logout
-              </button>
-            </form>
-          </li>
-        </ul>
-      </div>
+    <!-- toggler -->
+    <button class="navbar-toggler text-white border-0" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <div class="d-none d-lg-block">
-        <form method="POST" action="{{ route('logout') }}">
-          @csrf
-          <button type="submit" class="btn btn-danger btn-sm">
-            <i class="bi bi-box-arrow-right"></i> Logout
-          </button>
-        </form>
-      </div>
+    <!-- collapse: center the UL using mx-auto -->
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav mx-auto gap-3">
+        <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
+        <li class="nav-item"><a class="nav-link" href="/form">Ai Train</a></li>
+        <li class="nav-item"><a class="nav-link" href="/question">Ai Questions</a></li>
+        <li class="nav-item"><a class="nav-link" href="/addblogs">Add Blogs</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">Back To Website</a></li>
+        <li class="nav-item"><a class="nav-link" href="/reviews">Reviews</a></li>
+        <li class="nav-item"><a class="nav-link" href="/ustudy">Upload Books</a></li>
+
+        <!-- mobile-only logout inside the menu -->
+        <li class="nav-item d-lg-none mt-2">
+          <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" class="btn btn-danger btn-sm w-100">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+          </form>
+        </li>
+      </ul>
     </div>
-  </nav>
+
+    <!-- desktop logout on the right -->
+    <div class="d-none d-lg-block btn-logout-form">
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="btn btn-danger btn-sm">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
+      </form>
+    </div>
+  </div>
+</nav>
 
   <!-- Page content -->
   @yield('content')

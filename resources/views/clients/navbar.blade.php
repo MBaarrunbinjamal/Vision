@@ -20,7 +20,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pacifico&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@400..700&family=Lobster&family=Oswald:wght@200..700&family=Pacifico&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
 
       
@@ -372,6 +374,7 @@ document.addEventListener('click', function(event) {
               <button class="nb"><a href="/login" class="nav-link nb1">Sign in</a></button>
               <button class="nb"><a href="/register" class="nav-link nb1">Sign up</a></button>
             @endif
+            
           </ul>
         </div>
       </div>
@@ -480,7 +483,12 @@ document.getElementById('closeReviewForm').addEventListener('click', function() 
     document.getElementById('reviewForm').style.display = 'none';
 });
 </script>
-
+<script>
+	const myModal = new bootstrap.Modal(
+		document.getElementById("modalId"),
+		options,
+	);
+</script>
     @stack('scripts')
   </body>
 </html>

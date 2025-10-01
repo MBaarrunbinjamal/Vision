@@ -10,15 +10,15 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\Admin\UserStatsController;
+use App\Http\Controllers\CareerController;
 
 // User routes start
 Route::get('/', [ReviewsController::class, 'showReviews']);
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
     Route::get('/about', function () {
         return view('clients.about');
@@ -34,12 +34,15 @@ Route::middleware([
     Route::get('/blog', function () {
         return view('clients.blog');
     });
-
+ Route::get('/cselect', [CareerController::class, 'getStudyMaterialsByCareer']);
+    
+Route::post('/save-career', [CareerController::class, 'store']);
+ Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
     Route::get('/contact', function () {
         return view('clients.contact');
     });
 
-    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+   
 
     Route::get('/counselor', function () {
         return view('clients.counselor');
@@ -84,6 +87,10 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), Adminmiddle
     Route::get('/dashboard', function () {
         return view('admin.admindashboard');
     });
+     Route::get('/ustudy', function () {
+        return view('admin.uploadstudymaterials');
+    });
+    Route::post('/uploadstudymaterial', [CareerController::class, 'uploadstudymaterial']);
 
     Route::get('/form', function () {
         return view('admin.form');
