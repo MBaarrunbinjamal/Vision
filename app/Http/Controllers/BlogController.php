@@ -32,4 +32,5 @@ $table->save();
 
     return view('clients.blog-single', compact('rec', 'comments'));
 }
+
 }

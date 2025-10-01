@@ -259,61 +259,45 @@
 				<h2 class="text-white">Recent Blog</h2>
 			</div>
 		</div>
-		<div class="row d-flex">
-			<div class="col-md-4 d-flex ftco-animate">
-				<div class="blog-entry justify-content-end">
-					<div class="text text-center">
-						<a href="blog-single.blade.php" class="block-20 img" style="background-image: url('clients/images/image_1.jpg');">
-						</a>
-						<div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-							<div>
-								<span class="day">18</span>
-								<span class="mos">April</span>
-								<span class="yr">2020</span>
-							</div>
-						</div>
-						<h3 class="heading mb-3"><a href="#" class="rbh">Social Media Risks To Mental Health</a></h3>
-						<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 d-flex ftco-animate">
-				<div class="blog-entry justify-content-end">
-					<div class="text text-center">
-						<a href="blog-single.blade.php" class="block-20 img" style="background-image: url('clients/images/image_2.jpg');">
-						</a>
-						<div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-							<div>
-								<span class="day">18</span>
-								<span class="mos">April</span>
-								<span class="yr">2020</span>
-							</div>
-						</div>
-						<h3 class="heading mb-3"><a href="#" class="rbh">Social Media Risks To Mental Health</a></h3>
-						<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 d-flex ftco-animate">
-				<div class="blog-entry justify-content-end">
-					<div class="text text-center">
-						<a href="/blog-single" class="block-20 img" style="background-image: url('clients/images/image_3.jpg');">
-						</a>
-						<div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
-							<div>
-								<span class="day">18</span>
-								<span class="mos">April</span>
-								<span class="yr">2020</span>
-							</div>
-						</div>
-						<h3 class="heading mb-3"><a href="#" class="rbh">Social Media Risks To Mental Health</a mb-3></h3>
-						<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-					</div>
-				</div>
-			</div>
+		       <div class="row d-flex ">
+        @foreach ($rec as $r)
+    <div class="col-md-4 d-flex ftco-animate">
+        <div class="blog-entry justify-content-end">
+            <div class="text text-center">
+                <a href="#" class="block-20 img post-link" data-id="{{$r->id}}" style="background-image: url('{{ asset('uploads/' . $r->image) }}');"></a>
+<form id="postForm" method="POST" style="display: none;">
+    @csrf
+</form>
+                </a>
+                <div class="meta text-center mb-2 d-flex align-items-center justify-content-center">
+                    <div>
+                        <span class="day text-dark">{{ $r->created_at->format('d') }}</span>
+                        <span class="mos">{{ $r->created_at->format('F') }}</span>
+                        <span class="yr text-dark">{{ $r->created_at->format('Y') }}</span>
+                    </div>
+                </div>
+                <h3 class="heading mb-3">
+                    <a href="#" class="text-white">{{ $r->heading }}</a>
+                </h3>
+            </div>
+        </div>
+    </div>
+@endforeach
+
+         
+        </div>
 		</div>
 	</div>
-	
+	<script>
+    document.querySelectorAll('.post-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const form = document.getElementById('postForm');
+            form.action = '/abc/' + this.getAttribute('data-id');
+            form.submit();
+        });
+    });
+</script>
 </section>
 
 @endsection  
