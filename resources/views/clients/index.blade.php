@@ -215,7 +215,7 @@
 		<div class="row justify-content-center mb-5">
 			<div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
 				<span class="subheading stx">Testimonial</span>
-				<h2 class="mb-3">Happy Clients</h2>
+				<h2 c	lass="mb-3">Happy Clients</h2>
 			</div>
 		</div>
 		<div class="row ftco-animate">
@@ -229,7 +229,7 @@
 						<div class="text">
 							<p class="mb-4 ltx">{{ $review->review }}</p>
 							<div class="d-flex align-items-center">
-								<div class="user-img" style="background-image: url('{{ $review->image ? asset('storage/'.$review->image) : asset('clients/images/person_1.jpg') }}')"></div>
+								<div class="user-img" style="background-image: url('{{ $review->image ? asset('storage/'.$review->image) : asset('clients/images/ChatGPT Image Sep 30, 2025, 03_23_34 PM.png') }}')"></div>
 								<div class="pl-3">
 									<p class="name text-white">{{ $review->name }}</p>
 								</div>

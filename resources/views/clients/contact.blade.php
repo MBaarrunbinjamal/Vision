@@ -18,8 +18,8 @@
 	}
 
 	.contbtn {
-		background: #9900ffff !important;
-		border: 1.5px solid #440079ff !important;
+		background: #4700a5ff !important;
+		border: 1.5px solid #6500b3ff !important;
 		border-radius: 5px !important;
 		color: #fff;
 	}

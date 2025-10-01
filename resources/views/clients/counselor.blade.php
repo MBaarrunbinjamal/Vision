@@ -50,17 +50,74 @@ html, body {
 
     html, body {
       height: 100%;
-      background: linear-gradient(-45deg, #000000, #2c003e, #3a3a3a, #1a001f);
-      background-size: 400% 400%;
+      /* background: linear-gradient(-45deg, #000000, #2c003e, #3a3a3a, #1a001f); */
+      /* background-size: 400% 400%;
       animation: gradientMove 15s ease infinite;
-      color: #eee;
+      color: #eee; */
     }
 
-    @keyframes gradientMove {
+    /* @keyframes gradientMove {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
-    }
+    } */
+
+
+
+/* Background container */
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  background: radial-gradient(circle at top, #2d0036, #000);
+}
+
+/* Glowing particles */
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #ff00ff;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: drift 12s linear infinite;
+}
+
+@keyframes drift {
+  from {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100vh) translateX(50vw);
+    opacity: 0;
+  }
+}
+
+/* Neon streaks */
+.streak {
+  position: absolute;
+  width: 2px;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(255,0,255,0.8), rgba(255,0,255,0));
+  animation: streakMove 8s linear infinite;
+}
+
+@keyframes streakMove {
+  from {
+    transform: translateY(100vh) translateX(0) rotate(45deg);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-200px) translateX(100vw) rotate(45deg);
+    opacity: 0;
+  }
+}
+
 
     .chat-wrapper {
       display: flex;
@@ -105,7 +162,7 @@ html, body {
       justify-content: center;
       padding: 1rem;
       border-top: 1px solid #4b007a;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.31);
       backdrop-filter: blur(5px);
     }
 
@@ -331,7 +388,7 @@ html, body {
   width: 45px;
   height: 45px;
   cursor: pointer;
-  z-index: 950;
+  z-index: 950  ;
   font-size: 20px;
   transition: transform 0.3s ease;
   display: flex;
@@ -346,14 +403,16 @@ html, body {
    
 <body>
 
+<!-- Background animation -->
+<div class="background" id="background"></div>
 
-<!-- Sidebar -->
-<div id="sidebar" class="sidebar">
-  <div class="sidebar-header">
-    <button id="newChatBtn">+ New Chat</button>
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <button id="newChatBtn">+ New Chat</button>
+    </div>
+    <div class="chat-history" id="chatHistory"></div>
   </div>
-  <div class="chat-history" id="chatHistory"></div>
-</div>
 
 <!-- Sidebar toggle button -->
 <button id="toggleSidebar" class="sidebar-toggle">☰</button>
@@ -457,208 +516,302 @@ html, body {
   <script src="clients/js/google-map.js"></script>
   <script src="clients/js/main.js"></script>
   <script>
-function sendMessage() {
-    var userMessage = $('#userInput').val().trim();
-    if (!userMessage) return;
+    
+    // ✅ Get logged in user ID (or "guest" if not logged in)
+    let userId = "{{ Auth::id() ?? 'guest' }}";
 
-    // Show user message
-    $('#chatMessages').append('<div class="chat-message user">' + userMessage + '</div>');
-    $('#userInput').val(""); 
+    // ✅ Helper to create user-specific keys
+    function getStorageKey(key) {
+        return `${userId}_${key}`;
+    }
 
-    $.ajax({
-        url: "/api/returnresponse",
-        method: "GET",
-        dataType: "json",
-        success: function(response) {
-            let chats = response[0];
-            let bestMatch = null;
-            let highestScore = 0;
+    // ✅ Load chats from user-specific storage
+    let currentChat = JSON.parse(localStorage.getItem(getStorageKey("currentChat")) || "[]");
+    let chats = JSON.parse(localStorage.getItem(getStorageKey("chats")) || "[]");
 
-            // Find best matching question
-            chats.forEach(chat => {
-                let score = similarity(userMessage.toLowerCase(), chat.question.toLowerCase());
-                if (score > highestScore) {
-                    highestScore = score;
-                    bestMatch = chat;
-                }
-            });
+    function sendMessage() {
+        var userMessage = $('#userInput').val().trim();
+        if (!userMessage) return;
 
-            if (bestMatch && highestScore > 0.4) { 
-                // Detect user input language first
-                detectLanguage(userMessage, function(lang) {
-                    if (lang === "en") {
-                        // If English → reply in English
-                        $('#chatMessages').append('<div class="chat-message ai">' + bestMatch.explaination + '</div>');
-                    } else {
-                        // Otherwise → translate answer to Urdu
-                        translateToUrdu(bestMatch.explaination, function(translated) {
-                            $('#chatMessages').append('<div class="chat-message ai">' + translated + '</div>');
-                        });
+        currentChat.push({ sender: "user", text: userMessage });
+        $('#chatMessages').append('<div class="chat-message user">' + userMessage + '</div>');
+        $('#userInput').val(""); 
+
+        $.ajax({
+            url: "/api/returnresponse",
+            method: "GET",
+            dataType: "json",
+            success: function(response) {
+                let data = response[0];
+                let bestMatch = null;
+                let highestScore = 0;
+
+                data.forEach(chat => {
+                    let score = similarity(userMessage.toLowerCase(), chat.question.toLowerCase());
+                    if (score > highestScore) {
+                        highestScore = score;
+                        bestMatch = chat;
                     }
                 });
-            } else {
-                $('#chatMessages').append('<div class="chat-message ai">معاف کریں، میرے پاس اس قسم کی معلومات موجود نہیں ہیں۔</div>');
+
+                if (bestMatch && highestScore > 0.4) { 
+                    detectLanguage(userMessage, function(lang) {
+                        if (lang === "en") {
+                            addAiMessage(bestMatch.explaination);
+                        } else {
+                            translateToUrdu(bestMatch.explaination, function(translated) {
+                                addAiMessage(translated);
+                            });
+                        }
+                    });
+                } else {
+                    addAiMessage("معاف کریں، میرے پاس اس قسم کی معلومات موجود نہیں ہیں۔");
+                }
+
+                saveChat(); // Save after response
+            },
+            error: function() {
+                addAiMessage("⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔");
+                saveChat();
             }
+        });
+    }
 
-            // Auto scroll
-            $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
-        },
-        error: function() {
-            $('#chatMessages').append('<div class="chat-message ai">⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔</div>');
-        }
-    });
-}
+    function addAiMessage(msg) {
+        $('#chatMessages').append('<div class="chat-message ai">' + msg + '</div>');
+        currentChat.push({ sender: "ai", text: msg });
+        $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
+        saveChat();
+    }
 
-// Similarity check
-function similarity(s1, s2) {
-    let longer = s1.length > s2.length ? s1 : s2;
-    let shorter = s1.length > s2.length ? s2 : s1;
-    let longerLength = longer.length;
-    if (longerLength === 0) return 1.0;
-    return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
-}
+    function similarity(s1, s2) { 
+        let longer = s1.length > s2.length ? s1 : s2;
+        let shorter = s1.length > s2.length ? s2 : s1;
+        let longerLength = longer.length;
+        if (longerLength === 0) return 1.0;
+        return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+    }
 
-function editDistance(s1, s2) {
-    s1 = s1.toLowerCase();
-    s2 = s2.toLowerCase();
-
-    let costs = [];
-    for (let i = 0; i <= s1.length; i++) {
-        let lastValue = i;
-        for (let j = 0; j <= s2.length; j++) {
-            if (i === 0) costs[j] = j;
-            else {
-                if (j > 0) {
-                    let newValue = costs[j - 1];
-                    if (s1[i - 1] !== s2[j - 1])
-                        newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-                    costs[j - 1] = lastValue;
-                    lastValue = newValue;
+    function editDistance(s1, s2) { 
+        s1 = s1.toLowerCase();
+        s2 = s2.toLowerCase();
+        let costs = [];
+        for (let i = 0; i <= s1.length; i++) {
+            let lastValue = i;
+            for (let j = 0; j <= s2.length; j++) {
+                if (i === 0) costs[j] = j;
+                else {
+                    if (j > 0) {
+                        let newValue = costs[j - 1];
+                        if (s1[i - 1] !== s2[j - 1])
+                            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                    }
                 }
             }
+            if (i > 0) costs[s2.length] = lastValue;
         }
-        if (i > 0) costs[s2.length] = lastValue;
+        return costs[s2.length];
     }
-    return costs[s2.length];
-}
 
-// Detect input language
-function detectLanguage(text, callback) {
-    $.get("https://translate.googleapis.com/translate_a/single", {
-        client: "gtx",
-        sl: "auto",
-        tl: "en", // just detect
-        dt: "t",
-        q: text
-    }, function(data) {
-        // Extract detected source language
-        let detectedLang = data[2];
-        callback(detectedLang);
-    });
-}
+    function detectLanguage(text, callback) { 
+        $.get("https://translate.googleapis.com/translate_a/single", {
+            client: "gtx", sl: "auto", tl: "en", dt: "t", q: text
+        }, function(data) { callback(data[2]); });
+    }
 
-// Translate answer to Urdu
-function translateToUrdu(text, callback) {
-    $.get("https://translate.googleapis.com/translate_a/single", {
-        client: "gtx",
-        sl: "auto",
-        tl: "ur",
-        dt: "t",
-        q: text
-    }, function(data) {
-        callback(data[0][0][0]);
-    });
-}
+    function translateToUrdu(text, callback) { 
+        $.get("https://translate.googleapis.com/translate_a/single", {
+            client: "gtx", sl: "auto", tl: "ur", dt: "t", q: text
+        }, function(data) { callback(data[0][0][0]); });
+    }
 
+    // ✅ Save chats per user
+    function saveChat() {
+        localStorage.setItem(getStorageKey("currentChat"), JSON.stringify(currentChat));
+        localStorage.setItem(getStorageKey("chats"), JSON.stringify(chats));
+    }
 
+    // Sidebar logic
+    const sidebar = document.getElementById("sidebar");
+    const toggleBtn = document.getElementById("toggleSidebar");
+    const chatHistoryEl = document.getElementById("chatHistory");
+    const newChatBtn = document.getElementById("newChatBtn");
+    const chatMessages = document.getElementById("chatMessages");
 
+    // Render chat history with delete button
+    function renderChatHistory() {
+      chatHistoryEl.innerHTML = "";
+      chats.forEach((chat, index) => {
+        const div = document.createElement("div");
+        div.classList.add("history-item");
 
+        // Chat title
+        const titleSpan = document.createElement("span");
+        titleSpan.textContent = chat.title || "Chat " + (index + 1);
+        titleSpan.style.flex = "1";
+        titleSpan.style.cursor = "pointer";
+        titleSpan.addEventListener("click", () => loadChat(index));
 
+        // Delete button
+        const deleteBtn = document.createElement("i");
+        deleteBtn.className = "fa fa-trash";
+        deleteBtn.style.color = "red";
+        deleteBtn.style.marginLeft = "10px";
+        deleteBtn.style.cursor = "pointer";
+        deleteBtn.addEventListener("click", (e) => {
+          e.stopPropagation(); // prevent loading chat on delete click
+          if (confirm("Delete this chat?")) {
+            chats.splice(index, 1); // remove chat
+            saveChat();            // update localStorage
+            renderChatHistory();   // refresh sidebar
+          }
+        });
 
-let currentChat = [];
-let chats = JSON.parse(localStorage.getItem("chats") || "[]");
+        div.style.display = "flex";
+        div.style.justifyContent = "space-between";
+        div.style.alignItems = "center";
 
-const sidebar = document.getElementById("sidebar");
-const toggleBtn = document.getElementById("toggleSidebar");
-const chatHistoryEl = document.getElementById("chatHistory");
-const newChatBtn = document.getElementById("newChatBtn");
-const chatMessages = document.getElementById("chatMessages");
+        div.appendChild(titleSpan);
+        div.appendChild(deleteBtn);
+        chatHistoryEl.appendChild(div);
+      });
+    }
 
-// Toggle sidebar
-toggleBtn.addEventListener("click", () => {
-  sidebar.classList.toggle("open");
-  toggleBtn.classList.toggle("open");
-});
-
-// Render chat history
-function renderChatHistory() {
-  chatHistoryEl.innerHTML = "";
-  chats.forEach((chat, index) => {
-    const div = document.createElement("div");
-    div.textContent = chat.title || "Untitled Chat " + (index + 1);
-    div.addEventListener("click", () => loadChat(index));
-    chatHistoryEl.appendChild(div);
-  });
-}
-renderChatHistory();
-
-// Start new chat
-newChatBtn.addEventListener("click", () => {
-  if (currentChat.length > 0) {
-    chats.push({ title: currentChat[0]?.text?.slice(0, 20) || "New Chat", messages: currentChat });
-    localStorage.setItem("chats", JSON.stringify(chats));
     renderChatHistory();
-  }
-  currentChat = [];
-  chatMessages.innerHTML = `<div class="chat-message ai">👋 New chat started!</div>`;
-});
 
-// Load old chat
-function loadChat(index) {
-  const chat = chats[index];
-  if (!chat) return;
-  currentChat = chat.messages;
-  chatMessages.innerHTML = "";
-  currentChat.forEach(msg => {
-    const div = document.createElement("div");
-    div.classList.add("chat-message", msg.sender);
-    div.textContent = msg.text;
-    chatMessages.appendChild(div);
-  });
-  sidebar.classList.remove("open");
-  toggleBtn.classList.remove("open");
-}
+    // Start new chat
+    newChatBtn.addEventListener("click", () => {
+      if (currentChat.length > 0) {
+        chats.push({ title: currentChat[0]?.text?.slice(0, 20) || "New Chat", messages: currentChat });
+      }
+      currentChat = [];
+      chatMessages.innerHTML = `<div class="chat-message ai">👋 New chat started!</div>`;
+      saveChat();
+      renderChatHistory();
+      sidebar.classList.remove("open");
+      toggleBtn.classList.remove("open");
+    });
 
-// Modify your sendMessage() to store messages
-function sendMessage() {
-  var userMessage = $('#userInput').val().trim();
-  if (!userMessage) return;
+    // Load old chat
+    function loadChat(index) {
+      const chat = chats[index];
+      if (!chat) return;
+      currentChat = chat.messages;
+      chatMessages.innerHTML = "";
+      currentChat.forEach(msg => {
+        const div = document.createElement("div");
+        div.classList.add("chat-message", msg.sender);
+        div.textContent = msg.text;
+        chatMessages.appendChild(div);
+      });
+      sidebar.classList.remove("open");
+      toggleBtn.classList.remove("open");
+      saveChat();
+    }
 
-  // Add to current chat
-  currentChat.push({ sender: "user", text: userMessage });
+    // Restore chat on refresh
+    window.onload = function() {
+      if (currentChat.length > 0) {
+        chatMessages.innerHTML = "";
+        currentChat.forEach(msg => {
+          const div = document.createElement("div");
+          div.classList.add("chat-message", msg.sender);
+          div.textContent = msg.text;
+          chatMessages.appendChild(div);
+        });
+      } else {
+        chatMessages.innerHTML = `<div class="chat-message ai">👋 Hello! I'm your Career Counsellor AI. What would you like to explore today?</div>`;
+      }
+    };
 
-  $('#chatMessages').append('<div class="chat-message user">' + userMessage + '</div>');
-  $('#userInput').val("");
+    // Sidebar toggle
+    toggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      sidebar.classList.toggle("open");
+      toggleBtn.classList.toggle("open");
+    });
 
-  // Dummy AI reply for demo
-  setTimeout(() => {
-    const reply = "This is a sample AI reply.";
-    currentChat.push({ sender: "ai", text: reply });
-    $('#chatMessages').append('<div class="chat-message ai">' + reply + '</div>');
-    $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
-  }, 500);
-}
+    // Close sidebar when clicking outside
+    document.addEventListener("click", (e) => {
+      if (
+        sidebar.classList.contains("open") &&
+        !sidebar.contains(e.target) &&
+        !toggleBtn.contains(e.target)
+      ) {
+        sidebar.classList.remove("open");
+        toggleBtn.classList.remove("open");
+      }
+    });
 
+    // Swipe gestures for sidebar
+    let startX = 0;
+    let currentX = 0;
+    let touchingSidebar = false;
 
-// Close sidebar when clicking outside
-document.addEventListener("click", (e) => {
-  if (sidebar.classList.contains("open") && 
-      !sidebar.contains(e.target) && 
-      !toggleBtn.contains(e.target)) {
-    sidebar.classList.remove("open");
-    toggleBtn.classList.remove("open");
-  }
-});
+    document.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].pageX;
+      if (startX < 30 || sidebar.classList.contains("open")) {
+        touchingSidebar = true;
+      }
+    });
+
+    document.addEventListener("touchmove", (e) => {
+      if (!touchingSidebar) return;
+      currentX = e.touches[0].pageX;
+      let translateX = Math.min(0, currentX - startX);
+      if (sidebar.classList.contains("open")) {
+        sidebar.style.transform = `translateX(${translateX}px)`;
+      } else {
+        sidebar.style.transform = `translateX(${translateX - sidebar.offsetWidth}px)`;
+      }
+    });
+
+    document.addEventListener("touchend", () => {
+      if (!touchingSidebar) return;
+      touchingSidebar = false;
+      let deltaX = currentX - startX;
+      if (!sidebar.classList.contains("open") && deltaX > 80) {
+        sidebar.classList.add("open");
+        toggleBtn.classList.add("open");
+      } else if (sidebar.classList.contains("open") && deltaX < -80) {
+        sidebar.classList.remove("open");
+        toggleBtn.classList.remove("open");
+      }
+      sidebar.style.transform = "";
+    });
+
+    // Background animation particles/streaks
+    const background = document.getElementById("background");
+    for (let i = 0; i < 40; i++) {
+      const particle = document.createElement("div");
+      particle.className = "particle";
+      particle.style.top = Math.random() * 100 + "vh";
+      particle.style.left = Math.random() * 100 + "vw";
+      particle.style.animationDuration = 8 + Math.random() * 10 + "s";
+      background.appendChild(particle);
+    }
+    for (let i = 0; i < 15; i++) {
+      const streak = document.createElement("div");
+      streak.className = "streak";
+      streak.style.left = Math.random() * 100 + "vw";
+      streak.style.animationDuration = 4 + Math.random() * 6 + "s";
+      background.appendChild(streak);
+    }
+
+    // Send on Enter, new line on Shift+Enter
+    document.getElementById("userInput").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        if (e.shiftKey) {
+          return;
+        } else {
+          e.preventDefault();
+          sendMessage();
+        }
+      }
+    });
+
 
   </script>
 </body>

@@ -30,7 +30,8 @@
         }
     }
 </style>
-
+<br>
+<br>
 <div class="container mt-5">
     <h2 class="mb-4 text-center text-md-start">All Registered Users</h2>
 
@@ -82,5 +83,9 @@
         <p>No users found.</p>
     @endif
 </div>
-
+<br>
+<br>
+<br>
+<br>
+<br>
 @endsection

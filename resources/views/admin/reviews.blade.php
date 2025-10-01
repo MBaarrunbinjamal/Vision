@@ -2,6 +2,21 @@
 @section('content')
 
 <style>
+
+/* is css se small screen agar responsive ho or phir bhi masla kray responsiveness main to is se theek hojata h  */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+/* ended */
+
     .table th,
     .table td {
         vertical-align: middle;
@@ -138,6 +153,7 @@
         }
     }
 </style>
+<br>
 <div class="container custom-table my-5">
     <h1>User Reviews</h1>
     <table class="table my-4">
@@ -236,5 +252,7 @@
         </table>
     </div>
 </div> -->
-
+<br>
+<br>
+<br>
 @endsection

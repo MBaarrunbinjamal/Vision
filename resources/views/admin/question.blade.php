@@ -1,74 +1,95 @@
 @extends('admin.headerfooter')
 @section('content')
 <style>
-    body {
-  background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e);
-  background-size: 400% 400%;
-  animation: gradientFlow 20s ease infinite;
-  color: #fff;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-}
-
-@keyframes gradientFlow {
-  0% {
-    background-position: 0% 50%;
-  }
-  25% {
-    background-position: 50% 100%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  75% {
-    background-position: 50% 0%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-    .custom-table-container {
+    .page-container {
+        min-height: 100vh;
         display: flex;
         justify-content: center;
-        margin-top: 200px;
+        align-items: center; /* vertical + horizontal centering */
+        padding: 20px;
+       
+    }
+
+    .custom-table-container {
+        width: 90%;
+        max-width: 1000px;
+        overflow-x: auto; /* Responsive scroll on small screens */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
     }
 
     .custom-table {
-        background-color: transparent !important;
+        width: 100%;
         border-collapse: collapse;
-        border: 2px solid purple;
-        color: white;
-        width: auto;
+        background: rgba(2, 2, 2, 0.05);
+        border-radius: 15px;
+        overflow: hidden;
     }
 
-    .custom-table th,
+    .custom-table th {
+        background: rgba(111, 66, 193, 0.9); /* purple header */
+        color: #fff;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 14px 20px;
+        border: none;
+    }
+
     .custom-table td {
-        border: 3px solid purple;
         padding: 12px 20px;
         text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .custom-table tr:nth-child(even) {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .custom-table tr:hover {
+        background: rgba(111, 66, 193, 0.2);
+        transition: 0.3s ease-in-out;
+    }
+
+    .btn-danger {
+        background-color: #d63384;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .btn-danger:hover {
+        background-color: #b91c74;
+        transform: scale(1.05);
     }
 </style>
-<div class="table-responsive custom-table-container">
-    <table class="custom-table">
-        <thead>
-            <tr>
-                <th scope="col">Question</th>
-                <th scope="col">Explaination</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-           @foreach ($rec as $r)
+
+<div class="page-container">
+    <div class="custom-table-container">
+        <table class="custom-table">
+            <thead>
                 <tr>
-                <td>{{$r->question}}</td>
-                <td>{{$r->explaination}}</td>
-                <td>  <button class="btn btn-danger delete-btn" data-id="{{ $r->id }}">Delete</button></td>
-            </tr>
-           @endforeach
-        </tbody>
-    </table>
+                    <th scope="col">Question</th>
+                    <th scope="col">Explanation</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($rec as $r)
+                    <tr>
+                        <td class="text-white">{{ $r->question }}</td>
+                        <td class="text-white">{{ $r->explaination }}</td>
+                        <td><button class="btn btn-danger delete-btn" data-id="{{ $r->id }}">Delete</button></td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 </div>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const deleteButtons = document.querySelectorAll('.delete-btn');
@@ -99,25 +120,13 @@
                         .then(data => {
                             if (data.success) {
                                 row.remove();
-                                Swal.fire(
-                                    'Deleted!',
-                                    data.message,
-                                    'success'
-                                );
+                                Swal.fire('Deleted!', data.message, 'success');
                             } else {
-                                Swal.fire(
-                                    'Error!',
-                                    data.message || 'Something went wrong.',
-                                    'error'
-                                );
+                                Swal.fire('Error!', data.message || 'Something went wrong.', 'error');
                             }
                         })
-                        .catch(error => {
-                            Swal.fire(
-                                'Error!',
-                                'Request failed.',
-                                'error'
-                            );
+                        .catch(() => {
+                            Swal.fire('Error!', 'Request failed.', 'error');
                         });
                     }
                 });
@@ -125,5 +134,4 @@
         });
     });
 </script>
-
 @endsection

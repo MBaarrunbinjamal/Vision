@@ -8,7 +8,7 @@ html, body {
 
     .ai-form-wrapper {
         height: 100vh;
-        background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e);
+        /* background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e); */
         background-size: 400% 400%;
         animation: gradientFlow 20s ease infinite;
         display: flex;
