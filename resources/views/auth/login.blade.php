@@ -214,6 +214,7 @@
 
       <button type="submit" class="btn">Log in</button>
     </form>
+      <a href="/google/auth">  <button type="submit">sign in with google</button></a>
   </div>
 
 

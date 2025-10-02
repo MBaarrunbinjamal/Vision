@@ -200,6 +200,7 @@
         <a href="{{ route('login') }}">Already registered?</a>
       </div>
     </form>
+    <a href="/google/auth">  <button type="submit">sign up with google</button></a>
   </div>
 
   <!-- float button start -->

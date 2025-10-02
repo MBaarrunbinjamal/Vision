@@ -30,16 +30,18 @@
     26 => 'Laravel\\Pail\\PailServiceProvider',
     27 => 'Laravel\\Sail\\SailServiceProvider',
     28 => 'Laravel\\Sanctum\\SanctumServiceProvider',
-    29 => 'Laravel\\Tinker\\TinkerServiceProvider',
-    30 => 'Livewire\\LivewireServiceProvider',
-    31 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
-    32 => 'Carbon\\Laravel\\ServiceProvider',
-    33 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    34 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    35 => 'App\\Providers\\AppServiceProvider',
-    36 => 'App\\Providers\\EventServiceProvider',
-    37 => 'App\\Providers\\FortifyServiceProvider',
-    38 => 'App\\Providers\\JetstreamServiceProvider',
+    29 => 'Laravel\\Socialite\\SocialiteServiceProvider',
+    30 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    31 => 'Livewire\\LivewireServiceProvider',
+    32 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    33 => 'Carbon\\Laravel\\ServiceProvider',
+    34 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    35 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    36 => 'Phiki\\Adapters\\Laravel\\PhikiServiceProvider',
+    37 => 'App\\Providers\\AppServiceProvider',
+    38 => 'App\\Providers\\EventServiceProvider',
+    39 => 'App\\Providers\\FortifyServiceProvider',
+    40 => 'App\\Providers\\JetstreamServiceProvider',
   ),
   'eager' => 
   array (
@@ -63,10 +65,11 @@
     17 => 'Carbon\\Laravel\\ServiceProvider',
     18 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     19 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    20 => 'App\\Providers\\AppServiceProvider',
-    21 => 'App\\Providers\\EventServiceProvider',
-    22 => 'App\\Providers\\FortifyServiceProvider',
-    23 => 'App\\Providers\\JetstreamServiceProvider',
+    20 => 'Phiki\\Adapters\\Laravel\\PhikiServiceProvider',
+    21 => 'App\\Providers\\AppServiceProvider',
+    22 => 'App\\Providers\\EventServiceProvider',
+    23 => 'App\\Providers\\FortifyServiceProvider',
+    24 => 'App\\Providers\\JetstreamServiceProvider',
   ),
   'deferred' => 
   array (
@@ -148,6 +151,7 @@
     'Illuminate\\Foundation\\Console\\ChannelMakeCommand' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'Illuminate\\Foundation\\Console\\ClassMakeCommand' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'Illuminate\\Foundation\\Console\\ComponentMakeCommand' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
+    'Illuminate\\Foundation\\Console\\ConfigMakeCommand' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'Illuminate\\Foundation\\Console\\ConfigPublishCommand' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'Illuminate\\Foundation\\Console\\ConsoleMakeCommand' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'Illuminate\\Routing\\Console\\ControllerMakeCommand' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
@@ -222,6 +226,7 @@
     'Illuminate\\Contracts\\Validation\\UncompromisedVerifier' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'Laravel\\Sail\\Console\\InstallCommand' => 'Laravel\\Sail\\SailServiceProvider',
     'Laravel\\Sail\\Console\\PublishCommand' => 'Laravel\\Sail\\SailServiceProvider',
+    'Laravel\\Socialite\\Contracts\\Factory' => 'Laravel\\Socialite\\SocialiteServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
   ),
   'when' => 
@@ -266,6 +271,9 @@
     array (
     ),
     'Laravel\\Sail\\SailServiceProvider' => 
+    array (
+    ),
+    'Laravel\\Socialite\\SocialiteServiceProvider' => 
     array (
     ),
     'Laravel\\Tinker\\TinkerServiceProvider' => 
