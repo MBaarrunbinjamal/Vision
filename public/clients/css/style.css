@@ -3478,7 +3478,7 @@ input[type="button"].btn-block {
 .navbar-nav {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex;
+  display: flex !important;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -ms-flex-direction: column;
@@ -3488,7 +3488,9 @@ input[type="button"].btn-block {
   list-style: none; }
   .navbar-nav .nav-link {
     padding-right: 0;
-    padding-left: 0; }
+    padding-left: 0;
+   
+  }
   .navbar-nav .dropdown-menu {
     position: static;
     float: none; }
@@ -8209,8 +8211,8 @@ h1, h2, h3, h4, h5,
       font-size: 16px;
       letter-spacing: .1em; }
     .ftco-navbar-light.scrolled .nav-link {
-      padding-top: 0.9rem !important;
-      padding-bottom: 0.9rem !important;
+      padding-top: .5rem !important;
+      padding-bottom: .5rem !important;
       color: #fff !important; }
       .ftco-navbar-light.scrolled .nav-link.active {
         color: #ffff !important; }
@@ -9841,3 +9843,26 @@ textarea.form-control {
     stroke-dashoffset: -136px; } }
 
   
+
+    /* ================================
+   CUSTOM NAVBAR FIXES
+   ================================ */
+.navbar-nav .nav-link {
+    padding: 0.5rem 1rem;
+}
+
+.navbar-nav .btn {
+    padding: 0.375rem 0.75rem;
+    line-height: 1.5;
+}
+
+.navbar .navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+}
+

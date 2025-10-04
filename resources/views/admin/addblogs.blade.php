@@ -71,7 +71,7 @@ html, body {
         color: rgb(120, 120, 120);
     }
 </style>
-
+<div class="ai-form-wrapper">
 
     <div class="glass-card">
         <h4 class="mb-4 text-center">Add your daily Blog</h4>

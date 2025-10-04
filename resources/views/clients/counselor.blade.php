@@ -399,6 +399,63 @@ html, body {
 .sidebar-toggle.open {
   transform: rotate(90deg);
 }
+
+/* Typing dots animation */
+.typing {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #cfcfcf;
+}
+
+.typing span {
+  display: inline-block;
+  animation: bounce 1.2s infinite;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+/* Scroll to bottom button */
+#scrollToBottomBtn {
+   position: absolute;
+  bottom: 130px; /* stays above input */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2c003e;
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+}
+#scrollToBottomBtn.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+#scrollToBottomBtn:hover {
+  background: #3d0059;
+}
+
   </style>
    
 <body>
@@ -477,6 +534,12 @@ html, body {
     <!-- END nav -->
 
 
+    <div id="scrollToBottomBtn">
+  <i class="fa fa-arrow-down"></i>
+   </div>
+
+ 
+
 
   <div class="chat-wrapper">
     <div class="chat-messages" id="chatMessages">
@@ -517,188 +580,221 @@ html, body {
   <script src="clients/js/main.js"></script>
   <script>
     
-    // ✅ Get logged in user ID (or "guest" if not logged in)
-    let userId = "{{ Auth::id() ?? 'guest' }}";
+      // ✅ Get logged in user ID (or "guest" if not logged in)
+  let userId = "{{ Auth::id() ?? 'guest' }}";
 
-    // ✅ Helper to create user-specific keys
-    function getStorageKey(key) {
-        return `${userId}_${key}`;
-    }
+  // ✅ Helper to create user-specific keys
+  function getStorageKey(key) {
+      return `${userId}_${key}`;
+  }
 
-    // ✅ Load chats from user-specific storage
-    let currentChat = JSON.parse(localStorage.getItem(getStorageKey("currentChat")) || "[]");
-    let chats = JSON.parse(localStorage.getItem(getStorageKey("chats")) || "[]");
+  // ✅ Load chats from user-specific storage
+  let currentChat = JSON.parse(localStorage.getItem(getStorageKey("currentChat")) || "[]");
+  let chats = JSON.parse(localStorage.getItem(getStorageKey("chats")) || "[]");
 
-    function sendMessage() {
-        var userMessage = $('#userInput').val().trim();
-        if (!userMessage) return;
+  // ✅ Typing indicator
+  function showTypingIndicator() {
+      const typingDiv = document.createElement("div");
+      typingDiv.classList.add("chat-message", "ai", "typing-indicator");
+      typingDiv.innerHTML = '<div class="typing"><span>.</span><span>.</span><span>.</span></div>';
+      document.getElementById("chatMessages").appendChild(typingDiv);
+      document.getElementById("chatMessages").scrollTop = document.getElementById("chatMessages").scrollHeight;
+      return typingDiv;
+  }
 
-        currentChat.push({ sender: "user", text: userMessage });
-        $('#chatMessages').append('<div class="chat-message user">' + userMessage + '</div>');
-        $('#userInput').val(""); 
+  function sendMessage() {
+      var userMessage = $('#userInput').val().trim();
+      if (!userMessage) return;
 
-        $.ajax({
-            url: "/api/returnresponse",
-            method: "GET",
-            dataType: "json",
-            success: function(response) {
-                let data = response[0];
-                let bestMatch = null;
-                let highestScore = 0;
+      currentChat.push({ sender: "user", text: userMessage });
+      $('#chatMessages').append('<div class="chat-message user">' + userMessage + '</div>');
+      $('#userInput').val(""); 
 
-                data.forEach(chat => {
-                    let score = similarity(userMessage.toLowerCase(), chat.question.toLowerCase());
-                    if (score > highestScore) {
-                        highestScore = score;
-                        bestMatch = chat;
-                    }
-                });
+      // Show typing dots
+      let typingDiv = showTypingIndicator();
 
-                if (bestMatch && highestScore > 0.4) { 
-                    detectLanguage(userMessage, function(lang) {
-                        if (lang === "en") {
-                            addAiMessage(bestMatch.explaination);
-                        } else {
-                            translateToUrdu(bestMatch.explaination, function(translated) {
-                                addAiMessage(translated);
-                            });
-                        }
-                    });
-                } else {
-                    addAiMessage("معاف کریں، میرے پاس اس قسم کی معلومات موجود نہیں ہیں۔");
-                }
+      $.ajax({
+          url: "/api/returnresponse",
+          method: "GET",
+          dataType: "json",
+          success: function(response) {
+              let data = response[0];
+              let bestMatch = null;
+              let highestScore = 0;
 
-                saveChat(); // Save after response
-            },
-            error: function() {
-                addAiMessage("⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔");
-                saveChat();
-            }
-        });
-    }
+              data.forEach(chat => {
+                  let score = similarity(userMessage.toLowerCase(), chat.question.toLowerCase());
+                  if (score > highestScore) {
+                      highestScore = score;
+                      bestMatch = chat;
+                  }
+              });
 
-    function addAiMessage(msg) {
-        $('#chatMessages').append('<div class="chat-message ai">' + msg + '</div>');
-        currentChat.push({ sender: "ai", text: msg });
-        $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
-        saveChat();
-    }
+              setTimeout(() => {
+                  $(typingDiv).remove(); // remove typing dots after delay
 
-    function similarity(s1, s2) { 
-        let longer = s1.length > s2.length ? s1 : s2;
-        let shorter = s1.length > s2.length ? s2 : s1;
-        let longerLength = longer.length;
-        if (longerLength === 0) return 1.0;
-        return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
-    }
-
-    function editDistance(s1, s2) { 
-        s1 = s1.toLowerCase();
-        s2 = s2.toLowerCase();
-        let costs = [];
-        for (let i = 0; i <= s1.length; i++) {
-            let lastValue = i;
-            for (let j = 0; j <= s2.length; j++) {
-                if (i === 0) costs[j] = j;
-                else {
-                    if (j > 0) {
-                        let newValue = costs[j - 1];
-                        if (s1[i - 1] !== s2[j - 1])
-                            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-                        costs[j - 1] = lastValue;
-                        lastValue = newValue;
-                    }
-                }
-            }
-            if (i > 0) costs[s2.length] = lastValue;
-        }
-        return costs[s2.length];
-    }
-
-    function detectLanguage(text, callback) { 
-        $.get("https://translate.googleapis.com/translate_a/single", {
-            client: "gtx", sl: "auto", tl: "en", dt: "t", q: text
-        }, function(data) { callback(data[2]); });
-    }
-
-    function translateToUrdu(text, callback) { 
-        $.get("https://translate.googleapis.com/translate_a/single", {
-            client: "gtx", sl: "auto", tl: "ur", dt: "t", q: text
-        }, function(data) { callback(data[0][0][0]); });
-    }
-
-    // ✅ Save chats per user
-    function saveChat() {
-        localStorage.setItem(getStorageKey("currentChat"), JSON.stringify(currentChat));
-        localStorage.setItem(getStorageKey("chats"), JSON.stringify(chats));
-    }
-
-    // Sidebar logic
-    const sidebar = document.getElementById("sidebar");
-    const toggleBtn = document.getElementById("toggleSidebar");
-    const chatHistoryEl = document.getElementById("chatHistory");
-    const newChatBtn = document.getElementById("newChatBtn");
-    const chatMessages = document.getElementById("chatMessages");
-
-    // Render chat history with delete button
-    function renderChatHistory() {
-      chatHistoryEl.innerHTML = "";
-      chats.forEach((chat, index) => {
-        const div = document.createElement("div");
-        div.classList.add("history-item");
-
-        // Chat title
-        const titleSpan = document.createElement("span");
-        titleSpan.textContent = chat.title || "Chat " + (index + 1);
-        titleSpan.style.flex = "1";
-        titleSpan.style.cursor = "pointer";
-        titleSpan.addEventListener("click", () => loadChat(index));
-
-        // Delete button
-        const deleteBtn = document.createElement("i");
-        deleteBtn.className = "fa fa-trash";
-        deleteBtn.style.color = "red";
-        deleteBtn.style.marginLeft = "10px";
-        deleteBtn.style.cursor = "pointer";
-        deleteBtn.addEventListener("click", (e) => {
-          e.stopPropagation(); // prevent loading chat on delete click
-          if (confirm("Delete this chat?")) {
-            chats.splice(index, 1); // remove chat
-            saveChat();            // update localStorage
-            renderChatHistory();   // refresh sidebar
+                  if (bestMatch && highestScore > 0.4) { 
+                      detectLanguage(userMessage, function(lang) {
+                          if (lang === "en") {
+                              addAiMessage(bestMatch.explaination);
+                          } else {
+                              translateToUrdu(bestMatch.explaination, function(translated) {
+                                  addAiMessage(translated);
+                              });
+                          }
+                      });
+                  } else {
+                      addAiMessage("معاف کریں، میرے پاس اس قسم کی معلومات موجود نہیں ہیں۔");
+                  }
+                  saveChat(); 
+              }, 1000); // 1 second pause before reply
+          },
+          error: function() {
+              setTimeout(() => {
+                  $(typingDiv).remove();
+                  addAiMessage("⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔");
+                  saveChat();
+              }, 1000);
           }
-        });
-
-        div.style.display = "flex";
-        div.style.justifyContent = "space-between";
-        div.style.alignItems = "center";
-
-        div.appendChild(titleSpan);
-        div.appendChild(deleteBtn);
-        chatHistoryEl.appendChild(div);
       });
-    }
+  }
 
-    renderChatHistory();
-
-    // Start new chat
-    newChatBtn.addEventListener("click", () => {
-      if (currentChat.length > 0) {
-        chats.push({ title: currentChat[0]?.text?.slice(0, 20) || "New Chat", messages: currentChat });
-      }
-      currentChat = [];
-      chatMessages.innerHTML = `<div class="chat-message ai">👋 New chat started!</div>`;
+  function addAiMessage(msg) {
+      $('#chatMessages').append('<div class="chat-message ai">' + msg + '</div>');
+      currentChat.push({ sender: "ai", text: msg });
+      $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
       saveChat();
-      renderChatHistory();
-      sidebar.classList.remove("open");
-      toggleBtn.classList.remove("open");
-    });
+  }
 
-    // Load old chat
-    function loadChat(index) {
-      const chat = chats[index];
-      if (!chat) return;
-      currentChat = chat.messages;
+  function similarity(s1, s2) { 
+      let longer = s1.length > s2.length ? s1 : s2;
+      let shorter = s1.length > s2.length ? s2 : s1;
+      let longerLength = longer.length;
+      if (longerLength === 0) return 1.0;
+      return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+  }
+
+  function editDistance(s1, s2) { 
+      s1 = s1.toLowerCase();
+      s2 = s2.toLowerCase();
+      let costs = [];
+      for (let i = 0; i <= s1.length; i++) {
+          let lastValue = i;
+          for (let j = 0; j <= s2.length; j++) {
+              if (i === 0) costs[j] = j;
+              else {
+                  if (j > 0) {
+                      let newValue = costs[j - 1];
+                      if (s1[i - 1] !== s2[j - 1])
+                          newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                      costs[j - 1] = lastValue;
+                      lastValue = newValue;
+                  }
+              }
+          }
+          if (i > 0) costs[s2.length] = lastValue;
+      }
+      return costs[s2.length];
+  }
+
+  function detectLanguage(text, callback) { 
+      $.get("https://translate.googleapis.com/translate_a/single", {
+          client: "gtx", sl: "auto", tl: "en", dt: "t", q: text
+      }, function(data) { callback(data[2]); });
+  }
+
+  function translateToUrdu(text, callback) { 
+      $.get("https://translate.googleapis.com/translate_a/single", {
+          client: "gtx", sl: "auto", tl: "ur", dt: "t", q: text
+      }, function(data) { callback(data[0][0][0]); });
+  }
+
+  // ✅ Save chats per user
+  function saveChat() {
+      localStorage.setItem(getStorageKey("currentChat"), JSON.stringify(currentChat));
+      localStorage.setItem(getStorageKey("chats"), JSON.stringify(chats));
+  }
+
+  // Sidebar logic
+  const sidebar = document.getElementById("sidebar");
+  const toggleBtn = document.getElementById("toggleSidebar");
+  const chatHistoryEl = document.getElementById("chatHistory");
+  const newChatBtn = document.getElementById("newChatBtn");
+  const chatMessages = document.getElementById("chatMessages");
+
+  // Render chat history with delete button
+  function renderChatHistory() {
+    chatHistoryEl.innerHTML = "";
+    chats.forEach((chat, index) => {
+      const div = document.createElement("div");
+      div.classList.add("history-item");
+
+      // Chat title
+      const titleSpan = document.createElement("span");
+      titleSpan.textContent = chat.title || "Chat " + (index + 1);
+      titleSpan.style.flex = "1";
+      titleSpan.style.cursor = "pointer";
+      titleSpan.addEventListener("click", () => loadChat(index));
+
+      // Delete button
+      const deleteBtn = document.createElement("i");
+      deleteBtn.className = "fa fa-trash";
+      deleteBtn.style.color = "red";
+      deleteBtn.style.marginLeft = "10px";
+      deleteBtn.style.cursor = "pointer";
+      deleteBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (confirm("Delete this chat?")) {
+          chats.splice(index, 1);
+          saveChat();
+          renderChatHistory();
+        }
+      });
+
+      div.style.display = "flex";
+      div.style.justifyContent = "space-between";
+      div.style.alignItems = "center";
+
+      div.appendChild(titleSpan);
+      div.appendChild(deleteBtn);
+      chatHistoryEl.appendChild(div);
+    });
+  }
+  renderChatHistory();
+
+  // Start new chat
+  newChatBtn.addEventListener("click", () => {
+    if (currentChat.length > 0) {
+      chats.push({ title: currentChat[0]?.text?.slice(0, 20) || "New Chat", messages: currentChat });
+    }
+    currentChat = [];
+    chatMessages.innerHTML = `<div class="chat-message ai">👋 New chat started!</div>`;
+    saveChat();
+    renderChatHistory();
+    sidebar.classList.remove("open");
+    toggleBtn.classList.remove("open");
+  });
+
+  // Load old chat
+  function loadChat(index) {
+    const chat = chats[index];
+    if (!chat) return;
+    currentChat = chat.messages;
+    chatMessages.innerHTML = "";
+    currentChat.forEach(msg => {
+      const div = document.createElement("div");
+      div.classList.add("chat-message", msg.sender);
+      div.textContent = msg.text;
+      chatMessages.appendChild(div);
+    });
+    sidebar.classList.remove("open");
+    toggleBtn.classList.remove("open");
+    saveChat();
+  }
+
+  // Restore chat on refresh
+  window.onload = function() {
+    if (currentChat.length > 0) {
       chatMessages.innerHTML = "";
       currentChat.forEach(msg => {
         const div = document.createElement("div");
@@ -706,111 +802,120 @@ html, body {
         div.textContent = msg.text;
         chatMessages.appendChild(div);
       });
+    } else {
+      chatMessages.innerHTML = `<div class="chat-message ai">👋 Hello! I'm your Career Counsellor AI. What would you like to explore today?</div>`;
+    }
+  };
+
+  // Sidebar toggle
+  toggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    sidebar.classList.toggle("open");
+    toggleBtn.classList.toggle("open");
+  });
+
+  // Close sidebar when clicking outside
+  document.addEventListener("click", (e) => {
+    if (
+      sidebar.classList.contains("open") &&
+      !sidebar.contains(e.target) &&
+      !toggleBtn.contains(e.target)
+    ) {
       sidebar.classList.remove("open");
       toggleBtn.classList.remove("open");
-      saveChat();
     }
+  });
 
-    // Restore chat on refresh
-    window.onload = function() {
-      if (currentChat.length > 0) {
-        chatMessages.innerHTML = "";
-        currentChat.forEach(msg => {
-          const div = document.createElement("div");
-          div.classList.add("chat-message", msg.sender);
-          div.textContent = msg.text;
-          chatMessages.appendChild(div);
-        });
+  // Swipe gestures for sidebar
+  let startX = 0;
+  let currentX = 0;
+  let touchingSidebar = false;
+
+  document.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].pageX;
+    if (startX < 30 || sidebar.classList.contains("open")) {
+      touchingSidebar = true;
+    }
+  });
+
+  document.addEventListener("touchmove", (e) => {
+    if (!touchingSidebar) return;
+    currentX = e.touches[0].pageX;
+    let translateX = Math.min(0, currentX - startX);
+    if (sidebar.classList.contains("open")) {
+      sidebar.style.transform = `translateX(${translateX}px)`;
+    } else {
+      sidebar.style.transform = `translateX(${translateX - sidebar.offsetWidth}px)`;
+    }
+  });
+
+  document.addEventListener("touchend", () => {
+    if (!touchingSidebar) return;
+    touchingSidebar = false;
+    let deltaX = currentX - startX;
+    if (!sidebar.classList.contains("open") && deltaX > 80) {
+      sidebar.classList.add("open");
+      toggleBtn.classList.add("open");
+    } else if (sidebar.classList.contains("open") && deltaX < -80) {
+      sidebar.classList.remove("open");
+      toggleBtn.classList.remove("open");
+    }
+    sidebar.style.transform = "";
+  });
+
+  // Background animation particles/streaks
+  const background = document.getElementById("background");
+  for (let i = 0; i < 40; i++) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+    particle.style.top = Math.random() * 100 + "vh";
+    particle.style.left = Math.random() * 100 + "vw";
+    particle.style.animationDuration = 8 + Math.random() * 10 + "s";
+    background.appendChild(particle);
+  }
+  for (let i = 0; i < 15; i++) {
+    const streak = document.createElement("div");
+    streak.className = "streak";
+    streak.style.left = Math.random() * 100 + "vw";
+    streak.style.animationDuration = 4 + Math.random() * 6 + "s";
+    background.appendChild(streak);
+  }
+
+  // Send on Enter, new line on Shift+Enter
+  document.getElementById("userInput").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      if (e.shiftKey) {
+        return;
       } else {
-        chatMessages.innerHTML = `<div class="chat-message ai">👋 Hello! I'm your Career Counsellor AI. What would you like to explore today?</div>`;
+        e.preventDefault();
+        sendMessage();
       }
-    };
-
-    // Sidebar toggle
-    toggleBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      sidebar.classList.toggle("open");
-      toggleBtn.classList.toggle("open");
-    });
-
-    // Close sidebar when clicking outside
-    document.addEventListener("click", (e) => {
-      if (
-        sidebar.classList.contains("open") &&
-        !sidebar.contains(e.target) &&
-        !toggleBtn.contains(e.target)
-      ) {
-        sidebar.classList.remove("open");
-        toggleBtn.classList.remove("open");
-      }
-    });
-
-    // Swipe gestures for sidebar
-    let startX = 0;
-    let currentX = 0;
-    let touchingSidebar = false;
-
-    document.addEventListener("touchstart", (e) => {
-      startX = e.touches[0].pageX;
-      if (startX < 30 || sidebar.classList.contains("open")) {
-        touchingSidebar = true;
-      }
-    });
-
-    document.addEventListener("touchmove", (e) => {
-      if (!touchingSidebar) return;
-      currentX = e.touches[0].pageX;
-      let translateX = Math.min(0, currentX - startX);
-      if (sidebar.classList.contains("open")) {
-        sidebar.style.transform = `translateX(${translateX}px)`;
-      } else {
-        sidebar.style.transform = `translateX(${translateX - sidebar.offsetWidth}px)`;
-      }
-    });
-
-    document.addEventListener("touchend", () => {
-      if (!touchingSidebar) return;
-      touchingSidebar = false;
-      let deltaX = currentX - startX;
-      if (!sidebar.classList.contains("open") && deltaX > 80) {
-        sidebar.classList.add("open");
-        toggleBtn.classList.add("open");
-      } else if (sidebar.classList.contains("open") && deltaX < -80) {
-        sidebar.classList.remove("open");
-        toggleBtn.classList.remove("open");
-      }
-      sidebar.style.transform = "";
-    });
-
-    // Background animation particles/streaks
-    const background = document.getElementById("background");
-    for (let i = 0; i < 40; i++) {
-      const particle = document.createElement("div");
-      particle.className = "particle";
-      particle.style.top = Math.random() * 100 + "vh";
-      particle.style.left = Math.random() * 100 + "vw";
-      particle.style.animationDuration = 8 + Math.random() * 10 + "s";
-      background.appendChild(particle);
     }
-    for (let i = 0; i < 15; i++) {
-      const streak = document.createElement("div");
-      streak.className = "streak";
-      streak.style.left = Math.random() * 100 + "vw";
-      streak.style.animationDuration = 4 + Math.random() * 6 + "s";
-      background.appendChild(streak);
-    }
+  });
 
-    // Send on Enter, new line on Shift+Enter
-    document.getElementById("userInput").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        if (e.shiftKey) {
-          return;
-        } else {
-          e.preventDefault();
-          sendMessage();
-        }
-      }
+  // Scroll to bottom button logic
+  const chatBox = document.getElementById("chatMessages");
+  const scrollBtn = document.getElementById("scrollToBottomBtn");
+
+  // Show/hide button on scroll
+  chatBox.addEventListener("scroll", () => {
+    const nearBottom = chatBox.scrollHeight - chatBox.scrollTop - chatBox.clientHeight < 50;
+    if (nearBottom) {
+      scrollBtn.classList.remove("show");
+    } else {
+      scrollBtn.classList.add("show");
+    }
+  });
+
+  // Scroll to bottom when clicked (smooth)
+  scrollBtn.addEventListener("click", () => {
+    chatBox.scrollTo({
+      top: chatBox.scrollHeight,
+      behavior: "smooth"
     });
+  });
+
+
 
 
   </script>

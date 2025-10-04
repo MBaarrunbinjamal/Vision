@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\blog;
 use App\Models\reviews;
 use Illuminate\Http\Request;
 
@@ -30,7 +31,8 @@ class ReviewsController extends Controller
     }
     public function showReviews()
     {
+         $rec = blog::latest()->take(3)->get();
         $reviews = reviews::where('status', 'approved')->latest()->get();
-        return view('clients.index', compact('reviews'));
+        return view('clients.index', compact('reviews','rec'));
     }
 }

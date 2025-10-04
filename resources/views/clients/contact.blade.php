@@ -18,21 +18,27 @@
 	}
 
 	.contbtn {
-		background: #4700a5ff !important;
-		border: 1.5px solid #6500b3ff !important;
+		background: #4B0082 !important;
+		border: 1.5px solid #4B0082 !important;
 		border-radius: 5px !important;
 		color: #fff;
 	}
 
 	.contbtn:hover {
-		background: #7f00dfff !important;
-		border: 1.5px solid #9900ffff !important;
+		background: #5a00a8 !important;
+		border: 1.5px solid #5a00a8 !important;
 		color: #fff !important;
 		transition-duration: 0.50s
 	}
-	
-</style>
 
+	/* Map container */
+	.map iframe {
+		width: 100%;
+		height: 100%;
+		border: 0;
+		border-radius: 8px;
+	}
+</style>
 
 <section class="hero-wrap hero-wrap-2" style="background-image: url('clients/images/Flux_Dev_Create_an_image_depicting_a_serene_and_professional_c_2.jpg');" data-stellar-background-ratio="0.5">
 	<div class="overlay"></div>
@@ -58,7 +64,7 @@
 									<span class="fa fa-map-marker text-dark"></span>
 								</div>
 								<div class="text">
-									<p><span class="text-white">Address:</span> 198 West 21th Street, Suite 721 New York NY 10016</p>
+									<p><span class="text-white">Address:</span> Aptech. Scheme#33, Gulzar-e-Hijri, Karachi, Pakistan</p>
 								</div>
 							</div>
 						</div>
@@ -68,7 +74,7 @@
 									<span class="fa fa-phone text-dark"></span>
 								</div>
 								<div class="text">
-									<p><span class="text-white">Phone:</span> <a href="tel://1234567920" class="ctd">+ 1235 2355 98</a></p>
+									<p><span class="text-white">Phone:</span> <a href="tel://1234567920" class="ctd">+92 334 0621597</a></p>
 								</div>
 							</div>
 						</div>
@@ -78,7 +84,7 @@
 									<span class="fa fa-paper-plane text-dark"></span>
 								</div>
 								<div class="text">
-									<p><span class="text-white">Email:</span> <a href="mailto:info@yoursite.com" class="ctd">info@yoursite.com</a></p>
+									<p><span class="text-white">Email:</span> <a href="mailto:Propello@gmail.com" class="ctd">Propello@gmail.com</a></p>
 								</div>
 							</div>
 						</div>
@@ -99,14 +105,6 @@
 								<h3 class="mb-4 text-white">Contact Us</h3>
 								<form method="POST" id="contactForm" action="/contact" name="contactForm" class="contactForm">
 									@csrf
-									<!-- Form submitted popup -->
-									<!-- @if (session('success'))
-									<div class="alert alert-success" role="alert">
-										{{ session('success') }}
-									</div>
-		
-	
-									@endif -->
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
@@ -143,7 +141,17 @@
 							</div>
 						</div>
 						<div class="col-md-5 order-md-first d-flex align-items-stretch">
-							<div id="map" class="map"></div>
+							<!-- Real Google Map Embed -->
+							<div class="map w-100">
+								<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2755.554426411151!2d67.10809927393836!3d24.947450741773842!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb3390008cfd9ab%3A0x50570e200b0de0fe!2sAptech%20scheme%2033!5e1!3m2!1sen!2s!4v1759344098888!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" 
+									width="100%" 
+									height="100%" 
+									style="border:0;" 
+									allowfullscreen="" 
+									loading="lazy" 
+									referrerpolicy="no-referrer-when-downgrade">
+								</iframe>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -159,7 +167,6 @@
             title: 'Success!',
             text: '{{ session('success') }}',
             confirmButtonColor: '#9900ff'
-			
         });
     </script>
 @endif
