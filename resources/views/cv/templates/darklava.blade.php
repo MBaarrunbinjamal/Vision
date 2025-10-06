@@ -2,17 +2,16 @@
 <html>
 
 <head>
-  <title>Modern CV</title>
+  <title>Dark Lava CV</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
   .cv-card {
     max-width: 880px;
     margin: 40px auto;
     padding: 55px;
-    background: linear-gradient(135deg, #1a1a1a, #2d0f0f);
     border-radius: 20px;
     font-family: 'Montserrat', sans-serif;
-    color: #f5c542;
+    color: #000000ff;
     box-shadow: 0 0 25px rgba(255, 69, 0, 0.4);
 }
 

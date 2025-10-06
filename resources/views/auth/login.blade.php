@@ -9,7 +9,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     * {
       margin: 0;
@@ -164,6 +164,24 @@
       background-color: #520dc2;
       transition-duration: 0.25s;
     }
+
+    .sgb{
+      margin-top: 10px;
+      width: 100%;
+      padding: 12px;
+      background-color: #5e17eb;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .sgb:hover {
+      background-color: #7e3ff2;
+    }
+    .fa-google{
+      padding: 5px;
+    }
   </style>
 </head>
 <body>
@@ -214,6 +232,7 @@
 
       <button type="submit" class="btn">Log in</button>
     </form>
+      <a href="/google/auth"><button type="submit" class="sgb"><i class="fa fa-google" aria-hidden="true"></i>Sign in with Google</button></a>
   </div>
 
 

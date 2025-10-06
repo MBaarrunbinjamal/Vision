@@ -2,14 +2,14 @@
 <html>
 
 <head>
-  <title>Modern CV</title>
+  <title>Pastel Bloom CV</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
  .cv-card {
     max-width: 850px;
     margin: 40px auto;
     padding: 50px;
-    background: #fff0f6;
+    background: #ffffffff;
     border-radius: 18px;
     border: 2px solid #ffb6c1;
     font-family: 'Nunito', sans-serif;

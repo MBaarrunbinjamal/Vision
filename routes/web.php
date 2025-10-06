@@ -11,9 +11,12 @@ use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\Admin\UserStatsController;
 use App\Http\Controllers\CareerController;
+use App\Http\Controllers\googlecontroller;
 
 // User routes start
 Route::get('/', [ReviewsController::class, 'showReviews']);
+Route::get('/google/auth',[googlecontroller::class,('googlepage')]);
+Route::get('auth/google/callback',[googleController::class,('googlecallback')]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {

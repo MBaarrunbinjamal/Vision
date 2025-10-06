@@ -68,13 +68,17 @@ html, body {
         background: rgb(60, 0, 84);
         color: rgb(120, 120, 120);
     }
+
+    .upb {
+        margin-top: 20px;
+    }
 </style>
 <br>
 <br>
 <br>
 <div class="ai-form-wrapper">
 <div class="glass-card">
-        <h4 class="mb-4 text-center">upload study material</h4>
+        <h4 class="mb-4 text-center">Upload Study Material</h4>
         <form id="studyform">
             @csrf
             <input type="text" name="title" placeholder="Enter your title" required />
@@ -123,7 +127,7 @@ html, body {
                 <option value="Accountant">Accountant</option>
                     
                 </select>
-            <button type="submit">Upload</button>
+            <button type="submit" class="upb">Upload</button>
         </form>
     </div>
 </div>

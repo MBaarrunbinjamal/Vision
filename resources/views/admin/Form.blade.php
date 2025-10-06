@@ -7,15 +7,15 @@ html, body {
 }
 
     .ai-form-wrapper {
-        height: 100vh;
-        /* background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e); */
-        background-size: 400% 400%;
-        animation: gradientFlow 20s ease infinite;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Segoe UI', sans-serif;
-        padding: 20px;
+        min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centers form vertically and horizontally */
+    background-size: 400% 400%;
+    animation: gradientFlow 20s ease infinite;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px; /* Space from edges */
+    overflow-y: auto; /* Enables scroll on smaller screens */
     }
 
     @keyframes gradientFlow {
@@ -74,7 +74,7 @@ html, body {
 
 <div class="ai-form-wrapper">
     <div class="glass-card">
-        <h4 class="mb-4 text-center">Ask a Question</h4>
+        <h4 class="mb-4 text-center">Upload Q&A</h4>
         <form id="aiForm">
             @csrf
             <input type="text" name="question" placeholder="Enter your question" required />

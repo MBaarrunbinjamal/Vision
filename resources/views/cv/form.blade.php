@@ -57,7 +57,7 @@
                         <option value="pastelbloom">Pastel Bloom</option>
                         <option value="urbanminimal">Urban Minimal</option>
                         <option value="nordicice">Nordic Ice</option>
-                        <option value="template5">Template 5</option>
+                        <option value="template5">The Heritage</option>
                         <option value="ElegantSerif">Elegant Serif</option>
                         <option value="Infographicstyle">Infographic Style</option>
                         <option value="GradientModern">Gradient Modern</option>

@@ -2,7 +2,7 @@
 @section('content')
 <style>
     .page-container {
-        min-height: 100vh;
+        min-height: 1vh;
         display: flex;
         justify-content: center;
         align-items: center; /* vertical + horizontal centering */
