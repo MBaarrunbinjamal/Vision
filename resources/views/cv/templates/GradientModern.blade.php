@@ -2,16 +2,16 @@
 <html>
 
 <head>
-  <title>Modern CV</title>
+  <title>Gradient Modern CV</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
   .cv-card {
     max-width: 850px;
     margin: 40px auto;
     padding: 50px;
-    background: linear-gradient(145deg, #6a11cb, #2575fc);
+    
     border-radius: 15px;
-    color: #fff;
+    color: #000000ff;
     font-family: 'Montserrat', sans-serif;
     box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
@@ -25,14 +25,15 @@
 .cv-card p.text-center {
     text-align: center;
     font-size: 1rem;
-    color: #eee;
+    color: #000000ff;
     margin-bottom: 40px;
 }
 
 .cv-card h3 {
+  
     margin-top: 25px;
     font-size: 1.4rem;
-    border-left: 6px solid #fff;
+    border-left: 6px solid #00fcdfff;
     padding-left: 10px;
 }
   </style>

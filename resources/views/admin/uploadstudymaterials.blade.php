@@ -2,28 +2,27 @@
 @section('content')
 <style>
 html, body {
-    overflow: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
     .ai-form-wrapper {
-        height: 100vh;
-        background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e);
-        background-size: 400% 400%;
-        animation: gradientFlow 20s ease infinite;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Segoe UI', sans-serif;
-        padding: 20px;
+         min-height: calc(100vh - 70px - 60px); /* subtract navbar + footer heights */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px;
     }
 
-    @keyframes gradientFlow {
+    /* @keyframes gradientFlow {
         0% { background-position: 0% 50%; }
         25% { background-position: 50% 100%; }
         50% { background-position: 100% 50%; }
         75% { background-position: 50% 0%; }
         100% { background-position: 0% 50%; }
-    }
+    } */
 
     .glass-card {
         background: rgba(255, 255, 255, 0.1);
@@ -36,7 +35,7 @@ html, body {
         width: 100%;
         max-width: 400px;
         color: white;
-        margin-top: -9%;
+        margin-top: 0%;
     }
 
     .glass-card input,
@@ -69,12 +68,17 @@ html, body {
         background: rgb(60, 0, 84);
         color: rgb(120, 120, 120);
     }
+
+    .upb {
+        margin-top: 20px;
+    }
 </style>
+<br>
+<br>
+<br>
 <div class="ai-form-wrapper">
-
-
-    <div class="glass-card">
-        <h4 class="mb-4 text-center">upload study material</h4>
+<div class="glass-card">
+        <h4 class="mb-4 text-center">Upload Study Material</h4>
         <form id="studyform">
             @csrf
             <input type="text" name="title" placeholder="Enter your title" required />
@@ -123,11 +127,13 @@ html, body {
                 <option value="Accountant">Accountant</option>
                     
                 </select>
-            <button type="submit">Upload</button>
+            <button type="submit" class="upb">Upload</button>
         </form>
     </div>
 </div>
-
+<br>
+<br>
+<br>
 <script src="https://code.jquery.com/jquery-3.7.1.js"
     integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>

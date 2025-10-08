@@ -108,8 +108,8 @@
 			<div class="col-md-6 ftco-animate d-flex align-items-end">
 				<div class="text w-100">
 					<h1 class="mb-4 text-white">Counseling For Your Better Life</h1>
-					<p class="mb-4 lantex">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
-					<p><a href="#" class=" lcbtn py-3 px-4">Contact us</a> <a href="/cselect" class="btn btn-white lrbtn py-3 px-4"><i class="fa fa-book" aria-hidden="true"></i><b style="margin-left: 5px">Study material</b></a></p>
+					<p class="mb-4 lantex">Propello offers reliable career counseling that guides students and professionals with clarity and confidence toward their goals.</p>
+					<p><a href="/contact" class=" lcbtn py-3 px-4">Contact us</a> <a href="/cselect" class="btn btn-white lrbtn py-3 px-4"><i class="fa fa-book" aria-hidden="true"></i><b style="margin-left: 5px">Study material</b></a></p>
 				</div>
 			</div>
 			<a href="https://vimeo.com/45830194" class="img-video popup-vimeo d-flex align-items-center justify-content-center">
@@ -129,7 +129,7 @@
 					</div>
 					<div class="text ">
 						<h2>100% Confidential</h2>
-						<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+						<p>At Propello, your career choices and personal information remain fully private — giving you a safe and trusted space to shape your future.</p>
 					</div>
 				</div>
 			</div>
@@ -140,7 +140,7 @@
 					</div>
 					<div class="text">
 						<h2>Qualified Team</h2>
-						<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+						<p>At Propello, our expert counselors provide the right guidance and support to help you move confidently toward your career goals.</p>
 					</div>
 				</div>
 			</div>
@@ -151,7 +151,7 @@
 					</div>
 					<div class="text">
 						<h2>Individual Approach</h2>
-						<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+						<p>At Propello, we tailor our guidance to each student and professional, ensuring personalized support for every career journey.</p>
 					</div>
 				</div>
 			</div>
@@ -177,7 +177,7 @@
 						</div>
 					</div>
 					<h2 class="text-white" >Make Schedule</h2>
-					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+					<p>A clear path guides your steps, providing the structure and support you need to plan your career journey.</p>
 				</div>
 			</div>
 			<div class="col-md-4 d-flex align-items-stretch ftco-animate">
@@ -189,7 +189,7 @@
 						</div>
 					</div>
 					<h2 class="text-white" >Start Discussion</h2>
-					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+					<p>Guiding your thoughts, questions, and ambitions to help you explore and shape the best possible career path for your future.</p>
 				</div>
 			</div>
 			<div class="col-md-4 d-flex align-items-stretch ftco-animate">
@@ -201,7 +201,7 @@
 						</div>
 					</div>
 					<h2 class="text-white" >Enjoy Plan</h2>
-					<p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+					<p>Experience a personalized career plan thoughtfully crafted to match your goals, strengths, and aspirations perfectly.	</p>
 				</div>
 			</div>
 		</div>
@@ -215,7 +215,7 @@
 		<div class="row justify-content-center mb-5">
 			<div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
 				<span class="subheading stx">Testimonial</span>
-				<h2 class="mb-3">Happy Clients</h2>
+				<h2 c	lass="mb-3">Happy Clients</h2>
 			</div>
 		</div>
 		<div class="row ftco-animate">
@@ -229,7 +229,7 @@
 						<div class="text">
 							<p class="mb-4 ltx">{{ $review->review }}</p>
 							<div class="d-flex align-items-center">
-								<div class="user-img" style="background-image: url('{{ $review->image ? asset('storage/'.$review->image) : asset('clients/images/person_1.jpg') }}')"></div>
+								<div class="user-img" style="background-image: url('{{ $review->image ? asset('storage/'.$review->image) : asset('clients/images/ChatGPT Image Sep 30, 2025, 03_23_34 PM.png') }}')"></div>
 								<div class="pl-3">
 									<p class="name text-white">{{ $review->name }}</p>
 								</div>

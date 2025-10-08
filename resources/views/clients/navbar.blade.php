@@ -20,7 +20,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pacifico&display=swap" rel="stylesheet">
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@400..700&family=Lobster&family=Oswald:wght@200..700&family=Pacifico&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
 
       
@@ -387,7 +389,7 @@ document.addEventListener('click', function(event) {
           <div class="col-sm-12 col-md">
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2"><a href="/counselor">Counselor</a></h2>
-              <p>Far far away, behind the word mountains, far from the countries.</p>
+              <p>At Propello, we guide your journey beyond the ordinary — helping students and professionals move past uncertainty, discover new possibilities, and connect with the right opportunities.</p>
               <ul class="ftco-footer-social list-unstyled mt-2">
                 <li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
                 <li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
@@ -399,10 +401,13 @@ document.addEventListener('click', function(event) {
             <div class="ftco-footer-widget mb-4 ml-md-4">
               <h2 class="ftco-heading-2">Explore</h2>
               <ul class="list-unstyled">
+                <li><a href="/"><span class="fa fa-chevron-right mr-2"></span>Home</a></li>
                 <li><a href="/about"><span class="fa fa-chevron-right mr-2"></span>About</a></li>
+                <li><a href="/counselor"><span class="fa fa-chevron-right mr-2"></span>Counselor AI</a></li>
+                <li><a href="/glorii"><span class="fa fa-chevron-right mr-2"></span>Career Sphere</a></li>
+                <li><a href="/cv"><span class="fa fa-chevron-right mr-2"></span>Create CV</a></li>
+                <li><a href="/cv"><span class="fa fa-chevron-right mr-2"></span>Blog</a></li>
                 <li><a href="/contact"><span class="fa fa-chevron-right mr-2"></span>Contact</a></li>
-                <li><a href="/service"><span class="fa fa-chevron-right mr-2"></span>What We Do</a></li>
-                <li><a href="/pricing"><span class="fa fa-chevron-right mr-2"></span>Plans &amp; Pricing</a></li>
               </ul>
             </div>
           </div>
@@ -433,9 +438,9 @@ document.addEventListener('click', function(event) {
               <h2 class="ftco-heading-2">Have a Questions?</h2>
               <div class="block-23 mb-3">
                 <ul>
-                  <li><span class="icon fa fa-map marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-                  <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-                  <li><a href="#"><span class="icon fa fa-paper-plane pr-4"></span><span class="text">info@yourdomain.com</span></a></li>
+                  <li><span class="icon fa fa-map marker"></span><span class="text">Aptech. Scheme#33, Gulzar-e-Hijri, Karachi, Pakistan</span></li>
+                  <li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+92 334 0621597</span></a></li>
+                  <li><a href="#"><span class="icon fa fa-paper-plane pr-4"></span><span class="text">Propello@gmail.com</span></a></li>
                 </ul>
               </div>
             </div>
@@ -447,7 +452,7 @@ document.addEventListener('click', function(event) {
           <div class="row">
             <div class="col-md-12">
               <p class="mb-0" style="color: rgba(255,255,255,.5);">
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script>
+                Propello &copy;<script>document.write(new Date().getFullYear());</script>
                 All rights reserved
               </p>
             </div>

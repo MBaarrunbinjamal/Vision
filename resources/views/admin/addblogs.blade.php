@@ -7,7 +7,7 @@ html, body {
 
     .ai-form-wrapper {
         height: 100vh;
-        background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e);
+        /* background: linear-gradient(-45deg, #2c003e, #000000, #444444, #2c003e); */
         background-size: 400% 400%;
         animation: gradientFlow 20s ease infinite;
         display: flex;
@@ -15,15 +15,16 @@ html, body {
         justify-content: center;
         font-family: 'Segoe UI', sans-serif;
         padding: 20px;
+        margin-top: -10px;
     }
 
-    @keyframes gradientFlow {
+    /* @keyframes gradientFlow {
         0% { background-position: 0% 50%; }
         25% { background-position: 50% 100%; }
         50% { background-position: 100% 50%; }
         75% { background-position: 50% 0%; }
         100% { background-position: 0% 50%; }
-    }
+    } */
 
     .glass-card {
         background: rgba(255, 255, 255, 0.1);

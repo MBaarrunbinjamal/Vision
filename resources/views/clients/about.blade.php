@@ -42,15 +42,15 @@
 					</div>
 					<div class="col-md-6 wrap-about px-md-5 ftco-animate py-5 ">
 	          <div class="heading-section py-md-5">
-	          	<span class="subheading ablt">Welcome to Counselor</span>
-	            <h2 class="mb-4 text-white">Best Counseling Funding Network Worldwide.</h2>
+	          	<span class="subheading ablt">Welcome to Propello</span>
+	            <h2 class="mb-4 text-white">Best Career Counseling Network Worldwide.</h2>
 
-	            <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
-	            <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country.</p>
+	            <p>At Propello, we connect you with a network of experienced career counselors and global resources, guiding you through every step of your professional journey. Just like a river nurturing the land it passes through, we provide the essential support, insights, and tools you need to explore your strengths, interests, and opportunities. Our mission is to create a nurturing environment where your ambitions can flourish, and every question you have about your future finds a thoughtful, personalized answer.</p>
+	            <p>On this journey, you may encounter many confusing paths and conflicting advice, but our expert guidance acts like a reliable compass. We help you navigate the complex world of career choices, ensuring that every decision you make builds toward a fulfilling and successful future. From identifying your passions to developing skills and connecting with the right opportunities, Propello ensures that you return to your own safe and confident path, fully equipped to achieve your career goals.</p>
 
 	            <a href="https://vimeo.com/45830194" class="play-video popup-vimeo d-flex align-items-center mt-4">
 	            	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-play"></span></div>
-	            	<span class="watch ablt">Watch Our Consultant Video</span>
+	            	<span class="watch ablt">Watch Our Trailer Video</span>
 	            </a>
 	          </div>
 
