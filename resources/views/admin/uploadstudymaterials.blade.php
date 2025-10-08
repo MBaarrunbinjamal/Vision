@@ -7,77 +7,87 @@ html, body {
     padding: 0;
 }
 
-    .ai-form-wrapper {
-         min-height: calc(100vh - 70px - 60px); /* subtract navbar + footer heights */
+.ai-form-wrapper {
+    min-height: calc(100vh - 70px - 60px);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: 'Segoe UI', sans-serif;
     padding: 20px;
-    }
+}
 
-    /* @keyframes gradientFlow {
-        0% { background-position: 0% 50%; }
-        25% { background-position: 50% 100%; }
-        50% { background-position: 100% 50%; }
-        75% { background-position: 50% 0%; }
-        100% { background-position: 0% 50%; }
-    } */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(93, 31, 135, 0.37);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1.5px solid rgb(153, 0, 255);
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+    color: white;
+    margin-top: 0%;
+}
 
-    .glass-card {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 16px;
-        box-shadow: 0 8px 32px 0 rgba(93, 31, 135, 0.37);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        border: 1.5px solid rgb(153, 0, 255);
-        padding: 30px;
-        width: 100%;
-        max-width: 400px;
-        color: white;
-        margin-top: 0%;
-    }
+.glass-card input,
+.glass-card textarea,
+.glass-card select {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 15px;
+}
 
-    .glass-card input,
-    .glass-card textarea {
-        background: rgba(255, 255, 255, 0.2);
-        border: none;
-        color: white;
-        padding: 10px;
-        border-radius: 8px;
-        width: 100%;
-        margin-bottom: 15px;
-    }
+.glass-card input::placeholder,
+.glass-card textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
 
-    .glass-card input::placeholder,
-    .glass-card textarea::placeholder {
-        color: rgba(255, 255, 255, 0.7);
-    }
+.glass-card button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background: rgb(47, 0, 65);
+    color: white;
+    border-radius: 8px;
+    transition: 0.3s;
+}
 
-    .glass-card button {
-        width: 100%;
-        padding: 10px;
-        border: none;
-        background: rgb(47, 0, 65);
-        color: white;
-        border-radius: 8px;
-        transition: 0.3s;
-    }
+.glass-card button:hover {
+    background: rgb(60, 0, 84);
+    color: rgb(180, 180, 180);
+}
 
-    .glass-card button:hover {
-        background: rgb(60, 0, 84);
-        color: rgb(120, 120, 120);
-    }
+.upb {
+    margin-top: 20px;
+}
 
-    .upb {
-        margin-top: 20px;
-    }
+/* Progress bar styling */
+.progress-container {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 10px;
+    display: none; /* hidden initially */
+}
+
+.progress-bar {
+    height: 8px;
+    width: 0%;
+    background-color: rgb(153, 0, 255);
+    transition: width 0.3s ease;
+}
 </style>
-<br>
-<br>
-<br>
+
+<br><br><br>
+
 <div class="ai-form-wrapper">
-<div class="glass-card">
+    <div class="glass-card">
         <h4 class="mb-4 text-center">Upload Study Material</h4>
         <form id="studyform">
             @csrf
@@ -85,14 +95,14 @@ html, body {
             <textarea rows="3" name="description" placeholder="Enter the description" required></textarea>
             <input type="file" id="file" name="file" />
             <input type="text" name="link" id="link" placeholder="Enter the link" />
-           <select name="category" id="category">
-          <option value="pdf">PDF</option>
-<option value="video">Video</option>
-<option value="image">Image</option>
-<option value="link">Link</option>
+            <select name="category" id="category" class="form-control text dark" required>
+                <option value="pdf">PDF</option>
+                <option value="video">Video</option>
+                <option value="image">Image</option>
+                <option value="link">Link</option>
+            </select>
 
-           </select>
-            <select id="career_choice" name="career_choice" class="form-control" placeholder="chose for which carrer you want to upload the material for">
+            <select id="career_choice" name="career_choice" class="form-control">
                 <option value="">-- Select --</option>
                 <option value="UI/UX Designer">UI/UX Designer</option>
                 <option value="IT Consultant">IT Consultant</option>
@@ -125,50 +135,72 @@ html, body {
                 <option value="Data Analyst">Data Analyst</option>
                 <option value="Investor">Investor</option>
                 <option value="Accountant">Accountant</option>
-                    
-                </select>
+            </select>
+
             <button type="submit" class="upb">Upload</button>
+
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar" id="upload-progress"></div>
+            </div>
         </form>
     </div>
 </div>
-<br>
-<br>
-<br>
+
+<br><br><br>
+
 <script src="https://code.jquery.com/jquery-3.7.1.js"
     integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-    $('#studyform').on('submit', function (e) {
-        e.preventDefault();
+$('#studyform').on('submit', function (e) {
+    e.preventDefault();
+    let formData = new FormData(this);
 
-        let formData = new FormData(this); // this includes file + all input fields
+    // Show progress bar
+    $('.progress-container').show();
+    $('#upload-progress').css('width', '0%');
 
-        $.ajax({
-            url: '/uploadstudymaterial',
-            type: 'POST',
-            data: formData,
-            processData: false,    // important for file upload
-            contentType: false,    // important for file upload
-            headers: {
-                'X-CSRF-TOKEN': $('input[name="_token"]').val()
-            },
-            success: function (response) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Study Material Uploaded',
-                    text: response.message || 'Your study material has been uploaded!'
-                });
-                $('#studyform')[0].reset();
-            },
-            error: function (xhr) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: xhr.responseJSON?.message || 'Failed to upload your study material.'
-                });
-            }
-        });
+    $.ajax({
+        url: '/uploadstudymaterial',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        xhr: function() {
+            let xhr = new window.XMLHttpRequest();
+            xhr.upload.addEventListener("progress", function(evt) {
+                if (evt.lengthComputable) {
+                    let percentComplete = (evt.loaded / evt.total) * 100;
+                    $('#upload-progress').css('width', percentComplete + '%');
+                }
+            }, false);
+            return xhr;
+        },
+        success: function(response) {
+            $('#upload-progress').css('width', '100%');
+            Swal.fire({
+                icon: 'success',
+                title: 'Study Material Uploaded',
+                text: response.message || 'Your study material has been uploaded!'
+            });
+            $('#studyform')[0].reset();
+            setTimeout(() => $('.progress-container').hide(), 800);
+        },
+        error: function(xhr) {
+            $('.progress-container').hide();
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: xhr.responseJSON?.message || 'Failed to upload your study material.'
+            });
+        }
     });
+});
 </script>
 @endsection
