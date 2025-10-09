@@ -4,7 +4,9 @@
     <meta charset="utf-8">
     <title>{{ $cv->full_name }} - CV</title>
     <style>
-        body { font-family: DejaVu Sans, sans-serif; margin: 30px; }
+
+        body { font-family: DejaVu Sans, sans-serif; margin: 30px;
+        background: #f4f4f4; color: #333; }
         h1 { text-align: center; font-size: 24px; }
         p { margin: 4px 0; }
         hr { margin: 15px 0; }
