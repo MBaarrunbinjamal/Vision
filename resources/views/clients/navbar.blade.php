@@ -285,7 +285,7 @@ input:focus, textarea:focus {
         </div>
     </div>
 
-    <form method="POST" action="/reviews" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('reviews.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="field">
             <label for="name">Your Name</label>

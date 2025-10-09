@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ConatctController extends Controller
+class ContactController extends Controller
 {
     //
     public function store(Request $request)

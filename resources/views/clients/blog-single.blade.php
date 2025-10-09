@@ -75,7 +75,7 @@ html, body {
           <span class="mr-2"><a href="/" class="lsbp">Home <i class="fa fa-chevron-right lsbp"></i></a></span>
           <span class="mr-2"><a href="/blog" class="lsbp">Blog <i class="fa fa-chevron-right lsbp"></i></a></span>
         </p>
-        <h1 class="mb-0 bread text-white">Blog Single</h1>
+        <h1 class="mb-0 bread text-white"> {{ $rec->heading }}</h1>
       </div>
     </div>
   </div>
@@ -96,14 +96,7 @@ html, body {
         <h2 class="mb-3 text-white blog-heading">{{ $rec->heading }}</h2>
         <p>{{ $rec->blog }}</p>
 
-        <div class="tag-widget post-tag-container mb-5 mt-5">
-          <div class="tagcloud">
-            <a href="#" class="tag-cloud-link">Life</a>
-            <a href="#" class="tag-cloud-link">Sport</a>
-            <a href="#" class="tag-cloud-link">Tech</a>
-            <a href="#" class="tag-cloud-link">Travel</a>
-          </div>
-        </div>
+        
 
         
 
