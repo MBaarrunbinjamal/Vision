@@ -644,7 +644,7 @@ html, body {
                           }
                       });
                   } else {
-                      addAiMessage("معاف کریں، میرے پاس اس قسم کی معلومات موجود نہیں ہیں۔");
+                      addAiMessage("Sorry, I don't have information about that yet. Please try asking in a different way");
                   }
                   saveChat(); 
               }, 1000); // 1 second pause before reply
