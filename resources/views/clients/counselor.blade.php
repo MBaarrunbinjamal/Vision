@@ -599,55 +599,90 @@ html, body {
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="clients/js/google-map.js"></script>
   <script src="clients/js/main.js"></script>
-  <script>
- // Full merged AI chat script
+<script>
 document.addEventListener("DOMContentLoaded", () => {
-  // -------------------------
-  // User & storage helpers
-  // -------------------------
-  let userId = "{{ Auth::id() ?? 'guest' }}"; // blade template variable preserved
-  function getStorageKey(key) {
-    return `${userId}_${key}`;
+  "use strict";
+
+  /* =========================
+     CONFIG & STORAGE HELPERS
+     ========================= */
+  const userId = "{{ Auth::id() ?? 'guest' }}"; // blade variable kept
+  function getStorageKey(k) { return `${userId}_propello_${k}`; }
+
+  function saveAll() {
+    localStorage.setItem(getStorageKey("chats"), JSON.stringify(chats));
+    localStorage.setItem(getStorageKey("currentIndex"), String(currentChatIndex));
   }
 
-  // Load stored chats per user
-  let currentChat = JSON.parse(localStorage.getItem(getStorageKey("currentChat")) || "[]");
-  let chats = JSON.parse(localStorage.getItem(getStorageKey("chats")) || "[]");
+  function loadAll() {
+    try {
+      const raw = localStorage.getItem(getStorageKey("chats"));
+      chats = raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      chats = [];
+    }
+    const idx = parseInt(localStorage.getItem(getStorageKey("currentIndex")), 10);
+    currentChatIndex = Number.isFinite(idx) ? idx : null;
+  }
 
-  // DOM refs (match your HTML)
+  function genId() {
+    return "c_" + Date.now() + "_" + Math.floor(Math.random()*100000);
+  }
+
+  /* =========================
+     DOM ELEMENTS
+     ========================= */
   const chatMessages = document.getElementById("chatMessages");
   const chatHistoryEl = document.getElementById("chatHistory");
   const newChatBtn = document.getElementById("newChatBtn");
-  const sidebar = document.getElementById("sidebar");
   const toggleBtn = document.getElementById("toggleSidebar");
+  const sidebar = document.getElementById("sidebar");
   const scrollToBottomBtn = document.getElementById("scrollToBottomBtn");
-  const background = document.getElementById("background");
   const userInputEl = document.getElementById("userInput");
+  const background = document.getElementById("background");
 
-  // typing state
-  let isTyping = false;
+  /* =========================
+     APP STATE
+     ========================= */
+  let chats = [];
+  let currentChatIndex = null; // index in chats array
 
-  // -------------------------
-  // Utility functions
-  // -------------------------
-  function saveChat() {
-    localStorage.setItem(getStorageKey("currentChat"), JSON.stringify(currentChat));
-    localStorage.setItem(getStorageKey("chats"), JSON.stringify(chats));
+  loadAll();
+
+  // If nothing in storage, create initial chat
+  if (!Array.isArray(chats) || chats.length === 0) {
+    const first = {
+      id: genId(),
+      title: "New Chat",
+      messages: [
+        { sender: "ai", text: "👋 Hello! I'm your Career Counsellor AI. What would you like to explore today?" }
+      ]
+    };
+    chats = [ first ];
+    currentChatIndex = 0;
+    saveAll();
   }
 
-  function appendMessage(sender, text, options = {}) {
-    // sender: "user" or "ai" or "typing"
-    const div = document.createElement("div");
-    div.classList.add("chat-message", sender === "ai" ? "ai" : sender === "user" ? "user" : "ai");
-    div.textContent = text;
-    if (options.html) div.innerHTML = text;
-    chatMessages.appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-    return div;
+  // fix invalid stored index
+  if (currentChatIndex === null || currentChatIndex < 0 || currentChatIndex >= chats.length) {
+    currentChatIndex = chats.length - 1;
   }
 
+  /* =========================
+     RENDER / UI HELPERS
+     ========================= */
   function clearMessages() {
     chatMessages.innerHTML = "";
+  }
+
+  function appendMessageToDOM(sender, text, { allowHtml = false } = {}) {
+    const div = document.createElement("div");
+    div.className = "chat-message " + (sender === "ai" ? "ai" : "user");
+    if (allowHtml) div.innerHTML = text;
+    else div.textContent = text;
+    chatMessages.appendChild(div);
+    scrollToBottom();
+    return div;
   }
 
   function scrollToBottom(smooth = true) {
@@ -658,15 +693,140 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // -------------------------
-  // Typing indicator & typewriter
-  // -------------------------
-  function showTypingIndicator() {
+  function computeTitleFromChat(chat) {
+    // prefer first user message as title
+    const firstUser = (chat.messages || []).find(m => m.sender === "user" && m.text && m.text.trim().length > 0);
+    if (firstUser) {
+      const t = firstUser.text.trim();
+      return t.length > 30 ? t.slice(0, 30) + "..." : t;
+    }
+    // fallback to first AI or generic
+    const firstMsg = (chat.messages || [])[0];
+    if (firstMsg && firstMsg.text) {
+      const t = firstMsg.text.trim();
+      return t.length > 30 ? t.slice(0, 30) + "..." : t;
+    }
+    return "New Chat";
+  }
+
+  function renderChatHistory() {
+    chatHistoryEl.innerHTML = "";
+    chats.forEach((chat, index) => {
+      const item = document.createElement("div");
+      item.className = "history-item";
+      item.dataset.index = index;
+
+      const titleSpan = document.createElement("span");
+      titleSpan.textContent = chat.title || computeTitleFromChat(chat);
+      titleSpan.style.flex = "1";
+      titleSpan.style.cursor = "pointer";
+      titleSpan.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openChat(index);
+      });
+
+      // delete button
+      const del = document.createElement("i");
+      del.className = "fa fa-trash";
+      del.style.color = "red";
+      del.style.marginLeft = "10px";
+      del.style.cursor = "pointer";
+      del.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        if (!confirm("Delete this chat?")) return;
+        deleteChat(index);
+      });
+
+      item.style.display = "flex";
+      item.style.justifyContent = "space-between";
+      item.style.alignItems = "center";
+      item.appendChild(titleSpan);
+      item.appendChild(del);
+
+      // highlight active
+      if (index === currentChatIndex) {
+        item.style.background = "linear-gradient(90deg,#2d0050,#161616)";
+        item.style.borderRadius = "6px";
+      } else {
+        item.style.background = "transparent";
+      }
+
+      chatHistoryEl.appendChild(item);
+    });
+  }
+
+  function loadChatToDOM(index) {
+    clearMessages();
+    const chat = chats[index];
+    if (!chat) return;
+    (chat.messages || []).forEach(m => appendMessageToDOM(m.sender, m.text));
+    scrollToBottom(false);
+    userInputEl.focus();
+  }
+
+  /* =========================
+     OPEN / NEW / DELETE CHAT
+     ========================= */
+  function openChat(index) {
+    if (index < 0 || index >= chats.length) return;
+    currentChatIndex = index;
+    saveAll();
+    renderChatHistory();
+    loadChatToDOM(index);
+  }
+
+  function newChat() {
+    // save currently open chat automatically (state is always kept in chats when sending)
+    const greeting = "👋 Hello! I'm your Career Counsellor AI. What would you like to explore today?";
+    const chatObj = {
+      id: genId(),
+      title: "New Chat",
+      messages: [{ sender: "ai", text: greeting }]
+    };
+    chats.push(chatObj);
+    currentChatIndex = chats.length - 1;
+    saveAll();
+    renderChatHistory();
+    loadChatToDOM(currentChatIndex);
+  }
+
+  function deleteChat(index) {
+    if (index < 0 || index >= chats.length) return;
+    chats.splice(index, 1);
+    // if removed chat was active, move active pointer
+    if (chats.length === 0) {
+      // create a fresh chat
+      chats.push({
+        id: genId(),
+        title: "New Chat",
+        messages: [{ sender: "ai", text: "👋 Hello! I'm your Career Counsellor AI. What would you like to explore today?" }]
+      });
+      currentChatIndex = 0;
+    } else {
+      if (currentChatIndex === index) {
+        // choose nearest previous index, or 0
+        currentChatIndex = Math.max(0, index - 1);
+      } else if (currentChatIndex > index) {
+        // indexes shifted down by 1
+        currentChatIndex = currentChatIndex - 1;
+      }
+    }
+    saveAll();
+    renderChatHistory();
+    loadChatToDOM(currentChatIndex);
+  }
+
+  /* =========================
+     TYPING + TYPEWRITER HELPERS
+     ========================= */
+  function showTypingIndicatorFor(chatIndex) {
+    // returns the indicator element and the chatIndex it belongs to
     const typingDiv = document.createElement("div");
-    typingDiv.classList.add("chat-message", "ai", "typing-indicator");
+    typingDiv.className = "chat-message ai typing-indicator";
     typingDiv.innerHTML = '<div class="typing"><span>.</span><span>.</span><span>.</span></div>';
-    chatMessages.appendChild(typingDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    // append only if chatIndex is currently visible; otherwise still push to DOM of active
+    if (chatIndex === currentChatIndex) chatMessages.appendChild(typingDiv);
+    // always return so we can remove it
     return typingDiv;
   }
 
@@ -674,15 +834,43 @@ document.addEventListener("DOMContentLoaded", () => {
     el.textContent = "";
     for (let i = 0; i < text.length; i++) {
       el.textContent += text.charAt(i);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      // small await for typewriter feel
-      await new Promise((r) => setTimeout(r, delay));
+      if (currentChatIndex !== null) scrollToBottom();
+      // short await
+      await new Promise(r => setTimeout(r, delay));
     }
   }
 
-  // -------------------------
-  // Similarity functions (Levenshtein)
-  // -------------------------
+  /* =========================
+     LANGUAGE & SIMILARITY
+     ========================= */
+  function detectLanguage(text, callback) {
+    $.get("https://translate.googleapis.com/translate_a/single", {
+      client: "gtx",
+      sl: "auto",
+      tl: "en",
+      dt: "t",
+      q: text
+    })
+      .done(function(data) {
+        callback(data && data[2] ? data[2] : "en");
+      })
+      .fail(function() { callback("en"); });
+  }
+
+  function translateToUrdu(text, callback) {
+    $.get("https://translate.googleapis.com/translate_a/single", {
+      client: "gtx",
+      sl: "auto",
+      tl: "ur",
+      dt: "t",
+      q: text
+    })
+      .done(function(data) {
+        callback(data && data[0] && data[0][0] && data[0][0][0] ? data[0][0][0] : text);
+      })
+      .fail(function() { callback(text); });
+  }
+
   function similarity(s1, s2) {
     let longer = s1.length > s2.length ? s1 : s2;
     let shorter = s1.length > s2.length ? s2 : s1;
@@ -694,7 +882,6 @@ document.addEventListener("DOMContentLoaded", () => {
   function editDistance(s1, s2) {
     s1 = s1.toLowerCase();
     s2 = s2.toLowerCase();
-
     const costs = [];
     for (let i = 0; i <= s1.length; i++) {
       let lastValue = i;
@@ -716,376 +903,195 @@ document.addEventListener("DOMContentLoaded", () => {
     return costs[s2.length];
   }
 
-  // -------------------------
-  // Language detection & translate
-  // -------------------------
-  function detectLanguage(text, callback) {
-    // Using public translate endpoint (no API key) — same as original
-    $.get("https://translate.googleapis.com/translate_a/single", {
-      client: "gtx",
-      sl: "auto",
-      tl: "en",
-      dt: "t",
-      q: text,
-    })
-      .done(function (data) {
-        // data[2] often returns detected source language
-        callback(data && data[2] ? data[2] : "en");
-      })
-      .fail(function () {
-        callback("en");
-      });
-  }
-
-  function translateToUrdu(text, callback) {
-    $.get("https://translate.googleapis.com/translate_a/single", {
-      client: "gtx",
-      sl: "auto",
-      tl: "ur",
-      dt: "t",
-      q: text,
-    })
-      .done(function (data) {
-        callback(data && data[0] && data[0][0] && data[0][0][0] ? data[0][0][0] : text);
-      })
-      .fail(function () {
-        callback(text);
-      });
-  }
-
-  // -------------------------
-  // Render & history logic
-  // -------------------------
-  function renderChatHistory() {
-    chatHistoryEl.innerHTML = "";
-    chats.forEach((chat, index) => {
-      const div = document.createElement("div");
-      div.classList.add("history-item");
-
-      // title span
-      const titleSpan = document.createElement("span");
-      titleSpan.textContent = chat.title || "Chat " + (index + 1);
-      titleSpan.style.flex = "1";
-      titleSpan.style.cursor = "pointer";
-      titleSpan.addEventListener("click", () => loadChat(index));
-
-      // delete btn
-      const deleteBtn = document.createElement("i");
-      deleteBtn.className = "fa fa-trash";
-      deleteBtn.style.color = "red";
-      deleteBtn.style.marginLeft = "10px";
-      deleteBtn.style.cursor = "pointer";
-      deleteBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (confirm("Delete this chat?")) {
-          chats.splice(index, 1);
-          // if loading index was currentChat, reset
-          saveChat();
-          renderChatHistory();
-        }
-      });
-
-      div.style.display = "flex";
-      div.style.justifyContent = "space-between";
-      div.style.alignItems = "center";
-
-      div.appendChild(titleSpan);
-      div.appendChild(deleteBtn);
-      chatHistoryEl.appendChild(div);
-    });
-  }
-
-  // Call once to show history initially
-  renderChatHistory();
-
-  // -------------------------
-  // New chat
-  // -------------------------
-  newChatBtn.addEventListener("click", () => {
-    if (currentChat.length > 0) {
-      // push last conversation into chats
-      chats.push({
-        title: currentChat[0]?.text?.slice(0, 20) || "New Chat",
-        messages: currentChat,
-      });
+  /* =========================
+     SEND MESSAGE (main)
+     ========================= */
+  async function sendMessage() {
+    const text = userInputEl.value.trim();
+    if (!text) return;
+    // ensure there is an active chat
+    if (currentChatIndex === null) {
+      // create one
+      newChat();
     }
-    currentChat = [];
-    clearMessages();
-    appendMessage("ai", "👋 New chat started!");
-    saveChat();
+
+    // push user message into the appropriate chat object
+    const userMsg = { sender: "user", text };
+    chats[currentChatIndex].messages.push(userMsg);
+    // update chat title from first user message
+    chats[currentChatIndex].title = computeTitleFromChat(chats[currentChatIndex]);
+
+    // reflect in DOM
+    appendMessageToDOM("user", text);
+    userInputEl.value = "";
+    userInputEl.focus();
+    saveAll();
     renderChatHistory();
-    sidebar.classList.remove("open");
-    toggleBtn.classList.remove("open");
-  });
 
-  // -------------------------
-  // Load chat
-  // -------------------------
-  function loadChat(index) {
-    const chat = chats[index];
-    if (!chat) return;
-    currentChat = chat.messages || [];
-    clearMessages();
-    currentChat.forEach((msg) => {
-      const div = document.createElement("div");
-      div.classList.add("chat-message", msg.sender);
-      div.textContent = msg.text;
-      chatMessages.appendChild(div);
-    });
-    sidebar.classList.remove("open");
-    toggleBtn.classList.remove("open");
-    saveChat();
-    scrollToBottom(false);
-  }
+    // show typing indicator bound to the replyChatIndex (fix: if user switches, reply still saved)
+    const replyChatIndex = currentChatIndex;
+    const typingEl = showTypingIndicatorFor(replyChatIndex);
 
-  // -------------------------
-  // Restore on refresh
-  // -------------------------
-  if (currentChat.length > 0) {
-    clearMessages();
-    currentChat.forEach((msg) => {
-      const div = document.createElement("div");
-      div.classList.add("chat-message", msg.sender);
-      div.textContent = msg.text;
-      chatMessages.appendChild(div);
-    });
-    scrollToBottom(false);
-  } else {
-    clearMessages();
-    appendMessage("ai", "👋 Hello! I'm your Career Counsellor AI. What would you like to explore today?");
-  }
-
-  // -------------------------
-  // Sidebar toggle & outside click close
-  // -------------------------
-  toggleBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    sidebar.classList.toggle("open");
-    toggleBtn.classList.toggle("open");
-  });
-
-  document.addEventListener("click", (e) => {
-    if (
-      sidebar.classList.contains("open") &&
-      !sidebar.contains(e.target) &&
-      !toggleBtn.contains(e.target)
-    ) {
-      sidebar.classList.remove("open");
-      toggleBtn.classList.remove("open");
-    }
-  });
-
-  // -------------------------
-  // Swipe gestures (mobile)
-  // -------------------------
-  let startX = 0;
-  let currentX = 0;
-  let touchingSidebar = false;
-
-  document.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].pageX;
-    if (startX < 30 || sidebar.classList.contains("open")) {
-      touchingSidebar = true;
-    }
-  });
-
-  document.addEventListener("touchmove", (e) => {
-    if (!touchingSidebar) return;
-    currentX = e.touches[0].pageX;
-    let translateX = Math.min(0, currentX - startX);
-    if (sidebar.classList.contains("open")) {
-      sidebar.style.transform = `translateX(${translateX}px)`;
-    } else {
-      sidebar.style.transform = `translateX(${translateX - sidebar.offsetWidth}px)`;
-    }
-  });
-
-  document.addEventListener("touchend", () => {
-    if (!touchingSidebar) return;
-    touchingSidebar = false;
-    let deltaX = currentX - startX;
-    if (!sidebar.classList.contains("open") && deltaX > 80) {
-      sidebar.classList.add("open");
-      toggleBtn.classList.add("open");
-    } else if (sidebar.classList.contains("open") && deltaX < -80) {
-      sidebar.classList.remove("open");
-      toggleBtn.classList.remove("open");
-    }
-    sidebar.style.transform = "";
-  });
-
-  // -------------------------
-  // Background animation (particles + streaks) - preserve original approach
-  // -------------------------
-  if (background) {
-    // particles
-    for (let i = 0; i < 40; i++) {
-      const particle = document.createElement("div");
-      particle.className = "particle";
-      particle.style.top = Math.random() * 100 + "vh";
-      particle.style.left = Math.random() * 100 + "vw";
-      particle.style.animationDuration = 8 + Math.random() * 10 + "s";
-      background.appendChild(particle);
-    }
-    for (let i = 0; i < 15; i++) {
-      const streak = document.createElement("div");
-      streak.className = "streak";
-      streak.style.left = Math.random() * 100 + "vw";
-      streak.style.animationDuration = 4 + Math.random() * 6 + "s";
-      background.appendChild(streak);
-    }
-  }
-
-  // -------------------------
-  // Send / receive message logic (improved)
-  // -------------------------
-  window.sendMessage = function () {
-    let userMessage = $("#userInput").val().trim();
-    if (!userMessage) return;
-
-    // push locally & show user bubble
-    currentChat.push({ sender: "user", text: userMessage });
-    appendMessage("user", userMessage);
-    $("#userInput").val("");
-    $("#userInput").focus();
-    saveChat();
-
-    // show typing indicator
-    const typingDiv = showTypingIndicator();
-
-    // Call server to get possible responses (original: /api/returnresponse GET)
-    // We keep GET to be compatible with your existing endpoint
+    // call server to get responses (keeping existing /api/returnresponse GET shape)
     $.ajax({
       url: "/api/returnresponse",
       method: "GET",
       dataType: "json",
-      success: function (response) {
-        // original response seemed to be an array and used fuzzy matching
+      success: function(response) {
         try {
-          let data = response[0] || response; // support both shapes
+          const data = Array.isArray(response) ? response[0] || response : response;
           let bestMatch = null;
           let highestScore = 0;
 
           if (Array.isArray(data)) {
-            data.forEach((chat) => {
-              const score = similarity(userMessage.toLowerCase(), (chat.question || "").toLowerCase());
+            data.forEach(chat => {
+              const score = similarity(text.toLowerCase(), (chat.question || "").toLowerCase());
               if (score > highestScore) {
                 highestScore = score;
                 bestMatch = chat;
               }
             });
           } else if (typeof data === "object") {
-            // if your endpoint returns object with direct response
             bestMatch = data;
             highestScore = 1;
           }
 
-          // small delay for realism
           setTimeout(() => {
-            $(typingDiv).remove();
+            // remove typing indicator (only if visible)
+            if (typingEl && typingEl.parentNode) typingEl.parentNode.removeChild(typingEl);
 
-            if (bestMatch && highestScore > 0.4) {
-              // check language & translate if needed
-              detectLanguage(userMessage, function (lang) {
-                if (lang === "en") {
-                  // Show typing animation with typeMessage
-                  const aiDiv = document.createElement("div");
-                  aiDiv.classList.add("chat-message", "ai");
-                  chatMessages.appendChild(aiDiv);
-                  // use explaination or explanation spelling fallback
-                  const explanation = bestMatch.explaination || bestMatch.explanation || bestMatch.answer || "I can help with that.";
-                  typeMessage(aiDiv, explanation).then(() => {
-                    currentChat.push({ sender: "ai", text: explanation });
-                    saveChat();
-                    scrollToBottom();
-                  });
+            const fallback = "Sorry, I don't have information about that yet. Please try asking in a different way";
+            let explanation = (bestMatch && (bestMatch.explaination || bestMatch.explanation || bestMatch.answer)) || fallback;
+
+            // if non-english, translate explanation
+            detectLanguage(text, function(lang) {
+              const deliverResponse = (finalText) => {
+                // save response into chats[replyChatIndex]
+                const aiMsg = { sender: "ai", text: finalText };
+                // push into correct chat object (maybe user switched)
+                if (!chats[replyChatIndex]) {
+                  // safety: if original chat was deleted, append to currently selected chat
+                  chats[currentChatIndex].messages.push(aiMsg);
                 } else {
-                  // translate explanation to Urdu
-                  const explanation = bestMatch.explaination || bestMatch.explanation || bestMatch.answer || "I can help with that.";
-                  translateToUrdu(explanation, function (translated) {
-                    const aiDiv = document.createElement("div");
-                    aiDiv.classList.add("chat-message", "ai");
-                    chatMessages.appendChild(aiDiv);
-                    typeMessage(aiDiv, translated).then(() => {
-                      currentChat.push({ sender: "ai", text: translated });
-                      saveChat();
-                      scrollToBottom();
-                    });
-                  });
+                  chats[replyChatIndex].messages.push(aiMsg);
+                  // update its title if it had no user messages
+                  chats[replyChatIndex].title = chats[replyChatIndex].title || computeTitleFromChat(chats[replyChatIndex]);
                 }
-              });
-            } else {
-              // fallback answer
-              const fallback = "Sorry, I don't have information about that yet. Please try asking in a different way";
-              const aiDiv = document.createElement("div");
-              aiDiv.classList.add("chat-message", "ai");
-              chatMessages.appendChild(aiDiv);
-              typeMessage(aiDiv, fallback).then(() => {
-                currentChat.push({ sender: "ai", text: fallback });
-                saveChat();
-                scrollToBottom();
-              });
-            }
-          }, 800); // reply delay
+                saveAll();
+
+                // If the chat that should receive this reply is currently open, append to DOM with typewriter
+                if (replyChatIndex === currentChatIndex) {
+                  const aiDiv = document.createElement("div");
+                  aiDiv.className = "chat-message ai";
+                  chatMessages.appendChild(aiDiv);
+                  typeMessage(aiDiv, finalText).then(() => scrollToBottom());
+                }
+                renderChatHistory();
+              };
+
+              if (lang === "en") {
+                deliverResponse(explanation);
+              } else {
+                translateToUrdu(explanation, deliverResponse);
+              }
+            });
+
+          }, 700);
+
         } catch (err) {
-          // on parse error, show fallback
-          $(typingDiv).remove();
-          const aiDiv = document.createElement("div");
-          aiDiv.classList.add("chat-message", "ai");
-          chatMessages.appendChild(aiDiv);
-          typeMessage(aiDiv, "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔").then(() => {
-            currentChat.push({ sender: "ai", text: "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔" });
-            saveChat();
-            scrollToBottom();
-          });
+          if (typingEl && typingEl.parentNode) typingEl.parentNode.removeChild(typingEl);
+          const aiText = "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔";
+          chats[replyChatIndex].messages.push({ sender: "ai", text: aiText });
+          saveAll();
+          if (replyChatIndex === currentChatIndex) appendMessageToDOM("ai", aiText);
+          renderChatHistory();
         }
       },
-      error: function () {
-        $(typingDiv).remove();
-        const aiDiv = document.createElement("div");
-        aiDiv.classList.add("chat-message", "ai");
-        chatMessages.appendChild(aiDiv);
-        typeMessage(aiDiv, "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔").then(() => {
-          currentChat.push({ sender: "ai", text: "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔" });
-          saveChat();
-          scrollToBottom();
-        });
-      },
+      error: function() {
+        if (typingEl && typingEl.parentNode) typingEl.parentNode.removeChild(typingEl);
+        const aiText = "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔";
+        if (chats[replyChatIndex]) {
+          chats[replyChatIndex].messages.push({ sender: "ai", text: aiText });
+        } else {
+          if (currentChatIndex !== null) chats[currentChatIndex].messages.push({ sender: "ai", text: aiText });
+        }
+        saveAll();
+        if (replyChatIndex === currentChatIndex) appendMessageToDOM("ai", aiText);
+        renderChatHistory();
+      }
     });
-  };
+  } // sendMessage
 
-  // -------------------------
-  // Key handling: Enter sends, Shift+Enter newline
-  // -------------------------
-  userInputEl.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      if (e.shiftKey) return; // allow newline
+  /* =========================
+     BIND UI EVENTS
+     ========================= */
+  // new chat button
+  newChatBtn.addEventListener("click", () => {
+    newChat();
+  });
+
+  // send button via existing onclick attribute also calls sendMessage, but ensure Enter key works:
+  userInputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
   });
 
-  // -------------------------
-  // Scroll to bottom button logic
-  // -------------------------
-  const chatBox = chatMessages;
-  chatBox.addEventListener("scroll", () => {
-    const nearBottom = chatBox.scrollHeight - chatBox.scrollTop - chatBox.clientHeight < 50;
-    if (nearBottom) {
-      scrollToBottomBtn.classList.remove("show");
-    } else {
-      scrollToBottomBtn.classList.add("show");
-    }
+  // scroll button logic (match existing behavior)
+  chatMessages.addEventListener("scroll", () => {
+    const nearBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < 50;
+    if (nearBottom) scrollToBottomBtn.classList.remove("show");
+    else scrollToBottomBtn.classList.add("show");
   });
 
   scrollToBottomBtn.addEventListener("click", () => {
-    chatBox.scrollTo({
-      top: chatBox.scrollHeight,
-      behavior: "smooth",
-    });
+    scrollToBottom(true);
   });
-});
+
+  // sidebar toggle
+  if (toggleBtn && sidebar) {
+    toggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      sidebar.classList.toggle("open");
+      toggleBtn.classList.toggle("open");
+    });
+    document.addEventListener("click", (e) => {
+      if (sidebar.classList.contains("open") && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
+        sidebar.classList.remove("open");
+        toggleBtn.classList.remove("open");
+      }
+    });
+  }
+
+  // restore background particles (optional)
+  if (background) {
+    // create if not already present - harmless if duplicates
+    for (let i = 0; i < 20; i++) {
+      const p = document.createElement("div");
+      p.className = "particle";
+      p.style.top = Math.random() * 100 + "vh";
+      p.style.left = Math.random() * 100 + "vw";
+      p.style.animationDuration = 6 + Math.random() * 10 + "s";
+      background.appendChild(p);
+    }
+  }
+
+  /* =========================
+     INITIAL RENDER
+     ========================= */
+  renderChatHistory();
+  loadChatToDOM(currentChatIndex);
+
+  /* =========================
+     Expose sendMessage for inline onclick attr
+     ========================= */
+  window.sendMessage = sendMessage;
+
+}); // DOMContentLoaded
 </script>
+
+
 </body>
 </html>
 
