@@ -183,7 +183,7 @@
     }
 
     .op{
-        font-family: "Dancing Script", cursive;
+        font-family: "Dancing Script", cursive !important;
         color: #ffffffff;
         font-size: 40px;
     }
