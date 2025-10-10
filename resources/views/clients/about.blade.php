@@ -48,7 +48,7 @@
 	            <p>At Propello, we connect you with a network of experienced career counselors and global resources, guiding you through every step of your professional journey. Just like a river nurturing the land it passes through, we provide the essential support, insights, and tools you need to explore your strengths, interests, and opportunities. Our mission is to create a nurturing environment where your ambitions can flourish, and every question you have about your future finds a thoughtful, personalized answer.</p>
 	            <p>On this journey, you may encounter many confusing paths and conflicting advice, but our expert guidance acts like a reliable compass. We help you navigate the complex world of career choices, ensuring that every decision you make builds toward a fulfilling and successful future. From identifying your passions to developing skills and connecting with the right opportunities, Propello ensures that you return to your own safe and confident path, fully equipped to achieve your career goals.</p>
 
-	            <a href="https://vimeo.com/45830194" class="play-video popup-vimeo d-flex align-items-center mt-4">
+	            <a href="clients/images/Untitled video - Made with Clipchamp (3) (online-video-cutter.com).mp4" class="play-video popup-vimeo d-flex align-items-center mt-4">
 	            	<div class="icon d-flex align-items-center justify-content-center"><span class="fa fa-play"></span></div>
 	            	<span class="watch ablt">Watch Our Trailer Video</span>
 	            </a>
