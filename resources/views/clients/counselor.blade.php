@@ -119,20 +119,41 @@ html, body {
 }
 
 
-    .chat-wrapper {
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
+   .chat-wrapper {
+  position: fixed;
+  top: 140px; /* height of navbar + top bar */
+  left: 0;
+  width: 100%;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
 
-    .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
+/* Only chat messages scroll */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  scroll-behavior: smooth;
+}
+
+/* Keep input visible at bottom */
+.chat-input-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  border-top: 1px solid #4b007a;
+  background: rgba(0, 0, 0, 0.31);
+  backdrop-filter: blur(5px);
+  position: sticky;
+  bottom: 0;
+}
+
 
     .chat-message {
   max-width: 70%;
@@ -455,7 +476,7 @@ html, body {
 #scrollToBottomBtn:hover {
   background: #3d0059;
 }
-
+  
   </style>
    
 <body>
@@ -579,164 +600,176 @@ html, body {
   <script src="clients/js/google-map.js"></script>
   <script src="clients/js/main.js"></script>
   <script>
-    
-      // ✅ Get logged in user ID (or "guest" if not logged in)
-  let userId = "{{ Auth::id() ?? 'guest' }}";
-
-  // ✅ Helper to create user-specific keys
+ // Full merged AI chat script
+document.addEventListener("DOMContentLoaded", () => {
+  // -------------------------
+  // User & storage helpers
+  // -------------------------
+  let userId = "{{ Auth::id() ?? 'guest' }}"; // blade template variable preserved
   function getStorageKey(key) {
-      return `${userId}_${key}`;
+    return `${userId}_${key}`;
   }
 
-  // ✅ Load chats from user-specific storage
+  // Load stored chats per user
   let currentChat = JSON.parse(localStorage.getItem(getStorageKey("currentChat")) || "[]");
   let chats = JSON.parse(localStorage.getItem(getStorageKey("chats")) || "[]");
 
-  // ✅ Typing indicator
-  function showTypingIndicator() {
-      const typingDiv = document.createElement("div");
-      typingDiv.classList.add("chat-message", "ai", "typing-indicator");
-      typingDiv.innerHTML = '<div class="typing"><span>.</span><span>.</span><span>.</span></div>';
-      document.getElementById("chatMessages").appendChild(typingDiv);
-      document.getElementById("chatMessages").scrollTop = document.getElementById("chatMessages").scrollHeight;
-      return typingDiv;
+  // DOM refs (match your HTML)
+  const chatMessages = document.getElementById("chatMessages");
+  const chatHistoryEl = document.getElementById("chatHistory");
+  const newChatBtn = document.getElementById("newChatBtn");
+  const sidebar = document.getElementById("sidebar");
+  const toggleBtn = document.getElementById("toggleSidebar");
+  const scrollToBottomBtn = document.getElementById("scrollToBottomBtn");
+  const background = document.getElementById("background");
+  const userInputEl = document.getElementById("userInput");
+
+  // typing state
+  let isTyping = false;
+
+  // -------------------------
+  // Utility functions
+  // -------------------------
+  function saveChat() {
+    localStorage.setItem(getStorageKey("currentChat"), JSON.stringify(currentChat));
+    localStorage.setItem(getStorageKey("chats"), JSON.stringify(chats));
   }
 
-  function sendMessage() {
-      var userMessage = $('#userInput').val().trim();
-      if (!userMessage) return;
+  function appendMessage(sender, text, options = {}) {
+    // sender: "user" or "ai" or "typing"
+    const div = document.createElement("div");
+    div.classList.add("chat-message", sender === "ai" ? "ai" : sender === "user" ? "user" : "ai");
+    div.textContent = text;
+    if (options.html) div.innerHTML = text;
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return div;
+  }
 
-      currentChat.push({ sender: "user", text: userMessage });
-      $('#chatMessages').append('<div class="chat-message user">' + userMessage + '</div>');
-      $('#userInput').val(""); 
+  function clearMessages() {
+    chatMessages.innerHTML = "";
+  }
 
-      // Show typing dots
-      let typingDiv = showTypingIndicator();
+  function scrollToBottom(smooth = true) {
+    if (smooth) {
+      chatMessages.scrollTo({ top: chatMessages.scrollHeight, behavior: "smooth" });
+    } else {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  }
 
-      $.ajax({
-          url: "/api/returnresponse",
-          method: "GET",
-          dataType: "json",
-          success: function(response) {
-              let data = response[0];
-              let bestMatch = null;
-              let highestScore = 0;
+  // -------------------------
+  // Typing indicator & typewriter
+  // -------------------------
+  function showTypingIndicator() {
+    const typingDiv = document.createElement("div");
+    typingDiv.classList.add("chat-message", "ai", "typing-indicator");
+    typingDiv.innerHTML = '<div class="typing"><span>.</span><span>.</span><span>.</span></div>';
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return typingDiv;
+  }
 
-              data.forEach(chat => {
-                  let score = similarity(userMessage.toLowerCase(), chat.question.toLowerCase());
-                  if (score > highestScore) {
-                      highestScore = score;
-                      bestMatch = chat;
-                  }
-              });
+  async function typeMessage(el, text, delay = 15) {
+    el.textContent = "";
+    for (let i = 0; i < text.length; i++) {
+      el.textContent += text.charAt(i);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      // small await for typewriter feel
+      await new Promise((r) => setTimeout(r, delay));
+    }
+  }
 
-              setTimeout(() => {
-                  $(typingDiv).remove(); // remove typing dots after delay
+  // -------------------------
+  // Similarity functions (Levenshtein)
+  // -------------------------
+  function similarity(s1, s2) {
+    let longer = s1.length > s2.length ? s1 : s2;
+    let shorter = s1.length > s2.length ? s2 : s1;
+    let longerLength = longer.length;
+    if (longerLength === 0) return 1.0;
+    return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
+  }
 
-                  if (bestMatch && highestScore > 0.4) { 
-                      detectLanguage(userMessage, function(lang) {
-                          if (lang === "en") {
-                              addAiMessage(bestMatch.explaination);
-                          } else {
-                              translateToUrdu(bestMatch.explaination, function(translated) {
-                                  addAiMessage(translated);
-                              });
-                          }
-                      });
-                  } else {
-                      addAiMessage("Sorry, I don't have information about that yet. Please try asking in a different way");
-                  }
-                  saveChat(); 
-              }, 1000); // 1 second pause before reply
-          },
-          error: function() {
-              setTimeout(() => {
-                  $(typingDiv).remove();
-                  addAiMessage("⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔");
-                  saveChat();
-              }, 1000);
+  function editDistance(s1, s2) {
+    s1 = s1.toLowerCase();
+    s2 = s2.toLowerCase();
+
+    const costs = [];
+    for (let i = 0; i <= s1.length; i++) {
+      let lastValue = i;
+      for (let j = 0; j <= s2.length; j++) {
+        if (i === 0) costs[j] = j;
+        else {
+          if (j > 0) {
+            let newValue = costs[j - 1];
+            if (s1.charAt(i - 1) !== s2.charAt(j - 1)) {
+              newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+            }
+            costs[j - 1] = lastValue;
+            lastValue = newValue;
           }
+        }
+      }
+      if (i > 0) costs[s2.length] = lastValue;
+    }
+    return costs[s2.length];
+  }
+
+  // -------------------------
+  // Language detection & translate
+  // -------------------------
+  function detectLanguage(text, callback) {
+    // Using public translate endpoint (no API key) — same as original
+    $.get("https://translate.googleapis.com/translate_a/single", {
+      client: "gtx",
+      sl: "auto",
+      tl: "en",
+      dt: "t",
+      q: text,
+    })
+      .done(function (data) {
+        // data[2] often returns detected source language
+        callback(data && data[2] ? data[2] : "en");
+      })
+      .fail(function () {
+        callback("en");
       });
   }
 
-  function addAiMessage(msg) {
-      $('#chatMessages').append('<div class="chat-message ai">' + msg + '</div>');
-      currentChat.push({ sender: "ai", text: msg });
-      $('#chatMessages').scrollTop($('#chatMessages')[0].scrollHeight);
-      saveChat();
+  function translateToUrdu(text, callback) {
+    $.get("https://translate.googleapis.com/translate_a/single", {
+      client: "gtx",
+      sl: "auto",
+      tl: "ur",
+      dt: "t",
+      q: text,
+    })
+      .done(function (data) {
+        callback(data && data[0] && data[0][0] && data[0][0][0] ? data[0][0][0] : text);
+      })
+      .fail(function () {
+        callback(text);
+      });
   }
 
-  function similarity(s1, s2) { 
-      let longer = s1.length > s2.length ? s1 : s2;
-      let shorter = s1.length > s2.length ? s2 : s1;
-      let longerLength = longer.length;
-      if (longerLength === 0) return 1.0;
-      return (longerLength - editDistance(longer, shorter)) / parseFloat(longerLength);
-  }
-
-  function editDistance(s1, s2) { 
-      s1 = s1.toLowerCase();
-      s2 = s2.toLowerCase();
-      let costs = [];
-      for (let i = 0; i <= s1.length; i++) {
-          let lastValue = i;
-          for (let j = 0; j <= s2.length; j++) {
-              if (i === 0) costs[j] = j;
-              else {
-                  if (j > 0) {
-                      let newValue = costs[j - 1];
-                      if (s1[i - 1] !== s2[j - 1])
-                          newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
-                      costs[j - 1] = lastValue;
-                      lastValue = newValue;
-                  }
-              }
-          }
-          if (i > 0) costs[s2.length] = lastValue;
-      }
-      return costs[s2.length];
-  }
-
-  function detectLanguage(text, callback) { 
-      $.get("https://translate.googleapis.com/translate_a/single", {
-          client: "gtx", sl: "auto", tl: "en", dt: "t", q: text
-      }, function(data) { callback(data[2]); });
-  }
-
-  function translateToUrdu(text, callback) { 
-      $.get("https://translate.googleapis.com/translate_a/single", {
-          client: "gtx", sl: "auto", tl: "ur", dt: "t", q: text
-      }, function(data) { callback(data[0][0][0]); });
-  }
-
-  // ✅ Save chats per user
-  function saveChat() {
-      localStorage.setItem(getStorageKey("currentChat"), JSON.stringify(currentChat));
-      localStorage.setItem(getStorageKey("chats"), JSON.stringify(chats));
-  }
-
-  // Sidebar logic
-  const sidebar = document.getElementById("sidebar");
-  const toggleBtn = document.getElementById("toggleSidebar");
-  const chatHistoryEl = document.getElementById("chatHistory");
-  const newChatBtn = document.getElementById("newChatBtn");
-  const chatMessages = document.getElementById("chatMessages");
-
-  // Render chat history with delete button
+  // -------------------------
+  // Render & history logic
+  // -------------------------
   function renderChatHistory() {
     chatHistoryEl.innerHTML = "";
     chats.forEach((chat, index) => {
       const div = document.createElement("div");
       div.classList.add("history-item");
 
-      // Chat title
+      // title span
       const titleSpan = document.createElement("span");
       titleSpan.textContent = chat.title || "Chat " + (index + 1);
       titleSpan.style.flex = "1";
       titleSpan.style.cursor = "pointer";
       titleSpan.addEventListener("click", () => loadChat(index));
 
-      // Delete button
+      // delete btn
       const deleteBtn = document.createElement("i");
       deleteBtn.className = "fa fa-trash";
       deleteBtn.style.color = "red";
@@ -746,6 +779,7 @@ html, body {
         e.stopPropagation();
         if (confirm("Delete this chat?")) {
           chats.splice(index, 1);
+          // if loading index was currentChat, reset
           saveChat();
           renderChatHistory();
         }
@@ -760,28 +794,39 @@ html, body {
       chatHistoryEl.appendChild(div);
     });
   }
+
+  // Call once to show history initially
   renderChatHistory();
 
-  // Start new chat
+  // -------------------------
+  // New chat
+  // -------------------------
   newChatBtn.addEventListener("click", () => {
     if (currentChat.length > 0) {
-      chats.push({ title: currentChat[0]?.text?.slice(0, 20) || "New Chat", messages: currentChat });
+      // push last conversation into chats
+      chats.push({
+        title: currentChat[0]?.text?.slice(0, 20) || "New Chat",
+        messages: currentChat,
+      });
     }
     currentChat = [];
-    chatMessages.innerHTML = `<div class="chat-message ai">👋 New chat started!</div>`;
+    clearMessages();
+    appendMessage("ai", "👋 New chat started!");
     saveChat();
     renderChatHistory();
     sidebar.classList.remove("open");
     toggleBtn.classList.remove("open");
   });
 
-  // Load old chat
+  // -------------------------
+  // Load chat
+  // -------------------------
   function loadChat(index) {
     const chat = chats[index];
     if (!chat) return;
-    currentChat = chat.messages;
-    chatMessages.innerHTML = "";
-    currentChat.forEach(msg => {
+    currentChat = chat.messages || [];
+    clearMessages();
+    currentChat.forEach((msg) => {
       const div = document.createElement("div");
       div.classList.add("chat-message", msg.sender);
       div.textContent = msg.text;
@@ -790,31 +835,35 @@ html, body {
     sidebar.classList.remove("open");
     toggleBtn.classList.remove("open");
     saveChat();
+    scrollToBottom(false);
   }
 
-  // Restore chat on refresh
-  window.onload = function() {
-    if (currentChat.length > 0) {
-      chatMessages.innerHTML = "";
-      currentChat.forEach(msg => {
-        const div = document.createElement("div");
-        div.classList.add("chat-message", msg.sender);
-        div.textContent = msg.text;
-        chatMessages.appendChild(div);
-      });
-    } else {
-      chatMessages.innerHTML = `<div class="chat-message ai">👋 Hello! I'm your Career Counsellor AI. What would you like to explore today?</div>`;
-    }
-  };
+  // -------------------------
+  // Restore on refresh
+  // -------------------------
+  if (currentChat.length > 0) {
+    clearMessages();
+    currentChat.forEach((msg) => {
+      const div = document.createElement("div");
+      div.classList.add("chat-message", msg.sender);
+      div.textContent = msg.text;
+      chatMessages.appendChild(div);
+    });
+    scrollToBottom(false);
+  } else {
+    clearMessages();
+    appendMessage("ai", "👋 Hello! I'm your Career Counsellor AI. What would you like to explore today?");
+  }
 
-  // Sidebar toggle
+  // -------------------------
+  // Sidebar toggle & outside click close
+  // -------------------------
   toggleBtn.addEventListener("click", (e) => {
     e.stopPropagation();
     sidebar.classList.toggle("open");
     toggleBtn.classList.toggle("open");
   });
 
-  // Close sidebar when clicking outside
   document.addEventListener("click", (e) => {
     if (
       sidebar.classList.contains("open") &&
@@ -826,7 +875,9 @@ html, body {
     }
   });
 
-  // Swipe gestures for sidebar
+  // -------------------------
+  // Swipe gestures (mobile)
+  // -------------------------
   let startX = 0;
   let currentX = 0;
   let touchingSidebar = false;
@@ -863,62 +914,178 @@ html, body {
     sidebar.style.transform = "";
   });
 
-  // Background animation particles/streaks
-  const background = document.getElementById("background");
-  for (let i = 0; i < 40; i++) {
-    const particle = document.createElement("div");
-    particle.className = "particle";
-    particle.style.top = Math.random() * 100 + "vh";
-    particle.style.left = Math.random() * 100 + "vw";
-    particle.style.animationDuration = 8 + Math.random() * 10 + "s";
-    background.appendChild(particle);
-  }
-  for (let i = 0; i < 15; i++) {
-    const streak = document.createElement("div");
-    streak.className = "streak";
-    streak.style.left = Math.random() * 100 + "vw";
-    streak.style.animationDuration = 4 + Math.random() * 6 + "s";
-    background.appendChild(streak);
+  // -------------------------
+  // Background animation (particles + streaks) - preserve original approach
+  // -------------------------
+  if (background) {
+    // particles
+    for (let i = 0; i < 40; i++) {
+      const particle = document.createElement("div");
+      particle.className = "particle";
+      particle.style.top = Math.random() * 100 + "vh";
+      particle.style.left = Math.random() * 100 + "vw";
+      particle.style.animationDuration = 8 + Math.random() * 10 + "s";
+      background.appendChild(particle);
+    }
+    for (let i = 0; i < 15; i++) {
+      const streak = document.createElement("div");
+      streak.className = "streak";
+      streak.style.left = Math.random() * 100 + "vw";
+      streak.style.animationDuration = 4 + Math.random() * 6 + "s";
+      background.appendChild(streak);
+    }
   }
 
-  // Send on Enter, new line on Shift+Enter
-  document.getElementById("userInput").addEventListener("keydown", function (e) {
+  // -------------------------
+  // Send / receive message logic (improved)
+  // -------------------------
+  window.sendMessage = function () {
+    let userMessage = $("#userInput").val().trim();
+    if (!userMessage) return;
+
+    // push locally & show user bubble
+    currentChat.push({ sender: "user", text: userMessage });
+    appendMessage("user", userMessage);
+    $("#userInput").val("");
+    $("#userInput").focus();
+    saveChat();
+
+    // show typing indicator
+    const typingDiv = showTypingIndicator();
+
+    // Call server to get possible responses (original: /api/returnresponse GET)
+    // We keep GET to be compatible with your existing endpoint
+    $.ajax({
+      url: "/api/returnresponse",
+      method: "GET",
+      dataType: "json",
+      success: function (response) {
+        // original response seemed to be an array and used fuzzy matching
+        try {
+          let data = response[0] || response; // support both shapes
+          let bestMatch = null;
+          let highestScore = 0;
+
+          if (Array.isArray(data)) {
+            data.forEach((chat) => {
+              const score = similarity(userMessage.toLowerCase(), (chat.question || "").toLowerCase());
+              if (score > highestScore) {
+                highestScore = score;
+                bestMatch = chat;
+              }
+            });
+          } else if (typeof data === "object") {
+            // if your endpoint returns object with direct response
+            bestMatch = data;
+            highestScore = 1;
+          }
+
+          // small delay for realism
+          setTimeout(() => {
+            $(typingDiv).remove();
+
+            if (bestMatch && highestScore > 0.4) {
+              // check language & translate if needed
+              detectLanguage(userMessage, function (lang) {
+                if (lang === "en") {
+                  // Show typing animation with typeMessage
+                  const aiDiv = document.createElement("div");
+                  aiDiv.classList.add("chat-message", "ai");
+                  chatMessages.appendChild(aiDiv);
+                  // use explaination or explanation spelling fallback
+                  const explanation = bestMatch.explaination || bestMatch.explanation || bestMatch.answer || "I can help with that.";
+                  typeMessage(aiDiv, explanation).then(() => {
+                    currentChat.push({ sender: "ai", text: explanation });
+                    saveChat();
+                    scrollToBottom();
+                  });
+                } else {
+                  // translate explanation to Urdu
+                  const explanation = bestMatch.explaination || bestMatch.explanation || bestMatch.answer || "I can help with that.";
+                  translateToUrdu(explanation, function (translated) {
+                    const aiDiv = document.createElement("div");
+                    aiDiv.classList.add("chat-message", "ai");
+                    chatMessages.appendChild(aiDiv);
+                    typeMessage(aiDiv, translated).then(() => {
+                      currentChat.push({ sender: "ai", text: translated });
+                      saveChat();
+                      scrollToBottom();
+                    });
+                  });
+                }
+              });
+            } else {
+              // fallback answer
+              const fallback = "Sorry, I don't have information about that yet. Please try asking in a different way";
+              const aiDiv = document.createElement("div");
+              aiDiv.classList.add("chat-message", "ai");
+              chatMessages.appendChild(aiDiv);
+              typeMessage(aiDiv, fallback).then(() => {
+                currentChat.push({ sender: "ai", text: fallback });
+                saveChat();
+                scrollToBottom();
+              });
+            }
+          }, 800); // reply delay
+        } catch (err) {
+          // on parse error, show fallback
+          $(typingDiv).remove();
+          const aiDiv = document.createElement("div");
+          aiDiv.classList.add("chat-message", "ai");
+          chatMessages.appendChild(aiDiv);
+          typeMessage(aiDiv, "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔").then(() => {
+            currentChat.push({ sender: "ai", text: "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔" });
+            saveChat();
+            scrollToBottom();
+          });
+        }
+      },
+      error: function () {
+        $(typingDiv).remove();
+        const aiDiv = document.createElement("div");
+        aiDiv.classList.add("chat-message", "ai");
+        chatMessages.appendChild(aiDiv);
+        typeMessage(aiDiv, "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔").then(() => {
+          currentChat.push({ sender: "ai", text: "⚠️ معلومات حاصل کرنے میں مسئلہ پیش آیا۔" });
+          saveChat();
+          scrollToBottom();
+        });
+      },
+    });
+  };
+
+  // -------------------------
+  // Key handling: Enter sends, Shift+Enter newline
+  // -------------------------
+  userInputEl.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
-      if (e.shiftKey) {
-        return;
-      } else {
-        e.preventDefault();
-        sendMessage();
-      }
+      if (e.shiftKey) return; // allow newline
+      e.preventDefault();
+      sendMessage();
     }
   });
 
+  // -------------------------
   // Scroll to bottom button logic
-  const chatBox = document.getElementById("chatMessages");
-  const scrollBtn = document.getElementById("scrollToBottomBtn");
-
-  // Show/hide button on scroll
+  // -------------------------
+  const chatBox = chatMessages;
   chatBox.addEventListener("scroll", () => {
     const nearBottom = chatBox.scrollHeight - chatBox.scrollTop - chatBox.clientHeight < 50;
     if (nearBottom) {
-      scrollBtn.classList.remove("show");
+      scrollToBottomBtn.classList.remove("show");
     } else {
-      scrollBtn.classList.add("show");
+      scrollToBottomBtn.classList.add("show");
     }
   });
 
-  // Scroll to bottom when clicked (smooth)
-  scrollBtn.addEventListener("click", () => {
+  scrollToBottomBtn.addEventListener("click", () => {
     chatBox.scrollTo({
       top: chatBox.scrollHeight,
-      behavior: "smooth"
+      behavior: "smooth",
     });
   });
-
-
-
-
-  </script>
+});
+</script>
 </body>
 </html>
 
