@@ -330,16 +330,14 @@ document.addEventListener('click', function(event) {
           <div class="col-md-6 d-flex align-items-center">
             <p class="mb-0 phone pl-md-2">
               <a href="#" class="mr-2"><span class="fa fa-phone mr-1"></span> +00 1234 567</a> 
-              <a href="#"><span class="fa fa-paper-plane mr-1"></span> youremail@email.com</a>
+              <a href="https://mail.google.com/mail/u/0/#inbox"><span class="fa fa-paper-plane mr-1"></span> propello654@gmail.com</a>
             </p>
           </div>
           <div class="col-md-6 d-flex justify-content-md-end">
             <div class="social-media">
               <p class="mb-0 d-flex">
-                <a href="#" class="d-flex align-items-center justify-content-center ibg"><span class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
-                <a href="#" class="d-flex align-items-center justify-content-center ibg"><span class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
-                <a href="#" class="d-flex align-items-center justify-content-center ibg"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
-                <a href="#" class="d-flex align-items-center justify-content-center ibg"><span class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+                <a href="https://www.instagram.com/propello__careercounselling?igsh=MXFwdm13a2pleTI4dQ==" class="d-flex align-items-center justify-content-center ibg"><span class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+
               </p>
             </div>
           </div>
